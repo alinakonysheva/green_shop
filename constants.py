@@ -745,3 +745,6 @@ languages = {
         "nativeName": "Saɯ cueŋƅ, Saw cuengh"
     }
 }
+
+covers = {1: "soft", 2: "hard"}
+

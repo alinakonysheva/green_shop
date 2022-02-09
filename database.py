@@ -1,11 +1,11 @@
-from config import HOST, PASSWORD, USER_NAME, PORT
+from config import DB_HOST, DB_PASSWORD, DB_USER_NAME, DB_PORT, DB_NAME
 from sqlalchemy import Column, Integer
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 # create engine
-engine = create_engine(f'mysql+mysqlconnector://{USER_NAME}:{PASSWORD}@{HOST}:{PORT}/acteursfilms')
+engine = create_engine(f'mysql+mysqlconnector://{DB_USER_NAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}')
 # create connection to database
 engine.connect()
 
@@ -24,7 +24,7 @@ class BaseObj(Base):
     # TODO: add created, updated
 
 
-def create_database(engine, do_erase=False):
+def create_database(engine_, do_erase=False):
     from paper_book import PaperBook
     from e_book import EBook
     from audio_book import AudioBook
@@ -36,11 +36,12 @@ def create_database(engine, do_erase=False):
         # in case Base.metadata.drop_all(engine) does not work
         # list all tables here  classname.__table__.drop(bind=engine)
         # the issue is the schema which
-        PaperBook.__table__.drop(bind=engine)
-        EBook.__table__.drop(bind=engine)
-        AudioBook.__table__.drop(bind=engine)
+        PaperBook.__table__.drop(bind=engine_)
+        EBook.__table__.drop(bind=engine_)
+        AudioBook.__table__.drop(bind=engine_)
+
 
         # Base.metadata.drop_all(bind=engine, tables=[ObjectName.__table__])
 
     # create tables
-    Base.metadata.create_all(engine)
+    Base.metadata.create_all(engine_)
