@@ -10,6 +10,7 @@ class AudioBook(Book):
     _reader_last_name = Column('F_READER_LAST_NAME', String(102))
     _reader_middle_name = Column('F_READER_MIDDLE_NAME', String(102))
     duration = Column('F_DURATION', Time)
+    __mapper_args__ = {'polymorphic_identity': 'T_AUDIOBOOK', 'concrete': True}
 
     @hybrid_property
     def reader_first_name(self) -> str:

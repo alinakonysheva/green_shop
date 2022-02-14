@@ -1,11 +1,12 @@
 from datetime import datetime
 
 from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy.orm import relationship
+from sqlalchemy.ext.declarative import declared_attr
 
 from constants import categories, languages
 from database import BaseObj
 from sqlalchemy import Column, String, Integer, Float, Text
-# from sqlalchemy.ext.hybrid import hybrid_property
 
 
 class Book(BaseObj):
@@ -22,6 +23,12 @@ class Book(BaseObj):
     _language = Column('F_LANGUAGE', String(2))
     _annotation = Column('F_ANNOTATION', Text)
     _publisher = Column('F_PUBLISHER', String(200))
+
+    @declared_attr
+    def wishlists(cls):
+        return relationship('WishlistBook', back_populates='book')
+
+    # wishlists = relationship('WishlistBook', back_populates='book')
 
     @hybrid_property
     def book_title(self) -> str:
@@ -153,7 +160,7 @@ class Book(BaseObj):
             raise ValueError('the name of the publisher is too small')
         if len(v) > 200:
             raise ValueError('the name of the publisher should be less than 200 symbols')
-        self._book_title = v
+        self._publisher = v
 
     @property
     def __str__(self) -> str:

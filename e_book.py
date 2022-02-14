@@ -7,4 +7,5 @@ class EBook(Book):
 
     # in MB
     size = Column('F_SIZE', Float)
+    __mapper_args__ = {'polymorphic_identity': 'T_EBOOK', 'concrete': True}
 

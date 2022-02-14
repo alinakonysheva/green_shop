@@ -16,6 +16,7 @@ class PaperBook(Book):
     _weight = Column('F_WEIGHT', Integer)
     _pages = Column('F_PAGES', Integer)
     _isbn = Column('F_ISBN', Integer)
+    __mapper_args__ = {'polymorphic_identity': 'T_PAPER_BOOK', 'concrete': True}
 
     @hybrid_property
     def cover(self) -> int:
