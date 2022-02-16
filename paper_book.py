@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Time, Integer
+from sqlalchemy import Column, Integer, ForeignKey
 from sqlalchemy.ext.hybrid import hybrid_property
 from book import Book
 from constants import covers
@@ -16,7 +16,8 @@ class PaperBook(Book):
     _weight = Column('F_WEIGHT', Integer)
     _pages = Column('F_PAGES', Integer)
     _isbn = Column('F_ISBN', Integer)
-    __mapper_args__ = {'polymorphic_identity': 'T_PAPER_BOOK', 'concrete': True}
+    __mapper_args__ = {'polymorphic_identity': 'T_PAPER_BOOK'}
+    id = Column(Integer, ForeignKey('T_Book.id'), primary_key=True)
 
     @hybrid_property
     def cover(self) -> int:

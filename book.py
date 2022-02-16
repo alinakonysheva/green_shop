@@ -5,12 +5,13 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declared_attr
 
 from constants import categories, languages
-from database import BaseObj
-from sqlalchemy import Column, String, Integer, Float, Text
+from database import Base
+from sqlalchemy import Column, String, Integer, Float, Text, ForeignKey
 
 
-class Book(BaseObj):
-    __tablename__ = 'T_BOOK'
+class Book(Base):
+    __tablename__ = 'T_Book'
+    id = Column(Integer, primary_key=True)
     _title = Column('F_TITLE', String(200))
     _author_first_name = Column('F_AUTHOR_FIRST_NAME', String(1478))
     _author_last_name = Column('F_AUTHOR_LAST_NAME', String(102))
@@ -23,12 +24,11 @@ class Book(BaseObj):
     _language = Column('F_LANGUAGE', String(2))
     _annotation = Column('F_ANNOTATION', Text)
     _publisher = Column('F_PUBLISHER', String(200))
-
     @declared_attr
     def wishlists(cls):
         return relationship('WishlistBook', back_populates='book')
 
-    #wishlists = relationship('WishlistBook', back_populates='book')
+    # wishlists = relationship('WishlistBook', back_populates='book')
 
     @hybrid_property
     def book_title(self) -> str:

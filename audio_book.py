@@ -1,11 +1,9 @@
 from book import Book
-from sqlalchemy import Column, String, Integer
+from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.ext.hybrid import hybrid_property
 
 
-
 class AudioBook(Book):
-
     __tablename__ = "T_AUDIOBOOK"
 
     _reader_first_name = Column('F_READER_FIRST_NAME', String(1478))
@@ -14,7 +12,8 @@ class AudioBook(Book):
     _duration_hours = Column('F_DURATION_HOURS', Integer)
     _duration_minutes = Column('F_DURATION_MINUTES', Integer)
     _duration_seconds = Column('F_DURATION_SECONDS', Integer)
-    __mapper_args__ = {'polymorphic_identity': 'T_AUDIOBOOK', 'concrete': True}
+    __mapper_args__ = {'polymorphic_identity': 'T_AUDIOBOOK'}
+    id = Column(Integer, ForeignKey('T_Book.id'), primary_key=True)
 
     @hybrid_property
     def reader_first_name(self) -> str:

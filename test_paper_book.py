@@ -102,10 +102,5 @@ class PaperBookTests(BaseDbTest):
         self.assertEqual(pb_from_query.language, paper_book.language)
         self.assertEqual(pb_from_query.annotation, paper_book.annotation)
         self.assertEqual(pb_from_query.publisher, paper_book.publisher)
-        self.assertEqual(pb_from_query.reader_first_name, paper_book.reader_first_name)
-        self.assertEqual(pb_from_query.reader_middle_name, paper_book.reader_middle_name)
-        self.assertEqual(pb_from_query.reader_last_name, paper_book.reader_last_name)
-        self.assertEqual(pb_from_query.duration_hours, paper_book.duration_hours)
-        self.assertEqual(pb_from_query.duration_minutes, paper_book.duration_minutes)
-        self.assertEqual(pb_from_query.duration_seconds, paper_book.duration_seconds)
+
 
