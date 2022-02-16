@@ -10,7 +10,7 @@ from sqlalchemy import Column, String, Integer, Float, Text
 
 
 class Book(BaseObj):
-    __abstract__ = True
+    __tablename__ = 'T_BOOK'
     _title = Column('F_TITLE', String(200))
     _author_first_name = Column('F_AUTHOR_FIRST_NAME', String(1478))
     _author_last_name = Column('F_AUTHOR_LAST_NAME', String(102))
@@ -28,7 +28,7 @@ class Book(BaseObj):
     def wishlists(cls):
         return relationship('WishlistBook', back_populates='book')
 
-    # wishlists = relationship('WishlistBook', back_populates='book')
+    #wishlists = relationship('WishlistBook', back_populates='book')
 
     @hybrid_property
     def book_title(self) -> str:
@@ -82,6 +82,18 @@ class Book(BaseObj):
         if len(v) > 102:
             raise ValueError('Middle name should be less than 102 symbols')
         self._author_middle_name = v
+
+    @hybrid_property
+    def pic(self) -> str:
+        return f'{self._pic}'
+
+    @pic.setter
+    def pic(self, value) -> None:
+        if len(value) > 400:
+            raise ValueError('Link should be less than 400 symbols')
+        if value == '':
+            raise ValueError('Link can not be empty')
+        self._pic = value
 
     @property
     def author_full_name(self) -> str:

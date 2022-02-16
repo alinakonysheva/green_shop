@@ -29,8 +29,9 @@ def create_database(engine_, do_erase=False):
     from e_book import EBook
     from audio_book import AudioBook
     from wishlist import Wishlist
-    # from wishlistbook import WishlistBook
+    from wishlistbook import WishlistBook
     from user import User
+    from book import Book
 
     """
     create the database
@@ -43,8 +44,9 @@ def create_database(engine_, do_erase=False):
         EBook.__table__.drop(bind=engine_)
         AudioBook.__table__.drop(bind=engine_)
         Wishlist.__table__.drop(bind=engine_)
-        #WishlistBook.__table__.drop(bind=engine_)
+        WishlistBook.__table__.drop(bind=engine_)
         User.__table__.drop(bind=engine_)
+        Book.__table__.drop(bind=engine_)
 
         # Base.metadata.drop_all(bind=engine, tables=[ObjectName.__table__])
 

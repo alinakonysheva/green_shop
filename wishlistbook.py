@@ -14,7 +14,7 @@ class WishlistBook(BaseObj):
     book = relationship(Book, back_populates='wishlists')
     wishlist = relationship(Wishlist, back_populates='books')
 
-    # __mapper_args__ = {'polymorphic_identity': 'T_WISHLISTBOOK', 'concrete': True}
+    __mapper_args__ = {'polymorphic_identity': 'T_WISHLISTBOOK', 'concrete': True}
 
     def __str__(self) -> str:
         return f'{self.id} - {self.id_book} - {self.id_wishlist} '

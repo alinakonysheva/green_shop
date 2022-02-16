@@ -59,6 +59,19 @@ class PaperBook(Book):
 
         self._width = value
 
+    @hybrid_property
+    def weight(self) -> int:
+        return int(self._weight)
+
+    @weight.setter
+    def weight(self, value: int) -> None:
+        if value > 10000:
+            raise ValueError('the weight of the book can not be bigger than 10kg')
+
+        if value <= 0:
+            raise ValueError('the weight of the book can not be 0 of negative')
+
+        self._weight = value
     # pages
     @hybrid_property
     def pages(self) -> int:
