@@ -16,7 +16,6 @@ session = Session()
 # needed for declaring tables
 Base = declarative_base()
 
-
 class BaseObj(Base):
     __abstract__ = True
 
