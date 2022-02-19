@@ -6,9 +6,9 @@ from sqlalchemy.ext.hybrid import hybrid_property
 class AudioBook(Book):
     __tablename__ = "T_AUDIOBOOK"
 
-    _reader_first_name = Column('F_READER_FIRST_NAME', String(1478))
-    _reader_last_name = Column('F_READER_LAST_NAME', String(102))
-    _reader_middle_name = Column('F_READER_MIDDLE_NAME', String(102))
+    _reader_first_name = Column('F_READER_FIRST_NAME', String(100))
+    _reader_last_name = Column('F_READER_LAST_NAME', String(100))
+    _reader_middle_name = Column('F_READER_MIDDLE_NAME', String(100))
     _duration_hours = Column('F_DURATION_HOURS', Integer)
     _duration_minutes = Column('F_DURATION_MINUTES', Integer)
     _duration_seconds = Column('F_DURATION_SECONDS', Integer)
@@ -24,9 +24,8 @@ class AudioBook(Book):
         v = value.strip()
         if len(v) <= 1:
             raise ValueError('First name is too small')
-        # that is the longest existing name
-        if len(v) > 1478:
-            raise ValueError('First name should be less than 1478 symbols')
+        if len(v) > 100:
+            raise ValueError('First name should be less than 100 symbols')
         self._reader_first_name = v
 
     @hybrid_property
@@ -38,9 +37,8 @@ class AudioBook(Book):
         v = value.strip()
         if len(v) <= 1:
             raise ValueError('Last name is too small')
-        # that is the longest existing last name
-        if len(v) > 102:
-            raise ValueError('Last name should be less than 102 symbols')
+        if len(v) > 100:
+            raise ValueError('Last name should be less than 100 symbols')
         self._reader_last_name = v
 
     @hybrid_property
@@ -50,8 +48,8 @@ class AudioBook(Book):
     @reader_middle_name.setter
     def reader_middle_name(self, value) -> None:
         v = value.strip()
-        if len(v) > 102:
-            raise ValueError('Middle name should be less than 102 symbols')
+        if len(v) > 100:
+            raise ValueError('Middle name should be less than 100 symbols')
         self._reader_middle_name = v
 
     @hybrid_property

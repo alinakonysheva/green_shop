@@ -14,5 +14,4 @@ class Wishlist(BaseObj):
     def books(cls):
         return relationship('WishlistBook', back_populates='wishlist')
 
-    #books = relationship('WishlistBook', back_populates='wishlist'
-
+    # books = relationship('WishlistBook', back_populates='wishlist'

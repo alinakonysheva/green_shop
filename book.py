@@ -13,9 +13,9 @@ class Book(Base):
     __tablename__ = 'T_Book'
     id = Column(Integer, primary_key=True)
     _title = Column('F_TITLE', String(200))
-    _author_first_name = Column('F_AUTHOR_FIRST_NAME', String(1478))
-    _author_last_name = Column('F_AUTHOR_LAST_NAME', String(102))
-    _author_middle_name = Column('F_AUTHOR_MIDDLE_NAME', String(102))
+    _author_first_name = Column('F_AUTHOR_FIRST_NAME', String(100))
+    _author_last_name = Column('F_AUTHOR_LAST_NAME', String(100))
+    _author_middle_name = Column('F_AUTHOR_MIDDLE_NAME', String(100))
     _release_year = Column('F_RELEASE_YEAR', Integer)
     _rating = Column('F_RATING', Float)
     # link
@@ -24,6 +24,7 @@ class Book(Base):
     _language = Column('F_LANGUAGE', String(2))
     _annotation = Column('F_ANNOTATION', Text)
     _publisher = Column('F_PUBLISHER', String(200))
+
     @declared_attr
     def wishlists(cls):
         return relationship('WishlistBook', back_populates='book')
@@ -39,9 +40,8 @@ class Book(Base):
         v = value.strip()
         if len(v) <= 1:
             raise ValueError('Title is too small')
-        # that is the longest existing title
-        if len(v) > 4805:
-            raise ValueError('Title should be less than 4805 symbols')
+        if len(v) > 200:
+            raise ValueError('Title should be less than 200 symbols')
         self._title = v
 
     @hybrid_property
@@ -53,9 +53,8 @@ class Book(Base):
         v = value.strip()
         if len(v) <= 1:
             raise ValueError('First name is too small')
-        # that is the longest existing name
-        if len(v) > 1478:
-            raise ValueError('First name should be less than 1478 symbols')
+        if len(v) > 100:
+            raise ValueError('First name should be less than 100 symbols')
         self._author_first_name = v
 
     @hybrid_property
@@ -67,9 +66,8 @@ class Book(Base):
         v = value.strip()
         if len(v) <= 1:
             raise ValueError('Last name is too small')
-        # that is the longest existing last name
-        if len(v) > 102:
-            raise ValueError('Last name should be less than 102 symbols')
+        if len(v) > 100:
+            raise ValueError('Last name should be less than 100 symbols')
         self._author_last_name = v
 
     @hybrid_property
@@ -79,8 +77,8 @@ class Book(Base):
     @author_middle_name.setter
     def author_middle_name(self, value) -> None:
         v = value.strip()
-        if len(v) > 102:
-            raise ValueError('Middle name should be less than 102 symbols')
+        if len(v) > 100:
+            raise ValueError('Middle name should be less than 100 symbols')
         self._author_middle_name = v
 
     @hybrid_property
