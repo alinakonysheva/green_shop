@@ -1,8 +1,7 @@
 from datetime import datetime
 from paper_book import PaperBook
 from database import session
-from constants import languages, categories
-from constants import covers
+from constants import languages, categories, covers
 
 
 # TODO change all numbers to constants

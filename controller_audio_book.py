@@ -294,8 +294,8 @@ class ControllerAudioBook:
         return ab_list
 
     @staticmethod
-    def get_audiobook_by_author_last_name(last_name):
-        ab_list = session.query(AudioBook).filter(AudioBook.author_last_name.like(last_name)).all()
+    def get_audiobook_by_reader_last_name(last_name):
+        ab_list = session.query(AudioBook).filter(AudioBook.reader_last_name.like(last_name)).all()
         return ab_list
 
     @staticmethod

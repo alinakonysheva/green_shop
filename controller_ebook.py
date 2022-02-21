@@ -1,13 +1,13 @@
 from datetime import datetime
 from e_book import EBook
-from database import session
 from constants import languages, categories
 
 
 class ControllerEBook:
+    def __init__(self, session):
+        self.session = session
 
-    @staticmethod
-    def add_ebook(title, size, author_first_name, author_middle_name, author_last_name, release_year,
+    def add_ebook(self, title, size, author_first_name, author_middle_name, author_last_name, release_year,
                   category, language, annotation, publisher, rating, pic):
         ebook = EBook()
 
@@ -76,14 +76,13 @@ class ControllerEBook:
         else:
             raise ValueError('Last name of author should be a string and length between 1 and 100 symbols')
 
-        session.add(ebook)
-        session.commit()
+        self.session.add(ebook)
+        self.session.commit()
 
-    @staticmethod
-    def change_ebook(id_ebook, title, size, author_first_name, author_middle_name, author_last_name, release_year,
+    def change_ebook(self, id_ebook, title, size, author_first_name, author_middle_name, author_last_name, release_year,
                      category, language, annotation, publisher, rating, pic) -> None:
 
-        ebook = session.query(EBook).get(id_ebook)
+        ebook = self.session.query(EBook).get(id_ebook)
         if ebook:
             if type(title) == str and 0 < len(title) < 200:
                 ebook.book_title = title
@@ -150,15 +149,14 @@ class ControllerEBook:
             else:
                 raise ValueError('Last name of author should be a string and length between 1 and 100 symbols')
 
-            session.add(ebook)
-            session.commit()
+            self.session.add(ebook)
+            self.session.commit()
         else:
             raise ValueError('Book with this ID does not exist in data base')
 
-    @staticmethod
-    def rate_ebook(id_ebook, rate):
+    def rate_ebook(self, id_ebook, rate):
         try:
-            eb = session.query(EBook).get(id_ebook)
+            eb = self.session.query(EBook).get(id_ebook)
             if eb:
                 if type(rate) == float and 0 <= rate <= 10:
                     eb.rating = rate
@@ -169,89 +167,72 @@ class ControllerEBook:
         except Exception as e:
             print('book was not rated: ', e)
 
-    @staticmethod
-    def remove_ebook(id_ebook):
+    def remove_ebook(self, id_ebook):
         try:
-            eb = session.query(EBook).get(id_ebook)
-            session.delete(eb)
-            session.commit()
+            eb = self.session.query(EBook).get(id_ebook)
+            self.session.delete(eb)
+            self.session.commit()
         except Exception as e:
             print(e, 'this book does not exist')
 
-    @staticmethod
-    def get_ebook_by_id(id_ebook):
-        eb = session.query(EBook).get(id_ebook)
+    def get_ebook_by_id(self, id_ebook):
+        eb = self.session.query(EBook).get(id_ebook)
         return eb
 
-    @staticmethod
-    def get_all_ebook():
+    def get_all_ebook(self):
         """
         to get list of e-books
         :return: list of instances of EBook
         """
-        eb_list = session.query(EBook).all()
+        eb_list = self.session.query(EBook).all()
         return eb_list
 
-    @staticmethod
-    def get_all_ebook_newest_first():
+    def get_all_ebook_newest_first(self):
         """
         to get list of e-books from newest to oldest
         :return: list of instances of EBook
         """
-        eb_list = session.query(EBook).order_by(EBook.release_year.desc()).all()
+        eb_list = self.session.query(EBook).order_by(EBook.release_year.desc()).all()
         return eb_list
 
-    @staticmethod
-    def get_all_ebook_oldest_first():
+    def get_all_ebook_oldest_first(self):
         """
         to get list of e-books from oldest to newest
         :return: list of instances of EBook
         """
-        eb_list = session.query(EBook).order_by(EBook.release_year.asc()).all()
+        eb_list = self.session.query(EBook).order_by(EBook.release_year.asc()).all()
         return eb_list
 
-    @staticmethod
-    def get_ebook_by_title(title):
-        eb_list = session.query(EBook).filter(EBook.book_title.like(title)).all()
+    def get_ebook_by_title(self, title):
+        eb_list = self.session.query(EBook).filter(EBook.book_title.like(title)).all()
         return eb_list
 
-    @staticmethod
-    def get_ebook_by_author_last_name(last_name):
-        eb_list = session.query(EBook).filter(EBook.author_last_name.like(last_name)).all()
+    def get_ebook_by_author_last_name(self, last_name):
+        eb_list = self.session.query(EBook).filter(EBook.author_last_name.like(last_name)).all()
         return eb_list
 
-    @staticmethod
-    def get_ebook_by_author_first_name(first_name):
-        eb_list = session.query(EBook).filter(EBook.author_first_name.like(first_name)).all()
+    def get_ebook_by_author_first_name(self, first_name):
+        eb_list = self.session.query(EBook).filter(EBook.author_first_name.like(first_name)).all()
         return eb_list
 
     # TODO: not sure if it will be working with usual property
-    @staticmethod
-    def get_ebook_by_author_full_name(full_name):
-        eb_list = session.query(EBook).filter(EBook.author_full_name.like(full_name)).all()
+    def get_ebook_by_author_full_name(self, full_name):
+        eb_list = self.session.query(EBook).filter(EBook.author_full_name.like(full_name)).all()
         return eb_list
 
-    @staticmethod
-    def get_ebook_by_category(category):
-        eb_list = session.query(EBook).filter(EBook.category == category).all()
+    def get_ebook_by_category(self, category):
+        eb_list = self.session.query(EBook).filter(EBook.category == category).all()
         return eb_list
 
-    @staticmethod
-    def get_ebook_by_author_last_name(last_name):
-        eb_list = session.query(EBook).filter(EBook.author_last_name.like(last_name)).all()
+    def get_ebook_by_release_year(self, year):
+        eb_list = self.session.query(EBook).filter(EBook.release_year == year).all()
         return eb_list
 
-    @staticmethod
-    def get_ebook_by_release_year(year):
-        eb_list = session.query(EBook).filter(EBook.release_year == year).all()
+
+    def get_ebook_by_publisher(self, publisher):
+        eb_list = self.session.query(EBook).filter(EBook.publisher.like(publisher)).all()
         return eb_list
 
-    @staticmethod
-    def get_ebook_by_publisher(publisher):
-        eb_list = session.query(EBook).filter(EBook.publisher.like(publisher)).all()
-        return eb_list
-
-    @staticmethod
-    def get_ebook_by_rating(min_rating=0, max_rating=10):
-        eb_list = session.query(EBook).filter(EBook.rating <= max_rating, EBook.rating >= min_rating).all()
+    def get_ebook_by_rating(self, min_rating=0, max_rating=10):
+        eb_list = self.session.query(EBook).filter(EBook.rating <= max_rating, EBook.rating >= min_rating).all()
         return eb_list
