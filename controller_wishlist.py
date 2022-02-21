@@ -12,7 +12,7 @@ class ControllerWishlist:
         session.commit()
 
     @staticmethod
-    def change_wishlist(id_wishlist, id_user) -> None:
+    def change_user_in_wishlist(id_wishlist, id_user) -> None:
         """
         to update user's id in the wishlist
         :param id_wishlist
@@ -57,3 +57,13 @@ class ControllerWishlist:
             return True
         else:
             return False
+
+    # get all existing ids
+    @staticmethod
+    def get_all_ids():
+        """
+        to get list of all existing id's
+        :return: list of str(id)
+        """
+        id_list = list(map(lambda x: x.id, session.query(Wishlist).all()))
+        return id_list

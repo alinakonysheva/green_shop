@@ -8,8 +8,8 @@ class ControllerAudioBook:
 
     @staticmethod
     def add_audiobook(title, reader_first_name, reader_last_name, reader_middle_name, duration_hours, duration_minutes,
-                       duration_seconds, author_first_name, author_middle_name, author_last_name, release_year,
-                       category, language, annotation, publisher, rating, pic):
+                      duration_seconds, author_first_name, author_middle_name, author_last_name, release_year,
+                      category, language, annotation, publisher, rating, pic):
 
         audiobook = AudioBook()
 
