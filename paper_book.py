@@ -6,7 +6,7 @@ from constants import covers
 
 class PaperBook(Book):
     __tablename__ = "T_PAPER_BOOK"
-
+    # 1 or 2
     _cover = Column('F_COVER', Integer)
     # in cm
     _length = Column('F_LENGTH', Integer)
