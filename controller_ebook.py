@@ -4,7 +4,7 @@ from database import session
 from constants import languages, categories
 
 
-class ControllerBook:
+class ControllerEBook:
 
     @staticmethod
     def add_ebook(title, size, author_first_name, author_middle_name, author_last_name, release_year,

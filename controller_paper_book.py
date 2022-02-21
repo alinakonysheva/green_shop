@@ -8,7 +8,7 @@ from constants import covers
 # TODO change all numbers to constants
 # TODO in errors add input
 
-class ControllerBook:
+class ControllerPaperBook:
 
     @staticmethod
     def add_paper_book(title, cover, length, width, weight, pages, isbn, author_first_name, author_middle_name,

@@ -70,7 +70,7 @@ class AudioBook(Book):
     def duration_minutes(self, value) -> None:
         if value < 0:
             raise ValueError('duration minutes have to be positive or 0')
-        if value >= 60:
+        if value >= 59:
             raise ValueError('duration minutes have to be less than 60')
         self._duration_minutes = value
 
@@ -82,7 +82,7 @@ class AudioBook(Book):
     def duration_seconds(self, value) -> None:
         if value < 0:
             raise ValueError('duration seconds have to be positive or 0')
-        if value >= 60:
+        if value >= 59:
             raise ValueError('duration seconds have to be less than 60')
 
         self._duration_seconds = value
