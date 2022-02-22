@@ -1,16 +1,17 @@
 from datetime import datetime
 from paper_book import PaperBook
-from database import session
 from constants import languages, categories, covers
 
 
 # TODO change all numbers to constants
-# TODO in errors add input
+# TODO in errors add input in f strings
 
 class ControllerPaperBook:
 
-    @staticmethod
-    def add_paper_book(title, cover, length, width, weight, pages, isbn, author_first_name, author_middle_name,
+    def __init__(self, session):
+        self.session = session
+
+    def add_paper_book(self, title, cover, length, width, weight, pages, isbn, author_first_name, author_middle_name,
                        author_last_name, release_year, category, language, annotation, publisher, rating, pic):
 
         paper_book = PaperBook()
@@ -105,15 +106,15 @@ class ControllerPaperBook:
         else:
             raise ValueError('Last name of author should be a string and length between 1 and 100 symbols')
 
-        session.add(paper_book)
-        session.commit()
+        self.session.add(paper_book)
+        self.session.commit()
+        return paper_book.id
 
-    @staticmethod
-    def change_paper_book(id_p_book, title, cover, length, width, weight, pages, isbn, author_first_name,
+    def change_paper_book(self, id_p_book, title, cover, length, width, weight, pages, isbn, author_first_name,
                           author_middle_name, author_last_name, release_year, category, language, annotation, publisher,
                           rating, pic) -> None:
         try:
-            paper_book = session.query(PaperBook).get(id_p_book)
+            paper_book = self.session.query(PaperBook).get(id_p_book)
             if paper_book:
                 if type(title) == str and 0 < len(title) < 200:
                     paper_book.book_title = title
@@ -206,18 +207,17 @@ class ControllerPaperBook:
                 else:
                     raise ValueError('Last name of author should be a string and length between 1 and 100 symbols')
 
-                session.add(paper_book)
-                session.commit()
+                self.session.add(paper_book)
+                self.session.commit()
 
             else:
                 raise ValueError('Book with this ID does not exist in data base')
         except Exception as e:
             print('The book was not changed', e)
 
-    @staticmethod
-    def rate_paper_book(id_p_book, rate):
+    def rate_paper_book(self, id_p_book, rate):
         try:
-            pb = session.query(PaperBook).get(id_p_book)
+            pb = self.session.query(PaperBook).get(id_p_book)
             if pb:
                 if type(rate) == float and 0 <= rate <= 10:
                     pb.rating = rate
@@ -228,92 +228,77 @@ class ControllerPaperBook:
         except Exception as e:
             print('book was not rated: ', e)
 
-    @staticmethod
-    def remove_paper_book(id_p_book):
+    def remove_paper_book(self, id_p_book):
         try:
-            pb = session.query(PaperBook).get(id_p_book)
+            pb = self.session.query(PaperBook).get(id_p_book)
             if pb:
-                session.delete(pb)
-                session.commit()
+                self.session.delete(pb)
+                self.session.commit()
             else:
                 raise ValueError('Book with this ID does not exist in data base')
         except Exception as e:
             print('The book was not deleted', e)
 
-    @staticmethod
-    def get_paper_book_by_id(id_p_book):
-        pb = session.query(PaperBook).get(id_p_book)
-        return pb
+    def get_paper_book_by_id(self, id_p_book):
+        pb = self.session.query(PaperBook).get(id_p_book)
+        if pb:
+            return pb
+        else:
+            raise ValueError('Book with this ID does not exist in data base')
 
-    @staticmethod
-    def get_all_paper_book():
+
+    def get_all_paper_book(self):
         """
         to get list of paper books
         :return: list of instances of PaperBook
         """
-        pb_list = session.query(PaperBook).all()
+        pb_list = self.session.query(PaperBook).all()
         return pb_list
 
-    @staticmethod
-    def get_all_paper_book_newest_first():
+    def get_all_paper_book_newest_first(self):
         """
         to get list of paper books from newest to oldest
         :return: list of instances of PaperBook
         """
-        pb_list = session.query(PaperBook).order_by(PaperBook.release_year.desc()).all()
+        pb_list = self.session.query(PaperBook).order_by(PaperBook._release_year.desc()).all()
         return pb_list
 
-    @staticmethod
-    def get_all_paper_book_oldest_first():
+    def get_all_paper_book_oldest_first(self):
         """
         to get list of paper books from oldest to newest
         :return: list of instances of PaperBook
         """
-        pb_list = session.query(PaperBook).order_by(PaperBook.release_year.asc()).all()
+        pb_list = self.session.query(PaperBook).order_by(PaperBook._release_year.asc()).all()
         return pb_list
 
-    @staticmethod
-    def get_paper_book_by_title(title):
-        pb_list = session.query(PaperBook).filter(PaperBook.book_title.like(title)).all()
+    def get_paper_book_by_title(self, title):
+        pb_list = self.session.query(PaperBook).filter(PaperBook._book_title.like(title)).all()
         return pb_list
 
-    @staticmethod
-    def get_paper_book_by_author_last_name(last_name):
-        pb_list = session.query(PaperBook).filter(PaperBook.author_last_name.like(last_name)).all()
+    def get_paper_book_by_author_last_name(self, last_name):
+        pb_list = self.session.query(PaperBook).filter(PaperBook._author_last_name.like(last_name)).all()
         return pb_list
 
-    @staticmethod
-    def get_paper_book_by_author_first_name(first_name):
-        eb_list = session.query(PaperBook).filter(PaperBook.author_first_name.like(first_name)).all()
+    def get_paper_book_by_author_first_name(self, first_name):
+        eb_list = self.session.query(PaperBook).filter(PaperBook._author_first_name.like(first_name)).all()
         return eb_list
 
-    # TODO: not sure if it will be working with usual property
-    @staticmethod
-    def get_paper_book_by_author_full_name(full_name):
-        pb_list = session.query(PaperBook).filter(PaperBook.author_full_name.like(full_name)).all()
+    def get_paper_book_by_category(self, category):
+        pb_list = self.session.query(PaperBook).filter(PaperBook._category == category).all()
         return pb_list
 
-    @staticmethod
-    def get_paper_book_by_category(category):
-        pb_list = session.query(PaperBook).filter(PaperBook.category == category).all()
+    def get_paper_book_by_author_last_name(self, last_name):
+        pb_list = self.session.query(PaperBook).filter(PaperBook._author_last_name.like(last_name)).all()
         return pb_list
 
-    @staticmethod
-    def get_paper_book_by_author_last_name(last_name):
-        pb_list = session.query(PaperBook).filter(PaperBook.author_last_name.like(last_name)).all()
+    def get_paper_book_by_release_year(self, year):
+        pb_list = self.session.query(PaperBook).filter(PaperBook._release_year == year).all()
         return pb_list
 
-    @staticmethod
-    def get_paper_book_by_release_year(year):
-        pb_list = session.query(PaperBook).filter(PaperBook.release_year == year).all()
+    def get_paper_book_by_publisher(self, publisher):
+        pb_list = self.session.query(PaperBook).filter(PaperBook._publisher.like(publisher)).all()
         return pb_list
 
-    @staticmethod
-    def get_paper_book_by_publisher(publisher):
-        pb_list = session.query(PaperBook).filter(PaperBook.publisher.like(publisher)).all()
-        return pb_list
-
-    @staticmethod
-    def get_paper_book_by_rating(min_rating=0, max_rating=10):
-        pb_list = session.query(PaperBook).filter(PaperBook.rating <= max_rating, PaperBook.rating >= min_rating).all()
+    def get_paper_book_by_rating(self, min_rating=0, max_rating=10):
+        pb_list = self.session.query(PaperBook).filter(PaperBook._rating <= max_rating, PaperBook._rating >= min_rating).all()
         return pb_list

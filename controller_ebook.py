@@ -4,6 +4,7 @@ from constants import languages, categories
 
 
 class ControllerEBook:
+
     def __init__(self, session):
         self.session = session
 
