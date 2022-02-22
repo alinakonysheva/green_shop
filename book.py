@@ -102,7 +102,7 @@ class Book(Base):
         return int(self._release_year)
 
     @release_year.setter
-    def release_year(self, value) -> None:
+    def release_year(self, value: int) -> None:
         v = value
         if v <= 1457:
             raise ValueError('First printed book appeared in 1457 year')

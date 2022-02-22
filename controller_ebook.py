@@ -171,14 +171,20 @@ class ControllerEBook:
     def remove_ebook(self, id_ebook):
         try:
             eb = self.session.query(EBook).get(id_ebook)
-            self.session.delete(eb)
-            self.session.commit()
+            if eb:
+                self.session.delete(eb)
+                self.session.commit()
+            else:
+                raise ValueError('Book with this ID does not exist in data base')
         except Exception as e:
             print(e, 'this book does not exist')
 
     def get_ebook_by_id(self, id_ebook):
         eb = self.session.query(EBook).get(id_ebook)
-        return eb
+        if eb:
+            return eb
+        else:
+            raise ValueError('Book with this ID does not exist in data base')
 
     def get_all_ebook(self):
         """
@@ -193,7 +199,7 @@ class ControllerEBook:
         to get list of e-books from newest to oldest
         :return: list of instances of EBook
         """
-        eb_list = self.session.query(EBook).order_by(EBook.release_year.desc()).all()
+        eb_list = self.session.query(EBook).order_by(EBook._release_year.desc()).all()
         return eb_list
 
     def get_all_ebook_oldest_first(self):
@@ -201,39 +207,33 @@ class ControllerEBook:
         to get list of e-books from oldest to newest
         :return: list of instances of EBook
         """
-        eb_list = self.session.query(EBook).order_by(EBook.release_year.asc()).all()
+        eb_list = self.session.query(EBook).order_by(EBook._release_year.asc()).all()
         return eb_list
 
     def get_ebook_by_title(self, title):
-        eb_list = self.session.query(EBook).filter(EBook.book_title.like(title)).all()
+        eb_list = self.session.query(EBook).filter(EBook._title.like(f'%{title}%')).all()
         return eb_list
 
     def get_ebook_by_author_last_name(self, last_name):
-        eb_list = self.session.query(EBook).filter(EBook.author_last_name.like(last_name)).all()
+        eb_list = self.session.query(EBook).filter(EBook._author_last_name.like(f'%{last_name}%')).all()
         return eb_list
 
     def get_ebook_by_author_first_name(self, first_name):
-        eb_list = self.session.query(EBook).filter(EBook.author_first_name.like(first_name)).all()
-        return eb_list
-
-    # TODO: not sure if it will be working with usual property
-    def get_ebook_by_author_full_name(self, full_name):
-        eb_list = self.session.query(EBook).filter(EBook.author_full_name.like(full_name)).all()
+        eb_list = self.session.query(EBook).filter(EBook._author_first_name.like(f'%{first_name}%')).all()
         return eb_list
 
     def get_ebook_by_category(self, category):
-        eb_list = self.session.query(EBook).filter(EBook.category == category).all()
+        eb_list = self.session.query(EBook).filter(EBook._category == category).all()
         return eb_list
 
     def get_ebook_by_release_year(self, year):
-        eb_list = self.session.query(EBook).filter(EBook.release_year == year).all()
+        eb_list = self.session.query(EBook).filter(EBook._release_year == year).all()
         return eb_list
 
-
     def get_ebook_by_publisher(self, publisher):
-        eb_list = self.session.query(EBook).filter(EBook.publisher.like(publisher)).all()
+        eb_list = self.session.query(EBook).filter(EBook._publisher.like(publisher)).all()
         return eb_list
 
     def get_ebook_by_rating(self, min_rating=0, max_rating=10):
-        eb_list = self.session.query(EBook).filter(EBook.rating <= max_rating, EBook.rating >= min_rating).all()
+        eb_list = self.session.query(EBook).filter(EBook._rating <= max_rating, EBook._rating >= min_rating).all()
         return eb_list
