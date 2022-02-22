@@ -92,18 +92,18 @@ class EBookTests(BaseDbTest):
         self.session.commit()
 
         eb_from_query = self.session.query(EBook).get(1)
-        self.assertEqual(eb_from_query.book_title, e_book.book_title)
-        self.assertEqual(eb_from_query.author_last_name, e_book.author_last_name)
-        self.assertEqual(eb_from_query.author_first_name, e_book.author_first_name)
-        self.assertEqual(eb_from_query.author_middle_name, e_book.author_middle_name)
-        self.assertEqual(eb_from_query.release_year, e_book.release_year)
-        self.assertEqual(eb_from_query.rating, e_book.rating)
-        self.assertEqual(eb_from_query.pic, e_book.pic)
-        self.assertEqual(eb_from_query.category, e_book.category)
-        self.assertEqual(eb_from_query.language, e_book.language)
-        self.assertEqual(eb_from_query.annotation, e_book.annotation)
-        self.assertEqual(eb_from_query.publisher, e_book.publisher)
-        self.assertEqual(eb_from_query.size, e_book.size)
+        self.assertEqual(eb_from_query.book_title, C_TITLE)
+        self.assertEqual(eb_from_query.author_last_name, C_AUTHOR_LAST_NAME)
+        self.assertEqual(eb_from_query.author_first_name, C_AUTHOR_FIRST_NAME)
+        self.assertEqual(eb_from_query.author_middle_name, C_AUTHOR_MIDDLE_NAME)
+        self.assertEqual(eb_from_query.release_year, C_RELEASE_YEAR)
+        self.assertEqual(eb_from_query.rating, C_RATING)
+        self.assertEqual(eb_from_query.pic, C_PIC)
+        self.assertEqual(eb_from_query.category, C_CATEGORY)
+        self.assertEqual(eb_from_query.language, C_LANGUAGE)
+        self.assertEqual(eb_from_query.annotation, C_ANNOTATION)
+        self.assertEqual(eb_from_query.publisher, C_PUBLISHER)
+        self.assertEqual(eb_from_query.size, C_SIZE)
 
 
 class EBookControllerTests(BaseDbTest):
@@ -123,10 +123,7 @@ class EBookControllerTests(BaseDbTest):
         e_book.size = C_SIZE
         self.controller = ControllerEBook(self.session)
 
-
     def test_controller_get(self):
-        # не надо так делать
-        # ADD должен возвращть id
         eb = self.controller.get_ebook_by_id(1)
         self.assertEqual(eb.book_title, self.e_book.book_title)
         self.assertEqual(eb.author_last_name, self.e_book.author_last_name)
@@ -142,13 +139,23 @@ class EBookControllerTests(BaseDbTest):
         self.assertEqual(eb.size, self.e_book.size)
 
     def test_controller_add_book_happy_path(self):
-        self.controller.add_ebook(C_TITLE_2, C_SIZE_2, C_AUTHOR_FIRST_NAME_2, C_AUTHOR_MIDDLE_NAME_2,
-                                  C_AUTHOR_LAST_NAME_2,
-                                  C_RELEASE_YEAR_2, C_CATEGORY_2, C_LANGUAGE_2, C_ANNOTATION_2,
-                                  C_PUBLISHER_2, C_RATING_2,
-                                  C_PIC_2)
+        id_ebook2 = self.controller.add_ebook(C_TITLE_2, C_SIZE_2, C_AUTHOR_FIRST_NAME_2, C_AUTHOR_MIDDLE_NAME_2,
+                                              C_AUTHOR_LAST_NAME_2, C_RELEASE_YEAR_2, C_CATEGORY_2, C_LANGUAGE_2,
+                                              C_ANNOTATION_2, C_PUBLISHER_2, C_RATING_2, C_PIC_2)
+        eb_2 = self.controller.get_ebook_by_id(id_ebook2)
 
-        self.assertEqual(len(self.controller.get_all_ebook()), 1)
+        self.assertEqual(eb_2.book_title, C_TITLE_2)
+        self.assertEqual(eb_2.author_last_name, C_AUTHOR_LAST_NAME_2)
+        self.assertEqual(eb_2.author_first_name, C_AUTHOR_FIRST_NAME_2)
+        self.assertEqual(eb_2.author_middle_name, C_AUTHOR_MIDDLE_NAME_2)
+        self.assertEqual(eb_2.release_year, C_RELEASE_YEAR_2)
+        self.assertEqual(eb_2.rating, C_RATING_2)
+        self.assertEqual(eb_2.pic, C_PIC_2)
+        self.assertEqual(eb_2.category, C_CATEGORY_2)
+        self.assertEqual(eb_2.language, C_LANGUAGE_2)
+        self.assertEqual(eb_2.annotation, C_ANNOTATION_2)
+        self.assertEqual(eb_2.publisher, C_PUBLISHER_2)
+        self.assertEqual(eb_2.size, C_SIZE_2)
 
-        #eb_from_query = self.session.query(EBook).get(2)
-        #self.assertEqual(eb_from_query.size, C_SIZE_2)
+        # eb_from_query = self.session.query(EBook).get(2)
+        # self.assertEqual(eb_from_query.size, C_SIZE_2)

@@ -78,6 +78,7 @@ class ControllerEBook:
 
         self.session.add(ebook)
         self.session.commit()
+        return ebook.id
 
     def change_ebook(self, id_ebook, title, size, author_first_name, author_middle_name, author_last_name, release_year,
                      category, language, annotation, publisher, rating, pic) -> None:

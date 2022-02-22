@@ -33,7 +33,7 @@ class Book(Base):
 
     @hybrid_property
     def book_title(self) -> str:
-        return str(self._title).capitalize()
+        return str(self._title)
 
     @book_title.setter
     def book_title(self, value) -> None:
@@ -126,14 +126,13 @@ class Book(Base):
 
     @hybrid_property
     def category(self) -> int:
-        return int(self._rating)
+        return int(self._category)
 
     @category.setter
-    def category(self, value) -> None:
-        v = value
+    def category(self, value: int) -> None:
         category_options = categories.keys()
-        if v in category_options:
-            self._category = v
+        if value in category_options:
+            self._category = value
         else:
             raise ValueError(f'category should be in between {min(category_options)} and {max(category_options)}')
 
@@ -161,7 +160,7 @@ class Book(Base):
 
     @hybrid_property
     def publisher(self) -> str:
-        return str(self._publisher).capitalize()
+        return str(self._publisher)
 
     @publisher.setter
     def publisher(self, value) -> None:
