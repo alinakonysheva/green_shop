@@ -13,6 +13,7 @@ C_TITLE = 'Staring at the Sun'
 
 class BaseDbTest(TestCase):
     engine = create_engine('sqlite://')
+
     session = sessionmaker(bind=engine)()
 
     def setUp(self):
