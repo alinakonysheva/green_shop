@@ -250,84 +250,88 @@ class AudioBookTests(BaseDbTest):
                 self.controller.get_audiobook_by_id(id_a_book3)
 
         def test_get_all_paper_book(self):
-            id_p_book3 = self.controller.add_paper_book(C_TITLE_2, C_COVER, C_LENGTH, C_WIDTH, C_WEIGHT, C_PAGES,
-                                                        C_ISBN,
-                                                        C_AUTHOR_FIRST_NAME_2, C_AUTHOR_MIDDLE_NAME_2,
-                                                        C_AUTHOR_LAST_NAME_2,
-                                                        C_RELEASE_YEAR_2, C_CATEGORY_2, C_LANGUAGE_2, C_ANNOTATION_2,
-                                                        C_PUBLISHER_2, C_RATING_2, C_PIC_2)
-            list_with_all_p_books = self.controller.get_all_paper_book()
-            self.assertEqual(type(list_with_all_p_books), list)
-            self.assertIn(id_p_book3, list(map(lambda x: x.id, list_with_all_p_books)))
+            id_a_book4 = self.controller.add_audiobook(C_TITLE_2, C_READER_FIRST_NAME_2, C_READER_LAST_NAME_2,
+                                                       C_READER_MIDDLE_NAME_2, C_DURATION_HOURS_2, C_DURATION_MINUTES_2,
+                                                       C_DURATION_SECONDS_2, C_AUTHOR_FIRST_NAME_2,
+                                                       C_AUTHOR_MIDDLE_NAME_2, C_AUTHOR_LAST_NAME_2, C_RELEASE_YEAR_2,
+                                                       C_CATEGORY_2, C_LANGUAGE_2, C_ANNOTATION_2, C_PUBLISHER_2,
+                                                       C_RATING_2, C_PIC_2)
+            list_with_all_a_books = self.controller.get_all_audiobook()
+            self.assertEqual(type(list_with_all_a_books), list)
+            self.assertIn(id_a_book4, list(map(lambda x: x.id, list_with_all_a_books)))
 
-        def test_get_all_paper_book_newest_first(self):
-            id_p_book4 = self.controller.add_paper_book(C_TITLE_2, C_COVER, C_LENGTH, C_WIDTH, C_WEIGHT, C_PAGES,
-                                                        C_ISBN,
-                                                        C_AUTHOR_FIRST_NAME_2, C_AUTHOR_MIDDLE_NAME_2,
-                                                        C_AUTHOR_LAST_NAME_2,
-                                                        1940, C_CATEGORY_2, C_LANGUAGE_2, C_ANNOTATION_2,
-                                                        C_PUBLISHER_2, C_RATING_2, C_PIC_2)
-            id_p_book5 = self.controller.add_paper_book(C_TITLE_2, C_COVER, C_LENGTH, C_WIDTH, C_WEIGHT, C_PAGES,
-                                                        C_ISBN,
-                                                        C_AUTHOR_FIRST_NAME_2, C_AUTHOR_MIDDLE_NAME_2,
-                                                        C_AUTHOR_LAST_NAME_2,
-                                                        2022, C_CATEGORY_2, C_LANGUAGE_2, C_ANNOTATION_2,
-                                                        C_PUBLISHER_2, C_RATING_2, C_PIC_2)
-            list_with_p_books = self.controller.get_all_paper_book_newest_first()
-            list_with_release_years = list(map(lambda x: x.release_year, list_with_p_books))
+        def test_get_all_audiobook_newest_first(self):
+            id_a_book5 = self.controller.add_audiobook(C_TITLE_2, C_READER_FIRST_NAME_2, C_READER_LAST_NAME_2,
+                                                       C_READER_MIDDLE_NAME_2, C_DURATION_HOURS_2, C_DURATION_MINUTES_2,
+                                                       C_DURATION_SECONDS_2, C_AUTHOR_FIRST_NAME_2,
+                                                       C_AUTHOR_MIDDLE_NAME_2, C_AUTHOR_LAST_NAME_2, 1958,
+                                                       C_CATEGORY_2, C_LANGUAGE_2, C_ANNOTATION_2, C_PUBLISHER_2,
+                                                       C_RATING_2, C_PIC_2)
+            id_a_book6 = self.controller.add_audiobook(C_TITLE_2, C_READER_FIRST_NAME_2, C_READER_LAST_NAME_2,
+                                                       C_READER_MIDDLE_NAME_2, C_DURATION_HOURS_2, C_DURATION_MINUTES_2,
+                                                       C_DURATION_SECONDS_2, C_AUTHOR_FIRST_NAME_2,
+                                                       C_AUTHOR_MIDDLE_NAME_2, C_AUTHOR_LAST_NAME_2, 2022,
+                                                       C_CATEGORY_2, C_LANGUAGE_2, C_ANNOTATION_2, C_PUBLISHER_2,
+                                                       C_RATING_2, C_PIC_2)
+            list_with_a_books = self.controller.get_all_audiobook_newest_first()
+            list_with_release_years = list(map(lambda x: x.release_year, list_with_a_books))
             self.assertTrue(list_with_release_years[0] >= list_with_release_years[-1])
-            self.assertEqual(type(list_with_p_books), list)
+            self.assertEqual(type(list_with_a_books), list)
 
-        def test_get_all_paper_book_oldest_first(self):
-            id_p_book4 = self.controller.add_paper_book(C_TITLE_2, C_COVER, C_LENGTH, C_WIDTH, C_WEIGHT, C_PAGES,
-                                                        C_ISBN,
-                                                        C_AUTHOR_FIRST_NAME_2, C_AUTHOR_MIDDLE_NAME_2,
-                                                        C_AUTHOR_LAST_NAME_2,
-                                                        1940, C_CATEGORY_2, C_LANGUAGE_2, C_ANNOTATION_2,
-                                                        C_PUBLISHER_2, C_RATING_2, C_PIC_2)
-            id_p_book5 = self.controller.add_paper_book(C_TITLE_2, C_COVER, C_LENGTH, C_WIDTH, C_WEIGHT, C_PAGES,
-                                                        C_ISBN,
-                                                        C_AUTHOR_FIRST_NAME_2, C_AUTHOR_MIDDLE_NAME_2,
-                                                        C_AUTHOR_LAST_NAME_2,
-                                                        2022, C_CATEGORY_2, C_LANGUAGE_2, C_ANNOTATION_2,
-                                                        C_PUBLISHER_2, C_RATING_2, C_PIC_2)
-            list_with_p_books = self.controller.get_all_paper_book_oldest_first()
-            list_with_release_years = list(map(lambda x: x.release_year, list_with_p_books))
+        def test_get_all_audiobook_oldest_first(self):
+            id_a_book5 = self.controller.add_audiobook(C_TITLE_2, C_READER_FIRST_NAME_2, C_READER_LAST_NAME_2,
+                                                       C_READER_MIDDLE_NAME_2, C_DURATION_HOURS_2, C_DURATION_MINUTES_2,
+                                                       C_DURATION_SECONDS_2, C_AUTHOR_FIRST_NAME_2,
+                                                       C_AUTHOR_MIDDLE_NAME_2, C_AUTHOR_LAST_NAME_2, 1958,
+                                                       C_CATEGORY_2, C_LANGUAGE_2, C_ANNOTATION_2, C_PUBLISHER_2,
+                                                       C_RATING_2, C_PIC_2)
+            id_a_book6 = self.controller.add_audiobook(C_TITLE_2, C_READER_FIRST_NAME_2, C_READER_LAST_NAME_2,
+                                                       C_READER_MIDDLE_NAME_2, C_DURATION_HOURS_2, C_DURATION_MINUTES_2,
+                                                       C_DURATION_SECONDS_2, C_AUTHOR_FIRST_NAME_2,
+                                                       C_AUTHOR_MIDDLE_NAME_2, C_AUTHOR_LAST_NAME_2, 2022,
+                                                       C_CATEGORY_2, C_LANGUAGE_2, C_ANNOTATION_2, C_PUBLISHER_2,
+                                                       C_RATING_2, C_PIC_2)
+            list_with_a_books = self.controller.get_all_audiobook_oldest_first()
+            list_with_release_years = list(map(lambda x: x.release_year, list_with_a_books))
             self.assertTrue(list_with_release_years[0] <= list_with_release_years[-1])
-            print(list_with_release_years)
-            self.assertEqual(type(list_with_p_books), list)
+            self.assertEqual(type(list_with_a_books), list)
 
-        def test_get_paper_book_by_title(self):
-            list_with_p_books = self.controller.get_paper_book_by_title(C_TITLE)
-            list_with_titles = list(map(lambda x: x.book_title, list_with_p_books))
+        def test_get_audiobook_by_title(self):
+            list_with_a_books = self.controller.get_audiobook_by_title(C_TITLE)
+            list_with_titles = list(map(lambda x: x.book_title, list_with_a_books))
             self.assertIn(C_TITLE, list_with_titles)
 
-        def test_get_paper_book_by_author_last_name(self):
-            list_with_p_books = self.controller.get_paper_book_by_author_last_name(C_AUTHOR_LAST_NAME)
-            list_with_last_names = list(map(lambda x: x.author_last_name, list_with_p_books))
+        def test_get_audiobook_by_author_last_name(self):
+            list_with_a_books = self.controller.get_audiobook_by_author_last_name(C_AUTHOR_LAST_NAME)
+            list_with_last_names = list(map(lambda x: x.author_last_name, list_with_a_books))
             self.assertIn(C_AUTHOR_LAST_NAME, list_with_last_names)
 
-        def test_get_paper_book_by_author_first_name(self):
-            list_with_p_books = self.controller.get_paper_book_by_author_first_name(C_AUTHOR_FIRST_NAME)
-            list_with_first_names = list(map(lambda x: x.author_first_name, list_with_p_books))
+        def test_get_audiobook_by_author_first_name(self):
+            list_with_a_books = self.controller.get_audiobook_by_author_first_name(C_AUTHOR_FIRST_NAME)
+            list_with_first_names = list(map(lambda x: x.author_first_name, list_with_a_books))
             self.assertIn(C_AUTHOR_FIRST_NAME, list_with_first_names)
 
-        def test_get_paper_book_by_category(self):
-            list_with_p_books = self.controller.get_paper_book_by_category(C_CATEGORY)
-            list_with_categories = list(map(lambda x: x.category, list_with_p_books))
+        def test_get_audiobook_by_category(self):
+            list_with_a_books = self.controller.get_audiobook_by_category(C_CATEGORY)
+            list_with_categories = list(map(lambda x: x.category, list_with_a_books))
             self.assertIn(C_CATEGORY, list_with_categories)
 
-        def test_get_paper_book_by_release_year(self):
-            list_with_p_books = self.controller.get_paper_book_by_release_year(C_RELEASE_YEAR)
-            list_with_categories = list(map(lambda x: x.release_year, list_with_p_books))
-            self.assertIn(C_RELEASE_YEAR, list_with_categories)
+        def test_get_audiobook_by_release_year(self):
+            list_with_a_books = self.controller.get_audiobook_by_release_year(C_RELEASE_YEAR)
+            list_with_years = list(map(lambda x: x.release_year, list_with_a_books))
+            self.assertIn(C_RELEASE_YEAR, list_with_years)
 
-        def test_get_paper_book_by_publisher(self):
-            list_with_p_books = self.controller.get_paper_book_by_publisher(C_PUBLISHER)
-            list_with_publishers = list(map(lambda x: x.publisher, list_with_p_books))
+        def test_get_audiobook__by_publisher(self):
+            list_with_a_books = self.controller.get_audiobook_by_publisher(C_PUBLISHER)
+            list_with_publishers = list(map(lambda x: x.publisher, list_with_a_books))
             self.assertIn(C_PUBLISHER, list_with_publishers)
 
-        def test_get_ebook_by_rating(self):
-            list_with_p_books = self.controller.get_paper_book_by_rating(8, 10)
-            list_with_ratings = list(map(lambda x: x.rating, list_with_p_books))
+        def test_get_audiobook__by_rating(self):
+            list_with_a_books = self.controller.get_audiobook_by_rating(8, 10)
+            list_with_ratings = list(map(lambda x: x.rating, list_with_a_books))
             self.assertIn(C_RATING, list_with_ratings)
+
+        def test_get_audiobook_by_reader_last_name(self):
+            list_with_a_books = self.controller.get_audiobook_by_reader_last_name(C_READER_LAST_NAME)
+            list_with_last_names = list(map(lambda x: x.reader_last_name, list_with_a_books))
+            self.assertIn(C_READER_LAST_NAME, list_with_last_names)

@@ -306,7 +306,7 @@ class ControllerPaperBookTests(BaseDbTest):
         list_with_publishers = list(map(lambda x: x.publisher, list_with_p_books))
         self.assertIn(C_PUBLISHER, list_with_publishers)
 
-    def test_get_ebook_by_rating(self):
+    def test_get_paper_book_by_rating(self):
         list_with_p_books = self.controller.get_paper_book_by_rating(8, 10)
         list_with_ratings = list(map(lambda x: x.rating, list_with_p_books))
         self.assertIn(C_RATING, list_with_ratings)

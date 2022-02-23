@@ -287,3 +287,7 @@ class ControllerAudioBook:
         ab_list = self.session.query(AudioBook).filter(AudioBook._rating <= max_rating,
                                                        AudioBook._rating >= min_rating).all()
         return ab_list
+
+    def get_audiobook_by_release_year(self, year):
+        ab_list = self.session.query(AudioBook).filter(AudioBook._release_year == year).all()
+        return ab_list
