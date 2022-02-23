@@ -1,15 +1,15 @@
 from datetime import datetime
 from audio_book import AudioBook
-from database import session
 from constants import languages, categories
 
 
 class ControllerAudioBook:
+    def __init__(self, session):
+        self.session = session
 
-    @staticmethod
-    def add_audiobook(title, reader_first_name, reader_last_name, reader_middle_name, duration_hours, duration_minutes,
-                      duration_seconds, author_first_name, author_middle_name, author_last_name, release_year,
-                      category, language, annotation, publisher, rating, pic):
+    def add_audiobook(self, title, reader_first_name, reader_last_name, reader_middle_name, duration_hours,
+                      duration_minutes, duration_seconds, author_first_name, author_middle_name, author_last_name,
+                      release_year, category, language, annotation, publisher, rating, pic):
 
         audiobook = AudioBook()
 
@@ -103,16 +103,14 @@ class ControllerAudioBook:
         else:
             raise ValueError('Last name of author should be a string and length between 1 and 100 symbols')
 
-        session.add(audiobook)
-        session.commit()
+        self.session.add(audiobook)
+        self.session.commit()
 
-    @staticmethod
-    def change_audiobook(id_audiobook, title, reader_first_name, reader_last_name, reader_middle_name, duration_hours,
-                         duration_minutes,
-                         duration_seconds, author_first_name, author_middle_name, author_last_name, release_year,
-                         category, language, annotation, publisher, rating, pic):
+    def change_audiobook(self, id_audiobook, title, reader_first_name, reader_last_name, reader_middle_name,
+                         duration_hours, duration_minutes, duration_seconds, author_first_name, author_middle_name,
+                         author_last_name, release_year, category, language, annotation, publisher, rating, pic):
         try:
-            audiobook = session.query(AudioBook).get(id_audiobook)
+            audiobook = self.session.query(AudioBook).get(id_audiobook)
             if audiobook:
                 if type(title) == str and 0 < len(title) < 200:
                     audiobook.book_title = title
@@ -205,17 +203,16 @@ class ControllerAudioBook:
                 else:
                     raise ValueError('Last name of author should be a string and length between 1 and 100 symbols')
 
-                session.add(audiobook)
-                session.commit()
+                self.session.add(audiobook)
+                self.session.commit()
             else:
                 raise ValueError('Book with this ID does not exist in data base')
         except Exception as e:
             print(e)
 
-    @staticmethod
-    def rate_audiobook(id_audiobook, rate):
+    def rate_audiobook(self, id_audiobook, rate):
         try:
-            ab = session.query(AudioBook).get(id_audiobook)
+            ab = self.session.query(AudioBook).get(id_audiobook)
             if ab:
                 if type(rate) == float and 0 <= rate <= 10:
                     ab.rating = rate
@@ -226,89 +223,67 @@ class ControllerAudioBook:
         except Exception as e:
             print('book was not rated: ', e)
 
-    @staticmethod
-    def remove_audiobook(id_audiobook):
+    def remove_audiobook(self, id_audiobook):
         try:
-            ab = session.query(AudioBook).get(id_audiobook)
-            session.delete(ab)
-            session.commit()
+            ab = self.session.query(AudioBook).get(id_audiobook)
+            self.session.delete(ab)
+            self.session.commit()
         except Exception as e:
             print(e, 'this book does not exist')
 
-    @staticmethod
-    def get_audiobook_by_id(id_audiobook):
-        ab = session.query(AudioBook).get(id_audiobook)
+    def get_audiobook_by_id(self, id_audiobook):
+        ab = self.session.query(AudioBook).get(id_audiobook)
         return ab
 
-    @staticmethod
-    def get_all_audiobook():
+    def get_all_audiobook(self):
         """
         to get list of audio_book
         :return: list of instances of Audiobook
         """
-        ab_list = session.query(AudioBook).all()
+        ab_list = self.session.query(AudioBook).all()
         return ab_list
 
-    @staticmethod
-    def get_all_audiobook_newest_first():
+    def get_all_audiobook_newest_first(self):
         """
         to get list of audio_book from newest to oldest
         :return: list of instances of AudioBook
         """
-        ab_list = session.query(AudioBook).order_by(AudioBook.release_year.desc()).all()
+        ab_list = self.session.query(AudioBook).order_by(AudioBook._release_year.desc()).all()
         return ab_list
 
-    @staticmethod
-    def get_all_audiobook_oldest_first():
+    def get_all_audiobook_oldest_first(self):
         """
         to get list of audio_books from oldest to newest
         :return: list of instances of AudioBook
         """
-        ab_list = session.query(AudioBook).order_by(AudioBook.release_year.asc()).all()
+        ab_list = self.session.query(AudioBook).order_by(AudioBook._release_year.asc()).all()
         return ab_list
 
-    @staticmethod
-    def get_audiobook_by_title(title):
-        ab_list = session.query(AudioBook).filter(AudioBook.book_title.like(title)).all()
+    def get_audiobook_by_title(self, title):
+        ab_list = self.session.query(AudioBook).filter(AudioBook._title.like(title)).all()
         return ab_list
 
-    @staticmethod
-    def get_audiobook_by_author_last_name(last_name):
-        ab_list = session.query(AudioBook).filter(AudioBook.author_last_name.like(last_name)).all()
+    def get_audiobook_by_author_last_name(self, last_name):
+        ab_list = self.session.query(AudioBook).filter(AudioBook._author_last_name.like(last_name)).all()
         return ab_list
 
-    @staticmethod
-    def get_audiobook_by_author_first_name(first_name):
-        eb_list = session.query(AudioBook).filter(AudioBook.author_first_name.like(first_name)).all()
+    def get_audiobook_by_author_first_name(self, first_name):
+        eb_list = self.session.query(AudioBook).filter(AudioBook._author_first_name.like(first_name)).all()
         return eb_list
 
-    # TODO: not sure if it will be working with usual property
-    @staticmethod
-    def get_audiobook_by_author_full_name(full_name):
-        ab_list = session.query(AudioBook).filter(AudioBook.author_full_name.like(full_name)).all()
+    def get_audiobook_by_category(self, category):
+        ab_list = self.session.query(AudioBook).filter(AudioBook._category == category).all()
         return ab_list
 
-    @staticmethod
-    def get_audiobook_by_category(category):
-        ab_list = session.query(AudioBook).filter(AudioBook.category == category).all()
+    def get_audiobook_by_reader_last_name(self, last_name):
+        ab_list = self.session.query(AudioBook).filter(AudioBook._reader_last_name.like(last_name)).all()
         return ab_list
 
-    @staticmethod
-    def get_audiobook_by_reader_last_name(last_name):
-        ab_list = session.query(AudioBook).filter(AudioBook.reader_last_name.like(last_name)).all()
+    def get_audiobook_by_publisher(self, publisher):
+        ab_list = self.session.query(AudioBook).filter(AudioBook._publisher.like(publisher)).all()
         return ab_list
 
-    @staticmethod
-    def get_audiobook_by_release_year(year):
-        ab_list = session.query(AudioBook).filter(AudioBook.release_year == year).all()
-        return ab_list
-
-    @staticmethod
-    def get_audiobook_by_publisher(publisher):
-        ab_list = session.query(AudioBook).filter(AudioBook.publisher.like(publisher)).all()
-        return ab_list
-
-    @staticmethod
-    def get_audiobook_by_rating(min_rating=0, max_rating=10):
-        ab_list = session.query(AudioBook).filter(AudioBook.rating <= max_rating, AudioBook.rating >= min_rating).all()
+    def get_audiobook_by_rating(self, min_rating=0, max_rating=10):
+        ab_list = self.session.query(AudioBook).filter(AudioBook._rating <= max_rating,
+                                                       AudioBook._rating >= min_rating).all()
         return ab_list
