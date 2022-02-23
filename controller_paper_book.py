@@ -246,7 +246,6 @@ class ControllerPaperBook:
         else:
             raise ValueError('Book with this ID does not exist in data base')
 
-
     def get_all_paper_book(self):
         """
         to get list of paper books
@@ -272,7 +271,7 @@ class ControllerPaperBook:
         return pb_list
 
     def get_paper_book_by_title(self, title):
-        pb_list = self.session.query(PaperBook).filter(PaperBook._book_title.like(title)).all()
+        pb_list = self.session.query(PaperBook).filter(PaperBook._title.like(title)).all()
         return pb_list
 
     def get_paper_book_by_author_last_name(self, last_name):
@@ -287,10 +286,6 @@ class ControllerPaperBook:
         pb_list = self.session.query(PaperBook).filter(PaperBook._category == category).all()
         return pb_list
 
-    def get_paper_book_by_author_last_name(self, last_name):
-        pb_list = self.session.query(PaperBook).filter(PaperBook._author_last_name.like(last_name)).all()
-        return pb_list
-
     def get_paper_book_by_release_year(self, year):
         pb_list = self.session.query(PaperBook).filter(PaperBook._release_year == year).all()
         return pb_list
@@ -300,5 +295,6 @@ class ControllerPaperBook:
         return pb_list
 
     def get_paper_book_by_rating(self, min_rating=0, max_rating=10):
-        pb_list = self.session.query(PaperBook).filter(PaperBook._rating <= max_rating, PaperBook._rating >= min_rating).all()
+        pb_list = self.session.query(PaperBook).filter(PaperBook._rating <= max_rating,
+                                                       PaperBook._rating >= min_rating).all()
         return pb_list

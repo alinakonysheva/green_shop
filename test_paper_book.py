@@ -55,11 +55,11 @@ C_PUBLISHER_2 = "Wiley2"
 C_INCORRECT_PUBLISHER = str([1 for i in range(70)])
 C_COVER = 1
 C_INCORRECT_COVER = 3
-C_LENGTH = 15
+C_LENGTH = 15.0
 C_INCORRECT_LENGTH = 301
-C_WIDTH = 15
+C_WIDTH = 15.0
 C_INCORRECT_WIDTH = 301
-C_WEIGHT = 315
+C_WEIGHT = 315.0
 C_INCORRECT_WEIGHT = 10001
 C_PAGES = 212
 C_INCORRECT_PAGES = 23676
@@ -84,7 +84,7 @@ class PaperBookTests(BaseDbTest):
     def do_setup(self):
         pass
 
-    def test_audio_book(self):
+    def test_paper_book(self):
         paper_book = PaperBook()
         paper_book.book_title = C_TITLE
         paper_book.author_last_name = C_AUTHOR_LAST_NAME
@@ -154,7 +154,7 @@ class ControllerPaperBookTests(BaseDbTest):
 
     def test_controller_get_book(self):
         id_pb = self.p_book.id
-        pb = self.controller.get_ebook_by_id(id_pb)
+        pb = self.controller.get_paper_book_by_id(id_pb)
         self.assertEqual(pb.book_title, C_TITLE)
         self.assertEqual(pb.author_last_name, C_AUTHOR_LAST_NAME)
         self.assertEqual(pb.author_first_name, C_AUTHOR_FIRST_NAME)
@@ -231,9 +231,9 @@ class ControllerPaperBookTests(BaseDbTest):
 
     def test_remove_book_happy_path(self):
         id_p_book3 = self.controller.add_paper_book(C_TITLE_2, C_COVER, C_LENGTH, C_WIDTH, C_WEIGHT, C_PAGES, C_ISBN,
-                                                   C_AUTHOR_FIRST_NAME_2, C_AUTHOR_MIDDLE_NAME_2, C_AUTHOR_LAST_NAME_2,
-                                                   C_RELEASE_YEAR_2, C_CATEGORY_2, C_LANGUAGE_2, C_ANNOTATION_2,
-                                                   C_PUBLISHER_2, C_RATING_2, C_PIC_2)
+                                                    C_AUTHOR_FIRST_NAME_2, C_AUTHOR_MIDDLE_NAME_2, C_AUTHOR_LAST_NAME_2,
+                                                    C_RELEASE_YEAR_2, C_CATEGORY_2, C_LANGUAGE_2, C_ANNOTATION_2,
+                                                    C_PUBLISHER_2, C_RATING_2, C_PIC_2)
         self.controller.remove_paper_book(id_p_book3)
         with self.assertRaises(ValueError):
             self.controller.get_paper_book_by_id(id_p_book3)
@@ -243,63 +243,70 @@ class ControllerPaperBookTests(BaseDbTest):
                                                     C_AUTHOR_FIRST_NAME_2, C_AUTHOR_MIDDLE_NAME_2, C_AUTHOR_LAST_NAME_2,
                                                     C_RELEASE_YEAR_2, C_CATEGORY_2, C_LANGUAGE_2, C_ANNOTATION_2,
                                                     C_PUBLISHER_2, C_RATING_2, C_PIC_2)
-        list_with_all_pbooks = self.controller.get_all_paper_book()
-        self.assertEqual(type(list_with_all_pbooks), list)
-        self.assertIn(id_p_book3, list(map(lambda x: x.id, list_with_all_pbooks)))
+        list_with_all_p_books = self.controller.get_all_paper_book()
+        self.assertEqual(type(list_with_all_p_books), list)
+        self.assertIn(id_p_book3, list(map(lambda x: x.id, list_with_all_p_books)))
 
-    def test_get_all_ebook_newest_first(self):
-        id_ebook4 = self.controller.add_ebook(C_TITLE_2, C_SIZE_2, C_AUTHOR_FIRST_NAME_2, C_AUTHOR_MIDDLE_NAME_2,
-                                              C_AUTHOR_LAST_NAME_2, 1950, C_CATEGORY_2, C_LANGUAGE_2,
-                                              C_ANNOTATION_2, C_PUBLISHER_2, C_RATING_2, C_PIC_2)
-        id_ebook5 = self.controller.add_ebook(C_TITLE_2, C_SIZE_2, C_AUTHOR_FIRST_NAME_2, C_AUTHOR_MIDDLE_NAME_2,
-                                              C_AUTHOR_LAST_NAME_2, 2022, C_CATEGORY_2, C_LANGUAGE_2,
-                                              C_ANNOTATION_2, C_PUBLISHER_2, C_RATING_2, C_PIC_2)
-        list_with_ebooks = self.controller.get_all_ebook_newest_first()
-        # list_with_ebooks = self.controller.get_all_ebook()
-        # print(list(map(lambda x: x.release_year, list_with_ebooks)))
-        list_with_release_years = list(map(lambda x: x.release_year, list_with_ebooks))
-        # print(list_with_release_years)
+    def test_get_all_paper_book_newest_first(self):
+        id_p_book4 = self.controller.add_paper_book(C_TITLE_2, C_COVER, C_LENGTH, C_WIDTH, C_WEIGHT, C_PAGES, C_ISBN,
+                                                    C_AUTHOR_FIRST_NAME_2, C_AUTHOR_MIDDLE_NAME_2, C_AUTHOR_LAST_NAME_2,
+                                                    1940, C_CATEGORY_2, C_LANGUAGE_2, C_ANNOTATION_2,
+                                                    C_PUBLISHER_2, C_RATING_2, C_PIC_2)
+        id_p_book5 = self.controller.add_paper_book(C_TITLE_2, C_COVER, C_LENGTH, C_WIDTH, C_WEIGHT, C_PAGES, C_ISBN,
+                                                    C_AUTHOR_FIRST_NAME_2, C_AUTHOR_MIDDLE_NAME_2, C_AUTHOR_LAST_NAME_2,
+                                                    2022, C_CATEGORY_2, C_LANGUAGE_2, C_ANNOTATION_2,
+                                                    C_PUBLISHER_2, C_RATING_2, C_PIC_2)
+        list_with_p_books = self.controller.get_all_paper_book_newest_first()
+        list_with_release_years = list(map(lambda x: x.release_year, list_with_p_books))
         self.assertTrue(list_with_release_years[0] >= list_with_release_years[-1])
-        self.assertEqual(type(list_with_ebooks), list)
+        self.assertEqual(type(list_with_p_books), list)
 
-    def test_get_all_ebook_oldest_first(self):
-        id_ebook4 = self.controller.add_ebook(C_TITLE_2, C_SIZE_2, C_AUTHOR_FIRST_NAME_2, C_AUTHOR_MIDDLE_NAME_2,
-                                              C_AUTHOR_LAST_NAME_2, 1950, C_CATEGORY_2, C_LANGUAGE_2,
-                                              C_ANNOTATION_2, C_PUBLISHER_2, C_RATING_2, C_PIC_2)
-        id_ebook5 = self.controller.add_ebook(C_TITLE_2, C_SIZE_2, C_AUTHOR_FIRST_NAME_2, C_AUTHOR_MIDDLE_NAME_2,
-                                              C_AUTHOR_LAST_NAME_2, 2022, C_CATEGORY_2, C_LANGUAGE_2,
-                                              C_ANNOTATION_2, C_PUBLISHER_2, C_RATING_2, C_PIC_2)
-        list_with_ebooks = self.controller.get_all_ebook_oldest_first()
-        list_with_release_years = list(map(lambda x: x.release_year, list_with_ebooks))
+    def test_get_all_paper_book_oldest_first(self):
+        id_p_book4 = self.controller.add_paper_book(C_TITLE_2, C_COVER, C_LENGTH, C_WIDTH, C_WEIGHT, C_PAGES, C_ISBN,
+                                                    C_AUTHOR_FIRST_NAME_2, C_AUTHOR_MIDDLE_NAME_2, C_AUTHOR_LAST_NAME_2,
+                                                    1940, C_CATEGORY_2, C_LANGUAGE_2, C_ANNOTATION_2,
+                                                    C_PUBLISHER_2, C_RATING_2, C_PIC_2)
+        id_p_book5 = self.controller.add_paper_book(C_TITLE_2, C_COVER, C_LENGTH, C_WIDTH, C_WEIGHT, C_PAGES, C_ISBN,
+                                                    C_AUTHOR_FIRST_NAME_2, C_AUTHOR_MIDDLE_NAME_2, C_AUTHOR_LAST_NAME_2,
+                                                    2022, C_CATEGORY_2, C_LANGUAGE_2, C_ANNOTATION_2,
+                                                    C_PUBLISHER_2, C_RATING_2, C_PIC_2)
+        list_with_p_books = self.controller.get_all_paper_book_oldest_first()
+        list_with_release_years = list(map(lambda x: x.release_year, list_with_p_books))
         self.assertTrue(list_with_release_years[0] <= list_with_release_years[-1])
-        self.assertEqual(type(list_with_ebooks), list)
+        print(list_with_release_years)
+        self.assertEqual(type(list_with_p_books), list)
 
-    def test_get_ebook_by_title(self):
-        list_with_ebooks = self.controller.get_ebook_by_title(C_TITLE)
-        list_with_titles = list(map(lambda x: x.book_title, list_with_ebooks))
+    def test_get_paper_book_by_title(self):
+        list_with_p_books = self.controller.get_paper_book_by_title(C_TITLE)
+        list_with_titles = list(map(lambda x: x.book_title, list_with_p_books))
         self.assertIn(C_TITLE, list_with_titles)
 
-    def test_get_ebook_by_author_last_name(self):
-        list_with_ebooks = self.controller.get_ebook_by_author_last_name(C_AUTHOR_LAST_NAME)
-        list_with_last_names = list(map(lambda x: x.author_last_name, list_with_ebooks))
+    def test_get_paper_book_by_author_last_name(self):
+        list_with_p_books = self.controller.get_paper_book_by_author_last_name(C_AUTHOR_LAST_NAME)
+        list_with_last_names = list(map(lambda x: x.author_last_name, list_with_p_books))
         self.assertIn(C_AUTHOR_LAST_NAME, list_with_last_names)
 
-    def test_get_ebook_by_category(self):
-        list_with_ebooks = self.controller.get_ebook_by_category(C_CATEGORY)
-        list_with_categories = list(map(lambda x: x.category, list_with_ebooks))
+    def test_get_paper_book_by_author_first_name(self):
+        list_with_p_books = self.controller.get_paper_book_by_author_first_name(C_AUTHOR_FIRST_NAME)
+        list_with_first_names = list(map(lambda x: x.author_first_name, list_with_p_books))
+        self.assertIn(C_AUTHOR_FIRST_NAME,  list_with_first_names)
+
+    def test_get_paper_book_by_category(self):
+        list_with_p_books = self.controller.get_paper_book_by_category(C_CATEGORY)
+        list_with_categories = list(map(lambda x: x.category, list_with_p_books))
         self.assertIn(C_CATEGORY, list_with_categories)
 
-    def test_get_ebook_by_release_year(self):
-        list_with_ebooks = self.controller.get_ebook_by_release_year(C_RELEASE_YEAR)
-        list_with_categories = list(map(lambda x: x.release_year, list_with_ebooks))
+    def test_get_paper_book_by_release_year(self):
+        list_with_p_books = self.controller.get_paper_book_by_release_year(C_RELEASE_YEAR)
+        list_with_categories = list(map(lambda x: x.release_year, list_with_p_books))
         self.assertIn(C_RELEASE_YEAR, list_with_categories)
 
-    def test_get_ebook_by_publisher(self):
-        list_with_ebooks = self.controller.get_ebook_by_publisher(C_PUBLISHER)
-        list_with_publishers = list(map(lambda x: x.publisher, list_with_ebooks))
+    def test_get_paper_book_by_publisher(self):
+        list_with_p_books = self.controller.get_paper_book_by_publisher(C_PUBLISHER)
+        list_with_publishers = list(map(lambda x: x.publisher, list_with_p_books))
         self.assertIn(C_PUBLISHER, list_with_publishers)
 
     def test_get_ebook_by_rating(self):
-        list_with_ebooks = self.controller.get_ebook_by_rating(8, 10)
-        list_with_ratings = list(map(lambda x: x.rating, list_with_ebooks))
+        list_with_p_books = self.controller.get_paper_book_by_rating(8, 10)
+        list_with_ratings = list(map(lambda x: x.rating, list_with_p_books))
         self.assertIn(C_RATING, list_with_ratings)
