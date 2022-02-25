@@ -6,6 +6,7 @@ from sqlalchemy.orm import sessionmaker
 from wishlist import Wishlist
 from user import User
 from controller_wishlist import ControllerWishlist
+from e_book import EBook
 
 
 class BaseDbTest(TestCase):
@@ -41,12 +42,16 @@ class ControllerWishlistTests(BaseDbTest):
         wishlist = Wishlist()
         user_1 = User()
         wishlist.id_user = user_1.id
+        eb = EBook()
+        self.session.add(eb)
+        self.session.commit()
 
         self.controller = ControllerWishlist(self.session)
         self.session.add(wishlist)
         self.session.commit()
         self.wishlist = wishlist
         self.user = user_1
+        self.book = eb
 
     def test_get_wishlist(self):
         id_wishlist = self.wishlist.id
@@ -94,3 +99,11 @@ class ControllerWishlistTests(BaseDbTest):
         wl_id = self.controller.add_wishlist(user5.id)
         list_with_wl_ids_2 = self.controller.get_all_wishlists_ids()
         self.assertIn(wl_id, list_with_wl_ids_2)
+
+    def test_add_book_to_wishlist_get_all_book_ids_by_wishlist(self):
+        self.controller.add_book_to_wishlist(self.wishlist.id, self.book.id)
+        id_books = self.controller.get_all_book_ids_by_wishlist(self.wishlist.id)
+        self.assertTrue(type(id_books) == list)
+        self.assertIn(self.book.id, id_books)
+
+
