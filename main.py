@@ -1,4 +1,3 @@
-
 # Een “webshop” maken. In onze webshop verkopen we boeken, zowel fysieke als audio als voor een e reader.
 # Elk boek heeft uiteraard een paar eigenschappen. Elke klant heeft uiteraard ook een paar eigenschappen
 # Wat moet er gemaakt worden:
@@ -13,7 +12,7 @@
 
 def do_run():
     from database import create_database, engine, session
-    create_database(engine)
+    create_database(engine, do_erase=True)
     """eb = EBook()
     eb.size = 25
     eb.book_title = 'Ebook_1'
@@ -28,7 +27,6 @@ def do_run():
     eb.author_middle_name = 'middlenameauthor'
     session.add(eb)
     session.commit()"""
-
 
 
 if __name__ == '__main__':
