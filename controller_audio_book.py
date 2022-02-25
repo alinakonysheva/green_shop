@@ -105,6 +105,7 @@ class ControllerAudioBook:
 
         self.session.add(audiobook)
         self.session.commit()
+        return audiobook.id
 
     def change_audiobook(self, id_audiobook, title, reader_first_name, reader_last_name, reader_middle_name,
                          duration_hours, duration_minutes, duration_seconds, author_first_name, author_middle_name,
@@ -211,29 +212,30 @@ class ControllerAudioBook:
             print(e)
 
     def rate_audiobook(self, id_audiobook, rate):
-        try:
-            ab = self.session.query(AudioBook).get(id_audiobook)
-            if ab:
-                if type(rate) == float and 0 <= rate <= 10:
-                    ab.rating = rate
-                else:
-                    raise ValueError('rating of a ebook should be a float and between 0 and 10')
+
+        ab = self.session.query(AudioBook).get(id_audiobook)
+        if ab:
+            if type(rate) == float and 0 <= rate <= 10:
+                ab.rating = rate
             else:
-                raise ValueError('Book with this ID does not exist in data base')
-        except Exception as e:
-            print('book was not rated: ', e)
+                raise ValueError('rating of a ebook should be a float and between 0 and 10')
+        else:
+            raise ValueError('Book with this ID does not exist in data base')
 
     def remove_audiobook(self, id_audiobook):
-        try:
-            ab = self.session.query(AudioBook).get(id_audiobook)
+        ab = self.session.query(AudioBook).get(id_audiobook)
+        if ab:
             self.session.delete(ab)
             self.session.commit()
-        except Exception as e:
-            print(e, 'this book does not exist')
+        else:
+            raise ValueError('Book with this ID does not exist in data base')
 
     def get_audiobook_by_id(self, id_audiobook):
         ab = self.session.query(AudioBook).get(id_audiobook)
-        return ab
+        if ab:
+            return ab
+        else:
+            raise ValueError('Book with this ID does not exist in data base')
 
     def get_all_audiobook(self):
         """

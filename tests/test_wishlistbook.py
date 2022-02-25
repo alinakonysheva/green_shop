@@ -25,11 +25,11 @@ class BaseDbTest(TestCase):
         pass
 
 
-class WishlistbookTests(BaseDbTest):
+class WishlistBookTests(BaseDbTest):
     def do_setup(self):
         pass
 
-    def test_wishlistbook(self):
+    def test_wishlist_book(self):
         ebook = EBook()
         ebook.book_title = C_TITLE
         self.session.add(ebook)
