@@ -13,8 +13,8 @@ class User(BaseObj):
     password = Column('PASSWORD', String())
     status = Column('STATUS', Integer, default=0)
     wishlist = Column('WISHLIST', Integer)
-    address_id = Column('ADDRESS_ID', ForeignKey(Address.addressid), index=True)
-    address = relationship(Address, Foreign_keys='User.addresid', back_populates="user")
+    address_id = Column('ADDRESS_ID', ForeignKey(Address.id), index=True)
+    address = relationship(Address, Foreign_keys='User.address_id', back_populates="user")
 
     @hybrid_property
     def firstname(self):
