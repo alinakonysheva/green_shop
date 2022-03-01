@@ -10,9 +10,7 @@ C_NUMBER = '221B'
 C_CITY = 'London'
 C_COUNTRY = 'Great Britain'
 C_POSTCODE = 'NW1 6XE'
-#     _postcode = Column('POSTCODE', Integer)
 
-#TODO: add reletionship with user
 
 class BaseDbTest(TestCase):
     engine = create_engine('sqlite://')
@@ -27,11 +25,11 @@ class BaseDbTest(TestCase):
         pass
 
 
-class UserTests(BaseDbTest):
+class AddressTests(BaseDbTest):
     def do_setup(self):
         pass
 
-    def test_user_happy_path(self):
+    def test_address_happy_path(self):
         address = Address()
         address.street = C_STREET
         address.number = C_NUMBER

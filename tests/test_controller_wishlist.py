@@ -58,7 +58,7 @@ class ControllerWishlistTests(BaseDbTest):
         self.assertEqual(wl.id_user, id_user_3)
 
     def test_remove_wishlist(self):
-        # TODO: with real users
+        # TODO: with real users, check of user is real
         # user_3 = User()
         # id_user_3 = user_3.id
         id_user_3 = 3
@@ -69,8 +69,7 @@ class ControllerWishlistTests(BaseDbTest):
 
     def test_get_wishlist_by_user(self):
         wl = self.controller.get_wishlist_by_user(self.user.id)
-        # FIXME: fix the test please, and as soon as possible
-        # self.assertEqual(wl.id, self.wishlist.id)
+        self.assertEqual(wl.id, self.wishlist.id)
 
     def test_is_wishlist_by_user(self):
         self.assertTrue(self.controller.get_wishlist_by_user(self.user.id))
