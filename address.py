@@ -15,7 +15,6 @@ class Address(BaseObj):
     user_id = Column('F_USER_ID', ForeignKey(User.id), index=True)
     user = relationship(User, foreign_keys='Address.user_id', back_populates="address")
 
-
     @hybrid_property
     def street(self):
         return self._street.capitalize()
