@@ -1,4 +1,4 @@
-from abc import abstractmethod
+"""from abc import abstractmethod
 from unittest import TestCase
 from sqlalchemy import create_engine
 from database import create_database
@@ -108,3 +108,4 @@ class ControllerAddressTests(BaseDbTest):
         id_books = self.controller.get_all_book_ids_by_wishlist(self.wishlist.id)
         self.assertTrue(type(id_books) == list)
         self.assertIn(self.book.id, id_books)
+"""

@@ -68,8 +68,10 @@ class ControllerWishlistTests(BaseDbTest):
             self.controller.get_wishlist_by_id(id_new_wishlist)
 
     def test_get_wishlist_by_user(self):
-        wl = self.controller.get_wishlist_by_user(self.user.id)
-        self.assertEqual(wl.id, self.wishlist.id)
+        id_user_123 = 123
+        id_new_wishlist = self.controller.add_wishlist(id_user_123)
+        wl = self.controller.get_wishlist_by_user(id_user_123)
+        self.assertEqual(wl.id, id_new_wishlist)
 
     def test_is_wishlist_by_user(self):
         self.assertTrue(self.controller.get_wishlist_by_user(self.user.id))
