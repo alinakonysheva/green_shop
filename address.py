@@ -30,7 +30,7 @@ class Address(BaseObj):
         special_characters = '!@ # $%^&*()-+?_=,<">/'
         for char in v:
             if v in special_characters:
-                raise valueError('a number cannot contain special characters')
+                raise ValueError('a number cannot contain special characters')
         self._number = value
 
     @hybrid_property
@@ -49,7 +49,7 @@ class Address(BaseObj):
         special_characters = '!@ # $%^&*()-+?_=,<">/'
         for char in v:
             if v in special_characters:
-                raise valueError('a country cannot contain special characters')
+                raise ValueError('a country cannot contain special characters')
         self._country = value
     @hybrid_property
     def postcode(self):
@@ -59,7 +59,7 @@ class Address(BaseObj):
         v = value.strip()
         for i in v:
             if i is not int:
-                raise valueError('a postcode only contains numbers')
+                raise ValueError('a postcode only contains numbers')
         self._postcode = value
 
 
