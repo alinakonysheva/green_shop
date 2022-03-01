@@ -1,9 +1,7 @@
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
-
 from database import BaseObj
 from sqlalchemy import Column, String, Integer
-
 from constants import status_role
 
 
@@ -14,9 +12,9 @@ class User(BaseObj):
     _lastname = Column('LAST_NAME', String())
     _email = Column('EMAIL', String())
     password = Column('PASSWORD', String())
-    # status can be admin or user
+    # status can be admin or user, has to be [] or set()
     _status = Column('STATUS', Integer, default=0)
-    wishlist = Column('WISHLIST', Integer)
+    wishlist = relationship('Wishlist', back_populates="user")
     address = relationship('Address', back_populates="user")
 
     @hybrid_property
@@ -26,7 +24,7 @@ class User(BaseObj):
     @firstname.setter
     def firstname(self, value):
         v = value.strip()
-        special_characters = '!@ # $%^&*()-+?_=,<">/'
+        special_characters = '!@#$%^&*()-+?_=,<">/'
         for char in v:
             if char in special_characters:
                 raise ValueError('a name cannot contain special characters')
@@ -39,7 +37,7 @@ class User(BaseObj):
     @lastname.setter
     def lastname(self, value):
         v = value.strip()
-        special_characters = '!@ # $%^&*()-+?_=,<">/'
+        special_characters = '!@#$%^&*()-+?_=,<">/'
         for char in v:
             if char in special_characters:
                 raise ValueError('a name cannot contain special characters')

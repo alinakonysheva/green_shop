@@ -30,7 +30,7 @@ class Address(BaseObj):
     @number.setter
     def number(self, value):
         v = value.strip()
-        special_characters = '!@ # $%^&*()-+?_=,<">'
+        special_characters = '!@#$%^&*()-+?_=,<">'
         for char in v:
             if char in special_characters:
                 raise ValueError('a number cannot contain special characters')
