@@ -1,7 +1,8 @@
 from sqlalchemy.ext.hybrid import hybrid_property
 from database import BaseObj
-from sqlalchemy import Column, String, Integer, Float, Text, Boolean
+from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.orm import relationship
+from user import User
 
 
 class Address(BaseObj):
@@ -11,7 +12,9 @@ class Address(BaseObj):
     _city = Column('CITY', String(200))
     _country = Column('C0UNTRY', String(30))
     _postcode = Column('POSTCODE', Integer)
-    user = relationship('User', back_populates="address")
+    user_id = Column('F_USER_ID', ForeignKey(User.id), index=True)
+    user = relationship(User, foreign_keys='Address.user_id', back_populates="address")
+
 
     @hybrid_property
     def street(self):

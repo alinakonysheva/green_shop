@@ -1,8 +1,8 @@
 from sqlalchemy.ext.hybrid import hybrid_property
-from database import BaseObj
-from sqlalchemy import Column, String, Integer, Float, Text, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
-from address import Address
+
+from database import BaseObj
+from sqlalchemy import Column, String, Integer
 
 
 class User(BaseObj):
@@ -13,8 +13,7 @@ class User(BaseObj):
     password = Column('PASSWORD', String())
     status = Column('STATUS', Integer, default=0)
     wishlist = Column('WISHLIST', Integer)
-    address_id = Column('ADDRESS_ID', ForeignKey(Address.id), index=True)
-    address = relationship(Address, Foreign_keys='User.address_id', back_populates="user")
+    address = relationship('Address', back_populates="user")
 
     @hybrid_property
     def firstname(self):
