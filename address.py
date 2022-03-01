@@ -11,7 +11,7 @@ class Address(BaseObj):
     _number = Column('NUMBER', String(10))
     _city = Column('CITY', String(200))
     _country = Column('C0UNTRY', String(30))
-    _postcode = Column('POSTCODE', Integer)
+    _postcode = Column('POSTCODE', String(30))
     user_id = Column('F_USER_ID', ForeignKey(User.id), index=True)
     user = relationship(User, foreign_keys='Address.user_id', back_populates="address")
 
@@ -30,7 +30,7 @@ class Address(BaseObj):
     @number.setter
     def number(self, value):
         v = value.strip()
-        special_characters = '!@ # $%^&*()-+?_=,<">/'
+        special_characters = '!@ # $%^&*()-+?_=,<">'
         for char in v:
             if char in special_characters:
                 raise ValueError('a number cannot contain special characters')
@@ -51,7 +51,7 @@ class Address(BaseObj):
     @country.setter
     def country(self, value):
         v = value.strip()
-        special_characters = '!@ # $%^&*()-+?_=,<">/'
+        special_characters = '!@#$%^&*()-+?_=,<">/'
         for char in v:
             if char in special_characters:
                 raise ValueError('a country cannot contain special characters')
@@ -64,7 +64,7 @@ class Address(BaseObj):
     @postcode.setter
     def postcode(self, value):
         v = value.strip()
-        for i in v:
-            if i is not int:
-                raise ValueError('a postcode only contains numbers')
-        self._postcode = value
+        if len(v) <= 30:
+            self._postcode = value
+        else:
+            raise ValueError('postcode can not be longer than 30 symbols')
