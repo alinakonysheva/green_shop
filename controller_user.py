@@ -104,7 +104,22 @@ class ControllerUser:
             ids.append(u.id)
 
     def does_user_excist(self,id):
-        if self.session.query(User).all:
+        if self.session.query(User).get(id):
             return True
         else: return False
+
+    def get_user_by_firstname(self,search):
+        user_list = self.session.query(User).filter(User._firstname.like(search)).all()
+        return user_list
+    def get_user_by_lastname(self,search):
+        user_list = self.session.query(User).filter(User._lastname.like(search)).all()
+        return user_list
+    def get_user_by_email(self,search):
+        user_list = self.session.query(User).filter(User._email.like(search)).all()
+        return user_list
+    def get_user_by_street(self,search):
+        pass
+        #kga hier eerst de querys nog is voor bezien
+
+
 

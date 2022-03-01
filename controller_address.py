@@ -85,3 +85,23 @@ class AddressObject:
             return address
         else:
             raise ValueError("can't find the id you are searching")
+
+    def get_address_by_street(self,search):
+        address_list = self.session.query(Address).filter(Address._street.like(search)).all()
+        return address_list
+
+    def get_address_by_number(self,search):
+        address_list = self.session.query(Address).filter(Address._number.like(search)).all()
+        return address_list
+
+    def get_address_by_city(self,search):
+        address_list = self.session.query(Address).filter(Address._city.like(search)).all()
+        return address_list
+
+    def get_address_by_postcode(self,search):
+        address_list = self.session.query(Address).filter(Address._postcode.like(search)).all()
+        return address_list
+
+    def get_address_by_country(self,search):
+        address_list = self.session.query(Address).filter(Address._country.like(search)).all()
+        return address_list
