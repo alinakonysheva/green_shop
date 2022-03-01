@@ -1,18 +1,9 @@
-# _firstname = Column('FIRST_NAME', String())
-#     _lastname = Column('LAST_NAME', String())
-#     _email = Column('EMAIL', String())
-#     password = Column('PASSWORD', String())
-#     status = Column('STATUS', Integer, default=0)
-#     wishlist = Column('WISHLIST', Integer)
-#     address = relationship('Address', back_populates="user")
-
 from abc import abstractmethod
 from unittest import TestCase
 from sqlalchemy import create_engine
 from database import create_database
 from sqlalchemy.orm import sessionmaker
 from user import User
-from constants import categories
 
 C_LAST_NAME = 'Yalom'
 C_LAST_NAME_2 = 'Yalom2'
