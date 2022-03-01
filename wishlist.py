@@ -9,6 +9,7 @@ class Wishlist(BaseObj):
     __tablename__ = "T_WISHLIST"
 
     id_user = Column('F_USER_ID', ForeignKey(User.id))
+    user = relationship(User, foreign_keys='Wishlist.id_user', back_populates="wishlist")
 
     @declared_attr
     def books(cls):

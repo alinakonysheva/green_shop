@@ -1,13 +1,26 @@
-from abc import abstractmethod
+"""from abc import abstractmethod
 from unittest import TestCase
 from sqlalchemy import create_engine
 from database import create_database
 from sqlalchemy.orm import sessionmaker
-from wishlist import Wishlist
+from address import Address
 from user import User
-from controller_wishlist import ControllerWishlist
-from e_book import EBook
+from controller_address import ControllerAddress
 
+C_STREET = 'Baker Street'
+C_NUMBER = '221B'
+C_CITY = 'London'
+C_COUNTRY = 'Great Britain'
+C_POSTCODE = 'NW1 6XE'
+
+C_LAST_NAME = 'Yalom'
+C_LAST_NAME_2 = 'Yalom2'
+C_FIRST_NAME = 'Irvin'
+C_FIRST_NAME_2 = 'Irvin2'
+C_EMAIL = 'irvinYalom@gmail.com'
+C_EMAIL_2 = 'irvYalom@gmail.com'
+C_STATUS = 1
+C_STATUS_2 = 0
 
 class BaseDbTest(TestCase):
     engine = create_engine('sqlite://')
@@ -22,21 +35,27 @@ class BaseDbTest(TestCase):
         pass
 
 
-class ControllerWishlistTests(BaseDbTest):
+class ControllerAddressTests(BaseDbTest):
     def do_setup(self):
-        wishlist = Wishlist()
+        address = Address()
+        address.street = C_STREET
+        address.number = C_NUMBER
+        address.city = C_CITY
+        address.country = C_COUNTRY
+        address.postcode = C_POSTCODE
         user_1 = User()
-        wishlist.id_user = user_1.id
-        eb = EBook()
-        self.session.add(eb)
-        self.session.commit()
+        user_1.firstname = C_FIRST_NAME
+        user_1.lastname = C_LAST_NAME
+        user_1.email = C_EMAIL
+        user_1.status = C_STATUS
+        address.user_id = user_1.id
+        self.session.add(address)
+        self.session.add(address)
+        self.session.commit(user_1)
 
-        self.controller = ControllerWishlist(self.session)
-        self.session.add(wishlist)
-        self.session.commit()
-        self.wishlist = wishlist
+        self.controller = ControllerAddress(self.session)
+        self.address = address
         self.user = user_1
-        self.book = eb
 
     def test_get_wishlist(self):
         id_wishlist = self.wishlist.id
@@ -58,7 +77,7 @@ class ControllerWishlistTests(BaseDbTest):
         self.assertEqual(wl.id_user, id_user_3)
 
     def test_remove_wishlist(self):
-        # TODO: with real users, check of user is real
+        # TODO: with real users
         # user_3 = User()
         # id_user_3 = user_3.id
         id_user_3 = 3
@@ -68,10 +87,8 @@ class ControllerWishlistTests(BaseDbTest):
             self.controller.get_wishlist_by_id(id_new_wishlist)
 
     def test_get_wishlist_by_user(self):
-        id_user_123 = 123
-        id_new_wishlist = self.controller.add_wishlist(id_user_123)
-        wl = self.controller.get_wishlist_by_user(id_user_123)
-        self.assertEqual(wl.id, id_new_wishlist)
+        wl = self.controller.get_wishlist_by_user(self.user.id)
+        self.assertEqual(wl.id, self.wishlist.id)
 
     def test_is_wishlist_by_user(self):
         self.assertTrue(self.controller.get_wishlist_by_user(self.user.id))
@@ -91,3 +108,4 @@ class ControllerWishlistTests(BaseDbTest):
         id_books = self.controller.get_all_book_ids_by_wishlist(self.wishlist.id)
         self.assertTrue(type(id_books) == list)
         self.assertIn(self.book.id, id_books)
+"""
