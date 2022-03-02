@@ -1,4 +1,5 @@
 from user import  User
+from address import Address
 
 class ControllerUser:
     def __init__(self, session):
@@ -118,8 +119,17 @@ class ControllerUser:
         user_list = self.session.query(User).filter(User._email.like(search)).all()
         return user_list
     def get_user_by_street(self,search):
-        pass
-        #kga hier eerst de querys nog is voor bezien
+        user_list = self.session.query(User).join(Address).filter(Address.street.like(search)).all()
+        return user_list
+
+    def get_user_by_city(self,search):
+        user_list = self.session.query(User).join(Address).filter(Address.city.like(search)).all()
+        return user_list
+    def get_user_by_postcode(self,search):
+        user_list = self.session.query(User).join(Address).filter(Address.postcode.like(search)).all()
+        return user_list
+
+
 
 
 
