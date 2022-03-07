@@ -1,22 +1,21 @@
 from sqlalchemy.ext.hybrid import hybrid_property
-from database import BaseObj
-from sqlalchemy import Column, String, Integer, Float, Text, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
-from address import Address
+from database import BaseObj
+from sqlalchemy import Column, String, Integer
+from constants import status_role
 
 
 class User(BaseObj):
+
     __tablename__ = "T_USER"
-    id = Column('USER_ID', Integer, primary_key=True)
     _firstname = Column('FIRST_NAME', String())
     _lastname = Column('LAST_NAME', String())
     _email = Column('EMAIL', String())
     password = Column('PASSWORD', String())
-    status = Column('STATUS', Integer, default=0)
-    wishlist = Column('WISHLIST', Integer)
-    address_id = Column('ADDRESS_ID', ForeignKey(Address.addressid), index=True)
-    address = relationship(Address, Foreign_keys='User.addresid', back_populates="user")
-
+    # status can be admin or user, has to be [] or set()
+    _status = Column('STATUS', Integer, default=0)
+    wishlist = relationship('Wishlist', back_populates="user")
+    address = relationship('Address', back_populates="user")
 
     @hybrid_property
     def firstname(self):
@@ -25,9 +24,9 @@ class User(BaseObj):
     @firstname.setter
     def firstname(self, value):
         v = value.strip()
-        special_characters = '!@ # $%^&*()-+?_=,<">/'
+        special_characters = '!@#$%^&*()-+?_=,<">/'
         for char in v:
-            if v in special_characters:
+            if char in special_characters:
                 raise ValueError('a name cannot contain special characters')
         self._firstname = value
 
@@ -38,24 +37,24 @@ class User(BaseObj):
     @lastname.setter
     def lastname(self, value):
         v = value.strip()
-        special_characters = '!@ # $%^&*()-+?_=,<">/'
+        special_characters = '!@#$%^&*()-+?_=,<">/'
         for char in v:
-            if v in special_characters:
+            if char in special_characters:
                 raise ValueError('a name cannot contain special characters')
         self._lastname = value
 
     @hybrid_property
     def email(self):
-        return str(self._email).capitalize()
+        return str(self._email)
 
     @email.setter
     def email(self, value):
         v = value.strip()
         valid = False
         for char in v:
-            if v == '@':
+            if char == '@':
                 valid = True
-        if valid == True:
+        if valid:
             self._email = value
         else:
             raise ValueError('no valid email')
@@ -66,10 +65,10 @@ class User(BaseObj):
 
     @status.setter
     def status(self, value):
-        if value == 0 or value == 1:
+        if value in status_role.keys():
             self._status = value
         else:
-            raise ValueError('no valid admin status')
+            raise ValueError('no valid status')
 
     @property
     def __str__(self) -> str:
