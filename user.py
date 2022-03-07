@@ -12,7 +12,7 @@ class User(BaseObj):
     _lastname = Column('LAST_NAME', String())
     _email = Column('EMAIL', String())
     password = Column('PASSWORD', String())
-    # status can be admin or user, has to be [] or set()
+    # status can be admin or/and user, has to be [] or set()
     _status = Column('STATUS', Integer, default=0)
     wishlist = relationship('Wishlist', back_populates="user")
     address = relationship('Address', back_populates="user")

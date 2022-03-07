@@ -55,9 +55,14 @@ C_INCORRECT_PUBLISHER = str([1 for i in range(70)])
 C_SIZE = 56.0
 C_SIZE_2 = 58.0
 
+DB_HOST = "127.0.0.1"
+DB_PASS = "Sandal11"
+DB_USER = "root"
+DB_PORT = "3306"
+DB_NAME = "user"
 
 class BaseDbTest(TestCase):
-    engine = create_engine('sqlite://')
+    engine = create_engine(f'mysql+mysqlconnector://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}')
     session = sessionmaker(bind=engine)()
 
     def setUp(self):

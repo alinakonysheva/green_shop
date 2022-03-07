@@ -16,3 +16,4 @@ class Wishlist(BaseObj):
         return relationship('WishlistBook', back_populates='wishlist')
 
     # books = relationship('WishlistBook', back_populates='wishlist'
+
