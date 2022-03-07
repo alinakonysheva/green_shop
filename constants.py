@@ -748,3 +748,5 @@ languages = {
 
 covers = {1: "soft", 2: "hard"}
 
+status_role = {1: "user", 2: "admin"}
+

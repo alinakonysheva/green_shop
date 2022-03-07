@@ -1,5 +1,5 @@
 from sqlalchemy import Column, ForeignKey
-from sqlalchemy.orm import relationship, declared_attr
+from sqlalchemy.orm import relationship
 from database import BaseObj
 from book import Book
 from wishlist import Wishlist

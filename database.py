@@ -32,6 +32,7 @@ def create_database(engine_, do_erase=False):
     from wishlistbook import WishlistBook
     from user import User
     from book import Book
+    from address import Address
 
     """
     create the database
@@ -47,6 +48,7 @@ def create_database(engine_, do_erase=False):
         WishlistBook.__table__.drop(bind=engine_)
         User.__table__.drop(bind=engine_)
         Book.__table__.drop(bind=engine_)
+        Address.__table__.drop(bind=engine_)
 
         # Base.metadata.drop_all(bind=engine, tables=[ObjectName.__table__])
 
