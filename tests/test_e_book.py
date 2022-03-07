@@ -62,7 +62,7 @@ DB_PORT = "3306"
 DB_NAME = "user"
 
 class BaseDbTest(TestCase):
-    engine = create_engine(f'mysql+mysqlconnector://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}')
+    engine = create_engine('sqlite://')
     session = sessionmaker(bind=engine)()
 
     def setUp(self):
