@@ -6,7 +6,6 @@ from constants import status_role
 
 
 class User(BaseObj):
-
     __tablename__ = "T_USER"
     _firstname = Column('FIRST_NAME', String())
     _lastname = Column('LAST_NAME', String())

@@ -9,8 +9,8 @@ class Address(BaseObj):
     __tablename__ = "T_ADDRESS"
     _street = Column('STREET', String(88))
     _number = Column('NUMBER', String(10))
-    _city = Column('CITY', String(200))
-    _country = Column('C0UNTRY', String(30))
+    _city = Column('CITY', String(88))
+    _country = Column('C0UNTRY', String(56))
     _postcode = Column('POSTCODE', String(30))
     user_id = Column('F_USER_ID', ForeignKey(User.id), index=True)
     user = relationship(User, foreign_keys='Address.user_id', back_populates="address")
