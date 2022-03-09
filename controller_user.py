@@ -25,10 +25,10 @@ class ControllerUser:
         else:
             raise ValueError("this is not a valid email")
 
-        if type(address) == str:
+        if type(address) == int:
             user.address = address
         else:
-            raise ValueError("this is not a valid last address")
+            raise ValueError("this is not a valid address")
 
         if status == 1 and status == 2:
             user.status = status
@@ -102,9 +102,8 @@ class ControllerUser:
 
     def get_all_user_ids(self):
         users = self.session.query(User).all()
-        ids = []
-        for u in users:
-            ids.append(u.id)
+        ids = list(map(lambda x:x.id,users))
+        return ids
 
     def does_user_excist(self, id):
         if self.session.query(User).get(id):

@@ -49,13 +49,15 @@ class ControllerAddress:
 
                 if type(number) == str and 0 < len(number) < 10:
                     numbers = "0123456789"
-                    if number in numbers:
-                        address.number = number
+                    n= numbers.split()
+                    for v in n:
+                        if v in numbers:
+                            address.number = number
                 else:
                     raise ValueError("not a valid street number")
 
                 if type(postcode) == str:
-                    address.number = number
+                    address.postcode = postcode
                 else:
                     raise ValueError("not a valid street number")
 

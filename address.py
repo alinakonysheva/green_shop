@@ -12,12 +12,12 @@ class Address(BaseObj):
     _city = Column('CITY', String(88))
     _country = Column('C0UNTRY', String(56))
     _postcode = Column('POSTCODE', String(30))
-    user_id = Column('F_USER_ID', ForeignKey(User.id), index=True)
-    user = relationship(User, foreign_keys='Address.user_id', back_populates="address")
-
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('User.id'))
+    user = relationship('User')
     @hybrid_property
     def street(self):
-        return self._street.capitalize()
+        return self._street
 
     @street.setter
     def street(self, value):
@@ -25,7 +25,7 @@ class Address(BaseObj):
 
     @hybrid_property
     def number(self):
-        return self._number.capitalize()
+        return self._number
 
     @number.setter
     def number(self, value):
@@ -38,7 +38,7 @@ class Address(BaseObj):
 
     @hybrid_property
     def city(self):
-        return self._city.capitalize()
+        return self._city
 
     @city.setter
     def city(self, value):
@@ -46,7 +46,7 @@ class Address(BaseObj):
 
     @hybrid_property
     def country(self):
-        return self._country.capitalize()
+        return self._country
 
     @country.setter
     def country(self, value):
