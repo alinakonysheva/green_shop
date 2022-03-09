@@ -1,4 +1,5 @@
 from address import Address
+from user import  User
 
 
 class ControllerAddress:
@@ -105,4 +106,12 @@ class ControllerAddress:
 
     def get_address_by_country(self, search):
         address_list = self.session.query(Address).filter(Address._country.like(search)).all()
+        return address_list
+
+    def get_address_by_user_firstname(self,search):
+        address_list = self.session.query(Address).join(User).filter(User._firstname.like(search)).all()
+        return address_list
+
+    def get_address_by_user_lastname(self,search):
+        address_list = self.session.query(Address).join(User).filter(User._lastname.like(search)).all()
         return address_list

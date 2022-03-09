@@ -20,7 +20,7 @@ class ControllerUser:
         else:
             raise ValueError("this is not a valid last name")
 
-        if type(email) == str and '@' in email:
+        if type(email) == str and '@' in email and "." in email:
             user.email = email
         else:
             raise ValueError("this is not a valid email")
@@ -30,7 +30,7 @@ class ControllerUser:
         else:
             raise ValueError("this is not a valid last address")
 
-        if status == 0 and status == 1:
+        if status == 1 and status == 2:
             user.status = status
         else:
             raise ValueError("this is not a valid status")
@@ -135,3 +135,4 @@ class ControllerUser:
     def get_user_by_postcode(self, search):
         user_list = self.session.query(User).join(Address).filter(Address.postcode.like(search)).all()
         return user_list
+

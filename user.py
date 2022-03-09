@@ -7,12 +7,12 @@ from constants import status_role
 
 class User(BaseObj):
     __tablename__ = "T_USER"
-    _firstname = Column('FIRST_NAME', String())
-    _lastname = Column('LAST_NAME', String())
+    _firstname = Column('FIRST_NAME', String(50))
+    _lastname = Column('LAST_NAME', String(50))
     _email = Column('EMAIL', String())
     password = Column('PASSWORD', String())
     # status can be admin or/and user, has to be [] or set()
-    _status = Column('STATUS', Integer, default=0)
+    _status = Column('STATUS', Integer, default=1)
     wishlist = relationship('Wishlist', back_populates="user")
     address = relationship('Address', back_populates="user")
 
