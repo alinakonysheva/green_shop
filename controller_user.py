@@ -1,5 +1,6 @@
 from user import User
 from address import Address
+from wishlist import Wishlist
 
 
 class ControllerUser:
@@ -25,17 +26,17 @@ class ControllerUser:
         else:
             raise ValueError("this is not a valid email")
 
-        if type(address) == int:
+        if type(address) == Address:
             user.address = address
         else:
             raise ValueError("this is not a valid address")
 
-        if status == 1 and status == 2:
+        if status == 1 or status == 2 or status == None:
             user.status = status
         else:
             raise ValueError("this is not a valid status")
 
-        if type(wishlist) == int:
+        if type(wishlist) == Wishlist:
             user.wishlist = wishlist
         else:
             raise ValueError("this is not a valid wishlist")
@@ -58,22 +59,22 @@ class ControllerUser:
                 else:
                     raise ValueError("this is not a valid last name")
 
-                if type(email) == str and '@' in email:
+                if type(email) == str and '@' in email and "." in email:
                     user.email = email
                 else:
                     raise ValueError("this is not a valid email")
 
-                if type(address) == int:
+                if type(address) == Address:
                     user.address = address
                 else:
-                    raise ValueError("this is not a valid last address")
+                    raise ValueError("this is not a valid address")
 
-                if status == 1 and status == 2:
+                if status == 1 or status == 2 or status == None:
                     user.status = status
                 else:
                     raise ValueError("this is not a valid status")
 
-                if type(wishlist) == int:
+                if type(wishlist) == Wishlist:
                     user.wishlist = wishlist
                 else:
                     raise ValueError("this is not a valid wishlist")

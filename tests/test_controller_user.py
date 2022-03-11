@@ -4,17 +4,16 @@ from sqlalchemy import create_engine
 from database import create_database
 from sqlalchemy.orm import sessionmaker
 from user import User
+from wishlist import Wishlist
 from controller_user import ControllerUser
 from address import Address
+
 
 
 C_F_NAME = "Vladimir"
 C_L_NAME = "Poetin"
 C_EMAIL =  "Ukraïn@russia.now"
 C_STATUS = 1
-C_ADDRESS = 1
-C_WISHLIST =1
-C_USER_ID =1
 
 C_ADDRESS_STREET ="Tiranstreet"
 C_ADDRESS_NUMBER = "65b"
@@ -24,10 +23,9 @@ C_ADDRESS_POSTCODE ="2020"
 
 C_F_NAME_2= "Joe"
 C_L_NAME_2="Biden"
-C_ADDRESS_2 =2
-C_WISHLIST_2 =2
 C_EMAIL_2 = "living@whitehouse.lit"
 C_STATUS=1
+
 
 
 
@@ -45,18 +43,49 @@ class BaseDbTest(TestCase):
 
 class UserControllerTest(BaseDbTest):
     def do_setup(self):
+        wishlist = Wishlist()
+        wishlist.id =1
+
+        adres2 = Address()
+        adres2.id = 2
+        adres2.street = C_ADDRESS_STREET
+        adres2.number = C_ADDRESS_NUMBER
+        adres2.postcode = C_ADDRESS_POSTCODE
+        adres2.country = C_ADDRESS_COUNTRY
+
+        wishlist2 = Wishlist()
+        wishlist2.id = 2
+
+        adres = Address()
+        adres.id = 1
+        adres.street =C_ADDRESS_STREET
+        adres.number =C_ADDRESS_NUMBER
+        adres.postcode=C_ADDRESS_POSTCODE
+        adres.country = C_ADDRESS_COUNTRY
+        adres.city=C_ADDRESS_CITY
+
+
+        user2 = User()
+        user2.address=adres2
+        user2.wishlist=wishlist2
+
         user =User()
         user._email = C_EMAIL
         user._lastname = C_L_NAME
         user._firstname = C_F_NAME
-        user.address=C_ADDRESS
+        user.address=adres
+        user.wishlist =wishlist
         self.controller =ControllerUser(self.session)
         self.session.add(user)
         self.session.commit()
         self.u= user
+        self.a = adres
+        self.a2 =adres2
+        self.w2 =wishlist2
+        self.w = wishlist
+        self.u2 =user2
 
-        address =Address()
-        address.id=1
+
 
     def test_controller_get(self):
         id = self.u.id
@@ -65,41 +94,49 @@ class UserControllerTest(BaseDbTest):
         self.assertEqual(user._lastname,C_L_NAME)
         self.assertEqual(user._email,C_EMAIL)
         self.assertEqual(user._status,C_STATUS)
-        #self.assertEqual(user.address,C_ADDRESS)
-        #self.assertEqual(user.wishlist,C_WISHLIST)
+        self.assertEqual(user.address.id,self.a.id)
+        self.assertEqual(user.wishlist.id,self.w.id)
 
     def test_controller_add_user_happy_path(self):
-        id2 = self.controller.add_user(C_F_NAME_2,C_L_NAME_2,C_EMAIL_2,C_ADDRESS_2,None,C_WISHLIST_2)
+
+        id2 = self.controller.add_user(C_F_NAME_2,C_L_NAME_2,C_EMAIL_2,self.a2,None,self.w2)
         user2= self.controller.get_user(id2)
+
 
         self.assertEqual(user2._firstname,C_F_NAME_2)
         self.assertEqual(user2._lastname,C_L_NAME_2)
         self.assertEqual(user2._email,C_EMAIL_2)
         self.assertEqual(user2._status,C_STATUS)
-        self.assertEqual(user2.address,C_ADDRESS_2)
-        self.assertEqual(user2.wishlist,C_WISHLIST_2)
+        self.assertEqual(user2.address.id,self.u2.address.id)
+        self.assertEqual(user2.wishlist.id,self.u2.wishlist.id)
 
     def test_changes_controller(self):
-        id = self.u.id
-        self.controller.change_user(id,C_F_NAME_2,C_L_NAME_2,C_EMAIL_2,C_ADDRESS_2,None,C_WISHLIST_2)
 
+        id = self.u.id
+        self.controller.change_user(id,C_F_NAME_2,C_L_NAME_2,C_EMAIL_2,self.a2,None,self.w2)
         user2 = self.controller.get_user(id)
 
         self.assertEqual(user2._firstname, C_F_NAME_2)
         self.assertEqual(user2._lastname, C_L_NAME_2)
         self.assertEqual(user2._email, C_EMAIL_2)
         self.assertEqual(user2._status, C_STATUS)
-        self.assertEqual(user2.address, C_ADDRESS_2)
-        self.assertEqual(user2.wishlist, C_WISHLIST_2)
+        self.assertEqual(user2.address, self.u2.address)
+        self.assertEqual(user2.wishlist.id, self.u2.wishlist.id)
 
     def test_get_all_users_ids(self):
         id = self.u.id
-        id2 = self.controller.add_user(C_F_NAME_2, C_L_NAME_2, C_EMAIL_2, C_ADDRESS_2, None, C_WISHLIST_2)
+        id2 = self.controller.add_user(C_F_NAME_2, C_L_NAME_2, C_EMAIL_2, self, None, C_WISHLIST_2)
         self.assertIn(id,self.controller.get_all_user_ids())
         self.assertIn(id2,self.controller.get_all_user_ids())
         self.assertNotIn(0,self.controller.get_all_user_ids())
 
     def test_does_id_excist(self):
+        adres2 = Address()
+        adres2.id = 2
+        wishlist2 = Wishlist()
+        wishlist2.id = 2
+        C_WISHLIST_2 = wishlist2
+        C_ADDRESS_2 = adres2
         id = self.u.id
         id2 = self.controller.add_user(C_F_NAME_2, C_L_NAME_2, C_EMAIL_2, C_ADDRESS_2, None, C_WISHLIST_2)
         self.assertTrue(self.controller.does_user_excist(id))

@@ -12,9 +12,10 @@ class Address(BaseObj):
     _city = Column('CITY', String(88))
     _country = Column('C0UNTRY', String(56))
     _postcode = Column('POSTCODE', String(30))
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('User.id'))
-    user = relationship('User')
+    user_id = Column('F_USER_ID', ForeignKey(User.id), index=True)
+    user = relationship('User', foreign_keys='Address.user_id', back_populates="address")
+
+
     @hybrid_property
     def street(self):
         return self._street

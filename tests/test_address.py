@@ -41,8 +41,8 @@ class AddressTests(BaseDbTest):
         self.session.commit()
 
         address_from_query = self.session.query(Address).get(1)
-        self.assertEqual(address_from_query.street, C_STREET.capitalize())
-        self.assertEqual(address_from_query.number, C_NUMBER.capitalize())
-        self.assertEqual(address_from_query.city, C_CITY.capitalize())
-        self.assertEqual(address_from_query.country, C_COUNTRY.capitalize())
+        self.assertEqual(address_from_query.street, C_STREET)
+        self.assertEqual(address_from_query.number, C_NUMBER)
+        self.assertEqual(address_from_query.city, C_CITY)
+        self.assertEqual(address_from_query.country, C_COUNTRY)
         self.assertEqual(address_from_query.postcode, C_POSTCODE)

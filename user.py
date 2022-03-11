@@ -7,29 +7,18 @@ from constants import status_role
 
 class User(BaseObj):
     __tablename__ = "T_USER"
-
     _firstname = Column('FIRST_NAME', String(50))
     _lastname = Column('LAST_NAME', String(50))
     _email = Column('EMAIL', String())
     password = Column('PASSWORD', String())
     # status can be admin or/and user, has to be [] or set()
     _status = Column('STATUS', Integer, default=1)
-    wishlist = relationship('Wishlist')
-    id = Column(Integer, primary_key=True)
-    address = relationship('Address',backref="user",uselist = False)
-
-    @property
-    def id(self):
-        return self.id
-
-    @id.setter
-    def id(self,value):
-        self.id = value
+    wishlist = relationship('Wishlist', back_populates="user", uselist=False)
+    address = relationship('Address', back_populates="user", uselist=False)
 
     @hybrid_property
     def firstname(self):
         return str(self._firstname).capitalize()
-
 
     @firstname.setter
     def firstname(self, value):
@@ -77,6 +66,8 @@ class User(BaseObj):
     def status(self, value):
         if value in status_role.keys():
             self._status = value
+        elif value == None:
+            self._status = 1
         else:
             raise ValueError('no valid status')
 

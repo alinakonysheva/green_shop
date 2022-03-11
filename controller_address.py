@@ -111,8 +111,13 @@ class ControllerAddress:
         return address_list
 
     def get_address_by_user_firstname(self,search):
-        address_list = self.session.query(Address).join(User).filter(User._firstname.like(search)).all()
+        users = self.session.query(User).filter(User._firstname.like(search)).all()
+        address_list = []
+        for user in users:
+            address_list.append(user.address)
         return address_list
+
+
 
     def get_address_by_user_lastname(self,search):
         address_list = self.session.query(Address).join(User).filter(User._lastname.like(search)).all()

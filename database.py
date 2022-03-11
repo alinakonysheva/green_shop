@@ -1,5 +1,5 @@
 from config import DB_HOST, DB_PASSWORD, DB_USER_NAME, DB_PORT, DB_NAME
-from sqlalchemy import Column, Integer
+from sqlalchemy import Column, Integer,Table,MetaData,String
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -53,4 +53,5 @@ def create_database(engine_, do_erase=False):
         # Base.metadata.drop_all(bind=engine, tables=[ObjectName.__table__])
 
     # create tables
+
     Base.metadata.create_all(engine_)

@@ -110,10 +110,10 @@ class ControllerAddressTests(BaseDbTest):
 
     def test_get_address_by_user_firstname(self):
         addresses = self.controller.get_address_by_user_firstname(C_FIRST_NAME)
-        names = list(map(lambda x: x.User._firstname, addresses))
+        names = list(map(lambda x: x.user._firstname, addresses))
         self.assertIn(C_FIRST_NAME, names)
 
     def test_get_address_by_user_lastname(self):
         addresses = self.controller.get_address_by_user_lastname(C_LAST_NAME)
-        names = list(map(lambda x: x.User._lastname, addresses))
+        names = list(map(lambda x: x.user._lastname, addresses))
         self.assertIn(C_LAST_NAME, names)
