@@ -10,16 +10,22 @@ from address import Address
 
 
 
-C_F_NAME = "Vladimir"
-C_L_NAME = "Poetin"
-C_EMAIL =  "Ukraïn@russia.now"
+C_F_NAME = "kurt"
+C_L_NAME = "rogiers"
+C_EMAIL =  "tevinden@vtm.altijd"
 C_STATUS = 1
 
-C_ADDRESS_STREET ="Tiranstreet"
-C_ADDRESS_NUMBER = "65b"
-C_ADDRESS_CITY ="Moskou"
-C_ADDRESS_COUNTRY ="The great Russia"
-C_ADDRESS_POSTCODE ="2020"
+C_ADDRESS_STREET ="VTMstraat"
+C_ADDRESS_NUMBER = "3"
+C_ADDRESS_CITY ="Brussel"
+C_ADDRESS_COUNTRY ="Belgie"
+C_ADDRESS_POSTCODE ="4000"
+
+C_ADDRESS_STREET_2="doesntmatter"
+C_ADDRESS_NUMBER_2 = "NoIdea"
+C_ADDRESS_CITY_2 ="stupidcity"
+C_ADDRESS_COUNTRY_2 ="also doesnt matter"
+C_ADDRESS_POSTCODE_2 ="az3 o3"
 
 C_F_NAME_2= "Joe"
 C_L_NAME_2="Biden"
@@ -48,10 +54,11 @@ class UserControllerTest(BaseDbTest):
 
         adres2 = Address()
         adres2.id = 2
-        adres2.street = C_ADDRESS_STREET
-        adres2.number = C_ADDRESS_NUMBER
-        adres2.postcode = C_ADDRESS_POSTCODE
-        adres2.country = C_ADDRESS_COUNTRY
+        adres2.street = C_ADDRESS_STREET_2
+        adres2.number = C_ADDRESS_NUMBER_2
+        adres2.postcode = C_ADDRESS_POSTCODE_2
+        adres2.country = C_ADDRESS_COUNTRY_2
+
 
         wishlist2 = Wishlist()
         wishlist2.id = 2
@@ -63,7 +70,6 @@ class UserControllerTest(BaseDbTest):
         adres.postcode=C_ADDRESS_POSTCODE
         adres.country = C_ADDRESS_COUNTRY
         adres.city=C_ADDRESS_CITY
-
 
         user2 = User()
         user2.address=adres2
@@ -77,6 +83,10 @@ class UserControllerTest(BaseDbTest):
         user.wishlist =wishlist
         self.controller =ControllerUser(self.session)
         self.session.add(user)
+        self.session.add(adres)
+        self.session.add(adres2)
+        self.session.add(wishlist)
+        self.session.add(wishlist2)
         self.session.commit()
         self.u= user
         self.a = adres
@@ -111,34 +121,28 @@ class UserControllerTest(BaseDbTest):
         self.assertEqual(user2.wishlist.id,self.u2.wishlist.id)
 
     def test_changes_controller(self):
-
         id = self.u.id
         self.controller.change_user(id,C_F_NAME_2,C_L_NAME_2,C_EMAIL_2,self.a2,None,self.w2)
-        user2 = self.controller.get_user(id)
+        user = self.controller.get_user(id)
 
-        self.assertEqual(user2._firstname, C_F_NAME_2)
-        self.assertEqual(user2._lastname, C_L_NAME_2)
-        self.assertEqual(user2._email, C_EMAIL_2)
-        self.assertEqual(user2._status, C_STATUS)
-        self.assertEqual(user2.address, self.u2.address)
-        self.assertEqual(user2.wishlist.id, self.u2.wishlist.id)
+        self.assertEqual(user._firstname, C_F_NAME_2)
+        self.assertEqual(user._lastname, C_L_NAME_2)
+        self.assertEqual(user._email, C_EMAIL_2)
+        self.assertEqual(user._status, C_STATUS)
+        self.assertEqual(user.address.id, self.u2.address.id)
+        self.assertEqual(user.wishlist.id, self.u2.wishlist.id)
 
     def test_get_all_users_ids(self):
         id = self.u.id
-        id2 = self.controller.add_user(C_F_NAME_2, C_L_NAME_2, C_EMAIL_2, self, None, C_WISHLIST_2)
+        id2 = self.controller.add_user(C_F_NAME_2, C_L_NAME_2, C_EMAIL_2, self.a2, None, self.w2)
         self.assertIn(id,self.controller.get_all_user_ids())
         self.assertIn(id2,self.controller.get_all_user_ids())
         self.assertNotIn(0,self.controller.get_all_user_ids())
 
     def test_does_id_excist(self):
-        adres2 = Address()
-        adres2.id = 2
-        wishlist2 = Wishlist()
-        wishlist2.id = 2
-        C_WISHLIST_2 = wishlist2
-        C_ADDRESS_2 = adres2
+
         id = self.u.id
-        id2 = self.controller.add_user(C_F_NAME_2, C_L_NAME_2, C_EMAIL_2, C_ADDRESS_2, None, C_WISHLIST_2)
+        id2 = self.controller.add_user(C_F_NAME_2, C_L_NAME_2, C_EMAIL_2, self.a2, None, self.w2)
         self.assertTrue(self.controller.does_user_excist(id))
         self.assertTrue(self.controller.does_user_excist(id2))
         self.assertFalse(self.controller.does_user_excist(0))
@@ -160,17 +164,17 @@ class UserControllerTest(BaseDbTest):
 
     def test_get_user_by_street(self):
         users = self.controller.get_user_by_street(C_ADDRESS_STREET)
-        streets = list(map(lambda x: x.Address._street,users))
+        streets = list(map(lambda x: x.address._street,users))
         self.assertIn(C_ADDRESS_STREET,streets)
 
     def test_get_user_by_city(self):
         users = self.controller.get_user_by_city(C_ADDRESS_CITY)
-        citys = list(map(lambda x: x.Address._city,users))
+        citys = list(map(lambda x: x.address._city,users))
         self.assertIn(C_ADDRESS_CITY,citys)
 
     def test_get_user_by_postcode(self):
         users = self.controller.get_user_by_postcode(C_ADDRESS_POSTCODE)
-        postcodes = list(map(lambda x: x.Address._postcode,users))
+        postcodes = list(map(lambda x: x.address._postcode,users))
         self.assertIn(C_ADDRESS_POSTCODE,postcodes)
 
 

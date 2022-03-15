@@ -64,7 +64,7 @@ class ControllerUser:
                 else:
                     raise ValueError("this is not a valid email")
 
-                if type(address) == Address:
+                if isinstance(address,Address):
                     user.address = address
                 else:
                     raise ValueError("this is not a valid address")
