@@ -70,20 +70,7 @@ class User(BaseObj):
             self._status = 1
         else:
             raise ValueError('no valid status')
-    @property
-    def address(self):
-        return self.address
-    @address.setter
-    def address(self,value):
-        self.address = value
 
-    @property
-    def wishlist(self):
-        return self.wishlist
-
-    @wishlist.setter
-    def wishlist(self,value):
-        self.wishlist = value
 
     @property
     def __str__(self) -> str:
