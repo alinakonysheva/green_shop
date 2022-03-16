@@ -64,7 +64,7 @@ class ControllerUser:
                 else:
                     raise ValueError("this is not a valid email")
 
-                if isinstance(address,Address()):
+                if type(address) == Address:
                     user.address = address
                 else:
                     raise ValueError("this is not a valid address")
@@ -74,7 +74,7 @@ class ControllerUser:
                 else:
                     raise ValueError("this is not a valid status")
 
-                if type(wishlist) == Wishlist():
+                if type(wishlist) == Wishlist:
                     user.wishlist = wishlist
                 else:
                     raise ValueError("this is not a valid wishlist")

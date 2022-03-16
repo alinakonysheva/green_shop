@@ -50,14 +50,10 @@ class BaseDbTest(TestCase):
 class UserControllerTest(BaseDbTest):
     def do_setup(self):
         wishlist = Wishlist()
-        wishlist.id =1
-
 
         wishlist2 = Wishlist()
-        wishlist2.id = 2
 
         adres = Address()
-        adres.id = 1
         adres.street =C_ADDRESS_STREET
         adres.number =C_ADDRESS_NUMBER
         adres.postcode=C_ADDRESS_POSTCODE
@@ -65,7 +61,6 @@ class UserControllerTest(BaseDbTest):
         adres.city=C_ADDRESS_CITY
 
         adres2 = Address()
-        adres2.id = 2
         adres2.street = C_ADDRESS_STREET_2
         adres2.number = C_ADDRESS_NUMBER_2
         adres2.postcode = C_ADDRESS_POSTCODE_2
@@ -86,6 +81,7 @@ class UserControllerTest(BaseDbTest):
 
         self.controller =ControllerUser(self.session)
         self.session.add(user)
+        self.session.add(user2)
         self.session.add(adres)
         self.session.add(adres2)
         self.session.add(wishlist)
@@ -100,6 +96,8 @@ class UserControllerTest(BaseDbTest):
 
 
 
+
+
     def test_controller_get(self):
         id = self.u.id
         user = self.controller.get_user(id)
@@ -109,6 +107,7 @@ class UserControllerTest(BaseDbTest):
         self.assertEqual(user._status,C_STATUS)
         self.assertEqual(user.address.id,self.a.id)
         self.assertEqual(user.wishlist.id,self.w.id)
+
 
     def test_controller_add_user_happy_path(self):
 
@@ -120,20 +119,21 @@ class UserControllerTest(BaseDbTest):
         self.assertEqual(user2._lastname,C_L_NAME_2)
         self.assertEqual(user2._email,C_EMAIL_2)
         self.assertEqual(user2._status,C_STATUS)
-        self.assertEqual(user2.address.id,self.u2.address.id)
-        self.assertEqual(user2.wishlist.id,self.u2.wishlist.id)
+        self.assertEqual(user2.address,self.a2)
+        self.assertEqual(user2.wishlist,self.w2)
 
     def test_changes_controller(self):
         id = self.u.id
         self.controller.change_user(id,C_F_NAME_2,C_L_NAME_2,C_EMAIL_2,self.a2,None,self.w2)
         user2 = self.controller.get_user(id)
 
+
         self.assertEqual(user2._firstname, C_F_NAME_2)
         self.assertEqual(user2._lastname, C_L_NAME_2)
         self.assertEqual(user2._email, C_EMAIL_2)
         self.assertEqual(user2._status, C_STATUS)
-        self.assertEqual(user2.address.id, self.u2.address.id)
-        self.assertEqual(user2.wishlist.id, self.u2.wishlist.id)
+        self.assertEqual(user2.address, self.a2)
+        self.assertEqual(user2.wishlist, self.w2)
 
     def test_get_all_users_ids(self):
         id = self.u.id

@@ -71,7 +71,6 @@ class User(BaseObj):
         else:
             raise ValueError('no valid status')
 
-
     @property
     def __str__(self) -> str:
         return f'{self._firstname} {self._lastname}'
