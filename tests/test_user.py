@@ -74,7 +74,7 @@ class UserTests(BaseDbTest):
         address.city = C_CITY
         address.country = C_COUNTRY
         address.postcode = C_POSTCODE
-        user.address = [address]
+        user.address = address
         self.session.add(address)
         self.session.commit()
         wishlist = Wishlist()
@@ -82,7 +82,7 @@ class UserTests(BaseDbTest):
         self.session.add(wishlist)
         self.session.commit()
 
-        user.wishlist = [wishlist]
+        user.wishlist = wishlist
         self.session.add(user)
         self.session.commit()
 
@@ -91,11 +91,9 @@ class UserTests(BaseDbTest):
         self.assertEqual(user_from_query.lastname, C_LAST_NAME)
         self.assertEqual(user_from_query.email, C_EMAIL)
         self.assertEqual(user_from_query.status, C_STATUS)
-        wishlist_from_user_from_query = user_from_query.wishlist[0]
-        self.assertEqual(wishlist_from_user_from_query.id_user, user.id)
-        address_from_user_from_query = user_from_query.address[0]
-        self.assertEqual(address_from_user_from_query.street, C_STREET.capitalize())
-        self.assertEqual(address_from_user_from_query.number, C_NUMBER.capitalize())
-        self.assertEqual(address_from_user_from_query.city, C_CITY.capitalize())
-        self.assertEqual(address_from_user_from_query.country, C_COUNTRY.capitalize())
-        self.assertEqual(address_from_user_from_query.postcode, C_POSTCODE)
+        self.assertEqual(user_from_query.wishlist.id_user, user.id)
+        self.assertEqual(user_from_query.address.street, C_STREET)
+        self.assertEqual(user_from_query.address.number, C_NUMBER)
+        self.assertEqual(user_from_query.address.city, C_CITY)
+        self.assertEqual(user_from_query.address.country, C_COUNTRY)
+        self.assertEqual(user_from_query.address.postcode, C_POSTCODE)
