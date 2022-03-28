@@ -1,0 +1,32 @@
+{% extends 'index_base.html' %}
+
+
+{% block title_block %}Books{% endblock %}
+{% block main_content %}
+
+<h1>All books </h1>
+<a href="{{ url_for('bp_general.add_ebook')}}">Add ebook</a>
+<a href="{{ url_for('bp_general.add_audiobook')}}">Add audiobook</a>
+<a href="{{ url_for('bp_general.add_paper_book')}}">Add paper book</a>
+<p>
+    {% for book in books %}
+<li>{{ book.id }} - {{book.book_title}} - {{book.author_last_name}} -
+    {% if book.size %}
+    <a
+            href="{{ url_for('bp_general.delete_ebook', ebook_id=book.id)}}">delete book</a></li>
+{% endif %}
+{% if book.duration_hours %}
+<a
+        href="{{ url_for('bp_general.delete_audiobook', audiobook_id=book.id)}}">delete book</a></li>
+{% endif %}
+
+{% if book.isbn %}
+<a
+        href="{{ url_for('bp_general.delete_paperbook', paperbook_id=book.id)}}">delete book</a></li>
+{% endif %}
+
+{% endfor %}
+</p>
+
+{% endblock %}
+

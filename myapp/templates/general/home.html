@@ -1,0 +1,13 @@
+{% extends 'index_base.html' %}
+
+
+{% block title_block %}Home{% endblock %}
+{% block main_content %}
+
+<h1>Home</h1>
+
+<p>
+{% for id in ids %}
+<li >{{ id }}</li> {% endfor %}
+</p>
+{% endblock %}
