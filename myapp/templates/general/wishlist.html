@@ -16,12 +16,14 @@
     <th> Release year</th>
     </tfoot>
     <tbody>
-    {% if books %}
-    {% for book in books %}
+    {% if wishlist_books %}
+    {% for wl_book in wishlist_books %}
     <tr>
-        <td>{{ book.book_title }}</td>
-        <td>{{ book.author_first_name }} {{ book.author_last_name}}</td>
-        <td>{{ book.release_year }}</td>
+        <td>{{ wl_book.book.book_title }}</td>
+        <td>{{ wl_book.book.author_first_name }} {{ wl_book.author_last_name}}</td>
+        <td>{{ wl_book.book.release_year }}</td>
+        <td><a
+            href="{{ url_for('bp_general.delete_book_from_wishlist', wishlist_book_id=wl_book.id)}}">remove</a></td>
     </tr>
     {% endfor %}
     {% else %}

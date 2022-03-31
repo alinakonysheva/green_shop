@@ -126,11 +126,15 @@ def do_wishlist():
     user = user_controller.get_current_user()
     controller = ControllerWishlist(db.session)
     wl = controller.get_wishlist_by_user(user.id)
-    books = list(map(lambda x: x.book, wl.books))
-    html = render_template('general/wishlist.html', books=books)
-
+    wishlist_books = wl.books
+    html = render_template('general/wishlist.html', wishlist_books=wishlist_books)
     return html
 
+@bp_general_app.route('/books/remove_from_wishlist/<int:wishlist_book_id>')
+def delete_book_from_wishlist(wishlist_book_id):
+    controller_wishlist = ControllerWishlist(db.session)
+    controller_wishlist.delete_book_from_wishlist(wishlist_book_id)
+    return redirect(url_for('bp_general.do_wishlist'))
 
 def do_not_found(error):
     return render_template('general/errors.html', code=404, error=error)
