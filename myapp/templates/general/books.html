@@ -13,16 +13,25 @@
 <li>{{ book.id }} - {{book.book_title}} - {{book.author_last_name}} -
     {% if book.size %}
     <a
-            href="{{ url_for('bp_general.delete_ebook', ebook_id=book.id)}}">delete book</a></li>
+            href="{{ url_for('bp_general.delete_ebook', ebook_id=book.id)}}">delete book</a>
+    <a
+            href="{{ url_for('bp_general.add_book_to_wishlist', book_id=book.id)}}">to wishlist</a>
+</li>
 {% endif %}
 {% if book.duration_hours %}
 <a
-        href="{{ url_for('bp_general.delete_audiobook', audiobook_id=book.id)}}">delete book</a></li>
+        href="{{ url_for('bp_general.delete_audiobook', audiobook_id=book.id)}}">delete book</a>
+<a
+            href="{{ url_for('bp_general.add_book_to_wishlist', book_id=book.id)}}">to wishlist</a>
+</li>
 {% endif %}
 
 {% if book.isbn %}
 <a
-        href="{{ url_for('bp_general.delete_paperbook', paperbook_id=book.id)}}">delete book</a></li>
+        href="{{ url_for('bp_general.delete_paperbook', paperbook_id=book.id)}}">delete book</a>
+<a
+            href="{{ url_for('bp_general.add_book_to_wishlist', book_id=book.id)}}">to wishlist</a>
+</li>
 {% endif %}
 
 {% endfor %}

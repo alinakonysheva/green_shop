@@ -57,6 +57,13 @@ def delete_paperbook(paperbook_id):
     return redirect(url_for('bp_general.do_books'))
 
 
+@bp_general_app.route('/books/add_to_wishlist/<int:book_id>')
+def add_book_to_wishlist(book_id):
+    controller_wishlist = ControllerWishlist(db.session)
+    wl_id = controller_wishlist.get_wishlist_by_user(ControllerUsers(db.session).get_current_user().id).id
+    controller_wishlist.add_book_to_wishlist(wl_id, book_id)
+    return redirect(url_for('bp_general.do_books'))
+
 @bp_general_app.route('/books/addebook', methods=['POST'])
 def add_ebook_post():
     form = EbookForm()
@@ -119,7 +126,7 @@ def do_wishlist():
     user = user_controller.get_current_user()
     controller = ControllerWishlist(db.session)
     wl = controller.get_wishlist_by_user(user.id)
-    books = wl.books
+    books = list(map(lambda x: x.book, wl.books))
     html = render_template('general/wishlist.html', books=books)
 
     return html
