@@ -6,9 +6,9 @@ from sqlalchemy import Column, ForeignKey
 
 
 class Wishlist(BaseObj):
-    __tablename__ = "T_WISHLIST"
+    #__tablename__ = "T_WISHLIST"
 
-    id_user = Column('F_USER_ID', ForeignKey(User.id),index= True)
+    id_user = Column('F_USER_ID', ForeignKey(User.id), index=True)
     user = relationship('User', foreign_keys='Wishlist.id_user', back_populates="wishlist")
 
     @declared_attr
@@ -16,4 +16,3 @@ class Wishlist(BaseObj):
         return relationship('WishlistBook', back_populates='wishlist')
 
     # books = relationship('WishlistBook', back_populates='wishlist'
-

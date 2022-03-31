@@ -2,7 +2,8 @@ from flask import render_template, abort, redirect, flash, url_for, current_app,
 
 from bp_general.form_books import EbookForm, AudiobookForm, PaperbookForm
 from myapp import db
-from bp_general.controller_general import ControllerBook, ControllerEBook, ControllerAudioBook, ControllerPaperBook
+from bp_general.controller_general import ControllerBook, ControllerEBook, ControllerAudioBook, ControllerPaperBook, \
+    ControllerWishlist, ControllerUsers
 
 bp_general_app = Blueprint('bp_general', __name__, cli_group="db")
 
@@ -110,6 +111,18 @@ def add_paperbook_post():
         return redirect(url_for('bp_general.do_books'))
     else:
         abort(500)
+
+
+@bp_general_app.route('/wishlist')
+def do_wishlist():
+    user_controller = ControllerUsers(db.session)
+    user = user_controller.get_current_user()
+    controller = ControllerWishlist(db.session)
+    wl = controller.get_wishlist_by_user(user.id)
+    books = wl.books
+    html = render_template('general/wishlist.html', books=books)
+
+    return html
 
 
 def do_not_found(error):

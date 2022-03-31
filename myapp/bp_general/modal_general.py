@@ -8,6 +8,8 @@ from bp_general.constants import categories, languages, covers
 from myapp import db
 from sqlalchemy import Column, String, Integer, Float, Text, ForeignKey
 
+from bp_users.model_users import User
+
 
 class Book(db.Model):
     __tablename__ = 'T_Book'
@@ -26,10 +28,10 @@ class Book(db.Model):
     _publisher = Column('F_PUBLISHER', String(200))
     __table_args__ = {'extend_existing': True}
 
-    """@declared_attr
+    @declared_attr
     def wishlists(cls):
         return relationship('WishlistBook', back_populates='book')
-"""
+
 
     # wishlists = relationship('WishlistBook', back_populates='book')
 
@@ -373,3 +375,33 @@ class PaperBook(Book):
             raise ValueError('the isbn of the book can not be longer than 13 digit')
 
         self._isbn = value
+
+
+class Wishlist(db.Model):
+    __tablename__ = "T_WISHLIST"
+
+    id = Column(Integer, primary_key=True)
+    id_user = Column('F_USER_ID', ForeignKey(User.id), index=True)
+    user = relationship('User', foreign_keys='Wishlist.id_user', back_populates="wishlist")
+
+    @declared_attr
+    def books(cls):
+        return relationship('WishlistBook', back_populates='wishlist')
+    # books = relationship('WishlistBook', back_populates='wishlist'
+
+
+class WishlistBook(db.Model):
+    __tablename__ = 'T_WISHLISTBOOK'
+    id = Column(Integer, primary_key=True)
+
+    id_wishlist = Column('id_wishlist', ForeignKey(Wishlist.id))
+
+    book = relationship(Book, back_populates='wishlists')
+    wishlist = relationship(Wishlist, back_populates='books')
+
+    id_book = Column('Book_id', ForeignKey('T_Book.id'))
+
+    __mapper_args__ = {'polymorphic_identity': 'T_WISHLISTBOOK', 'concrete': True}
+
+    def __str__(self) -> str:
+        return f'{self.id} - {self.id_book} - {self.id_wishlist} '

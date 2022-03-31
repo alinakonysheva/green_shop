@@ -71,3 +71,4 @@ class PaperbookForm(FlaskForm):
     isbn = StringField('ISBN, 13 digits', id='paperbook_isbn')
     submit = SubmitField('Save', id='paperbook_submit')
 
+

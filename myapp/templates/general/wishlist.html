@@ -1,0 +1,37 @@
+{% extends 'index_base.html' %}
+
+
+{% block title_block %}Wishlist{% endblock %}
+{% block main_content %}
+
+<table class="table table-striped">
+    <thead>
+    <th> Title</th>
+    <th> Author</th>
+    <th> Release year</th>
+    </thead>
+    <tfoot>
+    <th> Title</th>
+    <th> Author</th>
+    <th> Release year</th>
+    </tfoot>
+    <tbody>
+    {% if books %}
+    {% for book in books %}
+    <tr>
+        <td>{{ book.title }}</td>
+        <td>{{ book.author_first_name }} {{ book.author_last_name}}</td>
+        <td>{{ book.release_year }}</td>
+    </tr>
+    {% endfor %}
+    {% else %}
+    <tr>
+        No books in your wishlist
+    </tr>
+    {% endif %}
+    </tbody>
+
+</table>
+
+
+{% endblock %}

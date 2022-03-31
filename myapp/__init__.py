@@ -23,7 +23,7 @@ def create_app(config=None):
     compress.init_app(app)
     do_register_blueprint(app)
 
-    do_register_error_handlers(app)
+    #do_register_error_handlers(app)
 
     if app.config['DEBUG']:
         app.debug = True
@@ -35,16 +35,18 @@ def create_app(config=None):
 
 def do_register_blueprint(flaskapp):
     from bp_general.views_general import bp_general_app
-    #from bp_users import bp_users
+    from bp_users import bp_users
 
     flaskapp.register_blueprint(bp_general_app)
-    #§flaskapp.register_blueprint(bp_users)
+    flaskapp.register_blueprint(bp_users)
 
 
 def do_register_error_handlers(flaskapp):
-    from .bp_general.views_general import do_not_authorized, do_not_found, do_server_error
+    #from .bp_general.views_general import do_not_authorized
+    from .bp_general.views_general import do_not_found
+    from .bp_general.views_general import do_server_error
 
     flaskapp.register_error_handler(404, do_not_found)
-    flaskapp.register_error_handler(403, do_not_authorized)
-    flaskapp.register_error_handler(406, do_not_authorized)
+    #flaskapp.register_error_handler(403, do_not_authorized)
+    #flaskapp.register_error_handler(406, do_not_authorized)
     flaskapp.register_error_handler(500, do_server_error)
