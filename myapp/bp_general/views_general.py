@@ -24,6 +24,16 @@ def do_books():
     return render_template('general/books.html', books=books)
 
 
+@bp_general_app.route('/books/book_details/<int:book_id>')
+def show_book(book_id):
+    book = ControllerPaperBook(db.session).get_paper_book_by_id(book_id) or ControllerAudioBook(
+        db.session).get_audiobook_by_id(book_id) or ControllerEBook(db.session).get_ebook_by_id(book_id)
+    if book:
+        return render_template('general/viewbook.html', book=book)
+    else:
+        return redirect(url_for('bp_general.do_books'))
+
+
 @bp_general_app.route('/books/addebook')
 def add_ebook():
     return render_template('general/addebook.html', form=EbookForm())
@@ -63,6 +73,7 @@ def add_book_to_wishlist(book_id):
     wl_id = controller_wishlist.get_wishlist_by_user(ControllerUsers(db.session).get_current_user().id).id
     controller_wishlist.add_book_to_wishlist(wl_id, book_id)
     return redirect(url_for('bp_general.do_books'))
+
 
 @bp_general_app.route('/books/addebook', methods=['POST'])
 def add_ebook_post():
@@ -130,11 +141,13 @@ def do_wishlist():
     html = render_template('general/wishlist.html', wishlist_books=wishlist_books)
     return html
 
+
 @bp_general_app.route('/books/remove_from_wishlist/<int:wishlist_book_id>')
 def delete_book_from_wishlist(wishlist_book_id):
     controller_wishlist = ControllerWishlist(db.session)
     controller_wishlist.delete_book_from_wishlist(wishlist_book_id)
     return redirect(url_for('bp_general.do_wishlist'))
+
 
 def do_not_found(error):
     return render_template('general/errors.html', code=404, error=error)

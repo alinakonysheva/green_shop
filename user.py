@@ -9,8 +9,8 @@ class User(BaseObj):
     __tablename__ = "T_USER"
     _firstname = Column('FIRST_NAME', String(50))
     _lastname = Column('LAST_NAME', String(50))
-    _email = Column('EMAIL', String())
-    password = Column('PASSWORD', String())
+    _email = Column('EMAIL', String(50))
+    password = Column('PASSWORD', String(10))
     # status can be admin or/and user, has to be [] or set()
     _status = Column('STATUS', Integer, default=1)
     wishlist = relationship('Wishlist', back_populates="user", uselist=False)

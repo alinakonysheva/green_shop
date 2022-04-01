@@ -5,35 +5,62 @@
 {% block main_content %}
 
 <h1>All books </h1>
-<a href="{{ url_for('bp_general.add_ebook')}}">Add ebook</a>
-<a href="{{ url_for('bp_general.add_audiobook')}}">Add audiobook</a>
-<a href="{{ url_for('bp_general.add_paper_book')}}">Add paper book</a>
-<p>
+<div class="tinyspace"></div>
+<button onclick="document.location='{{ url_for('bp_general.add_ebook')}}'" class="btn btn-primary">
+    Add ebook
+</button>
+<button onclick="document.location='{{ url_for('bp_general.add_audiobook')}}'" class="btn btn-primary">
+    Add audiobook
+</button>
+<button onclick="document.location='{{ url_for('bp_general.add_paper_book')}}'" class="btn btn-primary">
+    Add paper book
+</button>
+
+<div class="tinyspace"></div>
+
+<ul class="list-group">
+
     {% for book in books %}
-<li>{{ book.id }} - {{book.book_title}} - {{book.author_last_name}} -
+<li class="list-group-item"><a href="{{ url_for('bp_general.show_book',  book_id=book.id)}}">{{ book.id }} - {{book.book_title}} - {{book.author_first_name}} - {{book.author_last_name}}</a>
     {% if book.size %}
-    <a href="{{ url_for('bp_general.delete_ebook', ebook_id=book.id)}}">delete book</a>
-    <a href="{{ url_for('bp_general.add_book_to_wishlist', book_id=book.id)}}">to wishlist</a>
+    <button onclick="document.location='{{ url_for('bp_general.delete_ebook', ebook_id=book.id)}}'"
+            class="btn btn-primary">
+        delete
+    </button>
+    <button onclick="document.location='{{ url_for('bp_general.add_book_to_wishlist',  book_id=book.id)}}'"
+            class="btn btn-primary">
+        to wishlist
+    </button>
 </li>
 {% endif %}
 {% if book.duration_hours %}
-<a
-        href="{{ url_for('bp_general.delete_audiobook', audiobook_id=book.id)}}">delete book</a>
-<a
-        href="{{ url_for('bp_general.add_book_to_wishlist', book_id=book.id)}}">to wishlist</a>
+    <button onclick="document.location='{{ url_for('bp_general.delete_audiobook', audiobook_id=book.id)}}'"
+            class="btn btn-primary">
+        delete
+    </button>
+    <button onclick="document.location='{{ url_for('bp_general.add_book_to_wishlist',  book_id=book.id)}}'"
+            class="btn btn-primary">
+        to wishlist
+    </button>
+
 </li>
 {% endif %}
 
 {% if book.isbn %}
-<a
-        href="{{ url_for('bp_general.delete_paperbook', paperbook_id=book.id)}}">delete book</a>
-<a
-        href="{{ url_for('bp_general.add_book_to_wishlist', book_id=book.id)}}">to wishlist</a>
+    <button onclick="document.location='{{ url_for('bp_general.delete_paperbook', paperbook_id=book.id)}}'"
+            class="btn btn-primary">
+        delete
+    </button>
+
+    <button onclick="document.location='{{ url_for('bp_general.add_book_to_wishlist',  book_id=book.id)}}'"
+            class="btn btn-primary">
+        to wishlist
+    </button>
 </li>
 {% endif %}
 
 {% endfor %}
-</p>
+</ul>
 
 {% endblock %}
 

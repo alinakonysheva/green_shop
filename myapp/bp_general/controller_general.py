@@ -258,7 +258,7 @@ class ControllerAudioBook:
         if ab:
             return ab
         else:
-            raise ValueError('Book with this ID does not exist in data base')
+            return None
 
     def get_all_audiobook(self):
         """
@@ -500,7 +500,7 @@ class ControllerEBook:
         if eb:
             return eb
         else:
-            raise ValueError('Book with this ID does not exist in data base')
+            return None
 
     def get_all_ebook(self):
         """
@@ -793,7 +793,7 @@ class ControllerPaperBook:
         if pb:
             return pb
         else:
-            raise ValueError('Book with this ID does not exist in data base')
+            return None
 
     def get_all_paper_book(self):
         """

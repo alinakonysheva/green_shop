@@ -72,3 +72,5 @@ class PaperbookForm(FlaskForm):
     submit = SubmitField('Save', id='paperbook_submit')
 
 
+class SearchForm(FlaskForm):
+    pass

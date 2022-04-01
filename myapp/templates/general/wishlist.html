@@ -23,7 +23,11 @@
         <td>{{ wl_book.book.author_first_name }} {{ wl_book.author_last_name}}</td>
         <td>{{ wl_book.book.release_year }}</td>
         <td><a
-            href="{{ url_for('bp_general.delete_book_from_wishlist', wishlist_book_id=wl_book.id)}}">remove</a></td>
+            href="{{ url_for('bp_general.delete_book_from_wishlist', wishlist_book_id=wl_book.id)}}">remove</a>
+        <button onclick="document.location='{{ url_for('bp_general.add_audiobook')}}'" class="btn btn-primary">
+    Add audiobook
+</button>
+        </td>
     </tr>
     {% endfor %}
     {% else %}
@@ -34,6 +38,3 @@
     </tbody>
 
 </table>
-
-
-{% endblock %}
