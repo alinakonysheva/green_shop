@@ -1,6 +1,6 @@
 from flask import render_template, abort, redirect, flash, url_for, current_app, Blueprint
 
-from bp_general.form_books import EbookForm, AudiobookForm, PaperbookForm
+from bp_general.form_books import EbookForm, AudiobookForm, PaperbookForm, SearchForm
 from myapp import db
 from bp_general.controller_general import ControllerBook, ControllerEBook, ControllerAudioBook, ControllerPaperBook, \
     ControllerWishlist, ControllerUsers
@@ -11,7 +11,7 @@ bp_general_app = Blueprint('bp_general', __name__, cli_group="db")
 @bp_general_app.route('/')
 def do_home():
     controller = ControllerBook(db.session)
-    return render_template('general/home.html', name='some name', ids=controller.get_all_ids())
+    return render_template('general/home.html', name='some name', ids=controller.get_all_ids(), form=SearchForm())
 
 
 @bp_general_app.route('/books')
@@ -20,6 +20,7 @@ def do_books():
     audiobooks = ControllerAudioBook(db.session).get_all_audiobook()
     paperbooks = ControllerPaperBook(db.session).get_all_paper_book()
     books = ebooks + audiobooks + paperbooks
+
 
     return render_template('general/books.html', books=books)
 
@@ -127,6 +128,19 @@ def add_paperbook_post():
                                               form.pic.data)
 
         return redirect(url_for('bp_general.do_books'))
+    else:
+        abort(500)
+
+
+@bp_general_app.route('/searchpaperbook', methods=['POST'])
+def find_paperbook():
+    form = SearchForm()
+    if form.validate_on_submit():
+        controller = ControllerPaperBook(db.session)
+
+        books = controller.get_by_filter(form)
+
+        return render_template('general/books.html', books=books)
     else:
         abort(500)
 

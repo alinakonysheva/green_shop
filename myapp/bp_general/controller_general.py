@@ -848,6 +848,14 @@ class ControllerPaperBook:
                                                        PaperBook._rating >= min_rating).all()
         return pb_list
 
+    def get_by_filter(self, filter_):
+        session = self.session.query(PaperBook)
+        if filter_.title.data:
+            session = session.filter(PaperBook._title.like('%'+filter_.title.data+'%'))
+        if filter_.author_last_name.data:
+            session = session.filter(PaperBook._author_last_name.like(filter_.author_last_name.data))
+        return session.all()
+
 
 class ControllerWishlist:
     def __init__(self, session):
@@ -981,3 +989,9 @@ class ControllerUsers:
         u.username = 'Baby'
         u.email = 'babytop@gamil.com'
         return u
+
+
+class BookFilter:
+    title = None
+    first_name = None
+    last_name = None
