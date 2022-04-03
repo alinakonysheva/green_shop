@@ -127,6 +127,10 @@
 <div class="tinyspace"></div>
 
 {% if book.size %}
+<button onclick="document.location='{{ url_for('bp_general.change_ebook',  book_id=book.id)}}'"
+        class="btn btn-primary">
+    edit
+</button>
 <button onclick="document.location='{{ url_for('bp_general.delete_ebook', ebook_id=book.id)}}'"
         class="btn btn-primary">
     delete
@@ -138,6 +142,10 @@
 </li>
 {% endif %}
 {% if book.duration_hours %}
+<button onclick="document.location='{{ url_for('bp_general.change_audiobook', book_id=book.id)}}'"
+        class="btn btn-primary">
+    edit
+</button>
 <button onclick="document.location='{{ url_for('bp_general.delete_audiobook', audiobook_id=book.id)}}'"
         class="btn btn-primary">
     delete
@@ -151,6 +159,10 @@
 {% endif %}
 
 {% if book.isbn %}
+<button onclick="document.location='{{ url_for('bp_general.change_paperbook', book_id=book.id)}}'"
+        class="btn btn-primary">
+    edit
+</button>
 <button onclick="document.location='{{ url_for('bp_general.delete_paperbook', paperbook_id=book.id)}}'"
         class="btn btn-primary">
     delete

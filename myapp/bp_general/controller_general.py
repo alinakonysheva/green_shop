@@ -229,6 +229,7 @@ class ControllerAudioBook:
 
                 self.session.add(audiobook)
                 self.session.commit()
+                return audiobook
             else:
                 raise ValueError('Book with this ID does not exist in data base')
         except Exception as e:
@@ -468,6 +469,7 @@ class ControllerEBook:
 
             self.session.add(ebook)
             self.session.commit()
+            return ebook
         else:
             raise ValueError('Book with this ID does not exist in data base')
 
@@ -661,7 +663,7 @@ class ControllerPaperBook:
 
     def change_paper_book(self, id_p_book, title, cover, length, width, weight, pages, isbn, author_first_name,
                           author_middle_name, author_last_name, release_year, category, language, annotation, publisher,
-                          rating, pic) -> None:
+                          rating, pic):
         try:
             paper_book = self.session.query(PaperBook).get(id_p_book)
             if paper_book:
@@ -758,7 +760,7 @@ class ControllerPaperBook:
 
                 self.session.add(paper_book)
                 self.session.commit()
-
+                return paper_book
             else:
                 raise ValueError('Book with this ID does not exist in data base')
         except Exception as e:

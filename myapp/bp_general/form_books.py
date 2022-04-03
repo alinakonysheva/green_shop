@@ -1,44 +1,46 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, IntegerField, FloatField, RadioField, TextAreaField
+from wtforms.validators import DataRequired
 
 
 class EbookForm(FlaskForm):
-    title = StringField('EBook title', id='ebook_title')
+    id = IntegerField('ID', id='id')
+    title = StringField('EBook title', id='ebook_title', validators=[DataRequired()])
     author_first_name = StringField('Author first name', id='ebook_author_first_name')
-    author_last_name = StringField('Author last name', id='ebook_author_last_name')
+    author_last_name = StringField('Author last name', id='ebook_author_last_name', validators=[DataRequired()])
     # TODO: this field is allowed to be empty, redo
     author_middle_name = StringField('Author middle name', id='ebook_author_middle_name')
-    release_year = IntegerField('Release year', id='ebook_release_year')
+    release_year = IntegerField('Release year', id='ebook_release_year', validators=[DataRequired()])
     rating = FloatField('Rating', id='ebook_rating')
     # TODO:
     pic = StringField('Link to the picture', id='ebook_pic')
-    category = IntegerField('Category', id='ebook_category')
+    category = IntegerField('Category', id='ebook_category', validators=[DataRequired()])
     language = RadioField('Language', choices=[('ru', 'Russian'), ('nl', 'Nederlands'), ('en', 'English')],
-                          id='ebook_language')
+                          id='ebook_language', validators=[DataRequired()])
     annotation = TextAreaField('Annotation', id='ebook_annotation')
     publisher = StringField('Publisher', id='ebook_publisher')
-    size = FloatField('Size in Mb', id='ebook_size')
+    size = FloatField('Size in Mb', id='ebook_size', validators=[DataRequired()])
 
     submit = SubmitField('Save', id='ebook_submit')
 
 
 class AudiobookForm(FlaskForm):
-    title = StringField('Audiobook title', id='audiobook_title')
+    title = StringField('Audiobook title', id='audiobook_title', validators=[DataRequired()])
     author_first_name = StringField('Author first name', id='audiobook_author_first_name')
-    author_last_name = StringField('Author last name', id='audiobook_author_last_name')
+    author_last_name = StringField('Author last name', id='audiobook_author_last_name', validators=[DataRequired()])
     # TODO: this field is allowed to be empty, redo
     author_middle_name = StringField('Author middle name', id='audiobook_author_middle_name')
-    release_year = IntegerField('Release year', id='audiobook_release_year')
+    release_year = IntegerField('Release year', id='audiobook_release_year', validators=[DataRequired()])
     rating = FloatField('Rating', id='audiobook_rating')
     # TODO:
     pic = StringField('Link to the picture', id='audiobook_pic')
-    category = IntegerField('Category, number', id='audiobook_category')
+    category = IntegerField('Category, number', id='audiobook_category', validators=[DataRequired()])
     language = RadioField('Language', choices=[('ru', 'Russian'), ('nl', 'Nederlands'), ('en', 'English')],
-                          id='audiobook_language')
+                          id='audiobook_language', validators=[DataRequired()])
     annotation = TextAreaField('Annotation', id='audiobook_annotation')
     publisher = StringField('Publisher', id='audiobook_publisher')
     reader_first_name = StringField('Reader, first name', id='audiobook_reader_first_name')
-    reader_last_name = StringField('Reader, last name', id='audiobook_reader_last_name')
+    reader_last_name = StringField('Reader, last name', id='audiobook_reader_last_name', validators=[DataRequired()])
     reader_middle_name = StringField('Reader, middle name', id='audiobook_reader_middle_name')
     duration_hours = IntegerField('Duration, hours', id='audiobook_duration_hours')
     duration_minutes = IntegerField('Duration, minutes', id='audiobook_duration_minutes')
@@ -48,18 +50,18 @@ class AudiobookForm(FlaskForm):
 
 
 class PaperbookForm(FlaskForm):
-    title = StringField('Paper book title', id='paperbook_title')
+    title = StringField('Paper book title', id='paperbook_title', validators=[DataRequired()])
     author_first_name = StringField('Author first name', id='paperbook_author_first_name')
-    author_last_name = StringField('Author last name', id='paperbook_author_last_name')
+    author_last_name = StringField('Author last name', id='paperbook_author_last_name', validators=[DataRequired()])
     # TODO: this field is allowed to be empty, redo
     author_middle_name = StringField('Author middle name', id='paperbook_author_middle_name')
-    release_year = IntegerField('Release year', id='paperbook_release_year')
+    release_year = IntegerField('Release year', id='paperbook_release_year', validators=[DataRequired()])
     rating = FloatField('Rating', id='paperbook_rating')
     # TODO:
     pic = StringField('Link to the picture', id='paperbook_pic')
-    category = IntegerField('Category, number', id='paperbook_category')
+    category = IntegerField('Category, number', id='paperbook_category', validators=[DataRequired()])
     language = RadioField('Language', choices=[('ru', 'Russian'), ('nl', 'Nederlands'), ('en', 'English')],
-                          id='paperbook_language')
+                          id='paperbook_language', validators=[DataRequired()])
     annotation = TextAreaField('Annotation', id='paperbook_annotation')
     publisher = StringField('Publisher', id='paperbook_publisher')
 
@@ -67,8 +69,8 @@ class PaperbookForm(FlaskForm):
     length = IntegerField('Length in cm', id='paperbook_length')
     width = IntegerField('Width in cm', id='paperbook_width')
     weight = IntegerField('Weight in gr', id='paperbook_weight')
-    pages = IntegerField('Number of pages', id='paperbook_pages')
-    isbn = StringField('ISBN, 13 digits', id='paperbook_isbn')
+    pages = IntegerField('Number of pages', id='paperbook_pages', validators=[DataRequired()])
+    isbn = StringField('ISBN, 13 digits', id='paperbook_isbn', validators=[DataRequired()])
     submit = SubmitField('Save', id='paperbook_submit')
 
 

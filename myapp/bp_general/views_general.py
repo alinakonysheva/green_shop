@@ -21,7 +21,6 @@ def do_books():
     paperbooks = ControllerPaperBook(db.session).get_all_paper_book()
     books = ebooks + audiobooks + paperbooks
 
-
     return render_template('general/books.html', books=books)
 
 
@@ -53,18 +52,21 @@ def add_paper_book():
 @bp_general_app.route('/books/ebook/delete/<int:ebook_id>')
 def delete_ebook(ebook_id):
     ControllerEBook(db.session).remove_ebook(ebook_id)
+    flash('Book was deleted from data base', 'OK')
     return redirect(url_for('bp_general.do_books'))
 
 
 @bp_general_app.route('/books/audiobook/delete/<int:audiobook_id>')
 def delete_audiobook(audiobook_id):
     ControllerAudioBook(db.session).remove_audiobook(audiobook_id)
+    flash('Book was deleted from data base', 'OK')
     return redirect(url_for('bp_general.do_books'))
 
 
 @bp_general_app.route('/books/paperbook/delete/<int:paperbook_id>')
 def delete_paperbook(paperbook_id):
     ControllerPaperBook(db.session).remove_paper_book(paperbook_id)
+    flash('Book was deleted from data base', 'OK')
     return redirect(url_for('bp_general.do_books'))
 
 
@@ -73,9 +75,139 @@ def add_book_to_wishlist(book_id):
     controller_wishlist = ControllerWishlist(db.session)
     wl_id = controller_wishlist.get_wishlist_by_user(ControllerUsers(db.session).get_current_user().id).id
     controller_wishlist.add_book_to_wishlist(wl_id, book_id)
+    flash('Book was added to your Wishlist', 'OK')
     return redirect(url_for('bp_general.do_books'))
 
 
+# to edit books
+@bp_general_app.route('/books/changeebook/<int:book_id>')
+def change_ebook(book_id):
+    controller = ControllerEBook(db.session)
+    ebook = controller.get_ebook_by_id(book_id)
+    ebookform = EbookForm()
+    ebookform.id.data = book_id
+    ebookform.title.data = ebook.book_title
+    ebookform.author_first_name.data = ebook.author_first_name
+    ebookform.author_last_name.data = ebook.author_last_name
+    ebookform.author_middle_name.data = ebook.author_middle_name
+    ebookform.release_year.data = ebook.release_year
+    ebookform.rating.data = ebook.rating
+    ebookform.pic.data = ebook.pic
+    ebookform.category.data = ebook.category
+    ebookform.language.data = ebook.language
+    ebookform.annotation.data = ebook.annotation
+    ebookform.publisher.data = ebook.publisher
+    ebookform.size.data = ebook.size
+
+    return render_template('general/changeebook.html', form=ebookform, book=ebook)
+
+
+@bp_general_app.route('/books/changeaudiobook/<int:book_id>')
+def change_audiobook(book_id):
+    controller = ControllerAudioBook(db.session)
+    audiobook = controller.get_audiobook_by_id(book_id)
+    audiobookform = AudiobookForm()
+    audiobookform.title.data = audiobook.book_title
+    audiobookform.author_first_name.data = audiobook.author_first_name
+    audiobookform.author_last_name.data = audiobook.author_last_name
+    audiobookform.author_middle_name.data = audiobook.author_middle_name
+    audiobookform.release_year.data = audiobook.release_year
+    audiobookform.rating.data = audiobook.rating
+    audiobookform.pic.data = audiobook.pic
+    audiobookform.category.data = audiobook.category
+    audiobookform.language.data = audiobook.language
+    audiobookform.annotation.data = audiobook.annotation
+    audiobookform.publisher.data = audiobook.publisher
+    audiobookform.reader_first_name.data = audiobook.reader_first_name
+    audiobookform.reader_last_name.data = audiobook.reader_last_name
+    audiobookform.reader_middle_name.data = audiobook.reader_middle_name
+    audiobookform.duration_hours.data = audiobook.duration_hours
+    audiobookform.duration_minutes.data = audiobook.duration_minutes
+    audiobookform.duration_seconds.data = audiobook.duration_seconds
+    return render_template('general/changeaudiobook.html', form=audiobookform, book=audiobook)
+
+
+@bp_general_app.route('/books/changepaperbook/<int:book_id>')
+def change_paper_book(book_id):
+    controller = ControllerPaperBook(db.session)
+    paper_book = controller.get_paper_book_by_id(book_id)
+    paperbookform = AudiobookForm()
+    paperbookform.title.data = paper_book.book_title
+    paperbookform.author_first_name.data = paper_book.author_first_name
+    paperbookform.author_last_name.data = paper_book.author_last_name
+    paperbookform.author_middle_name.data = paper_book.author_middle_name
+    paperbookform.release_year.data = paper_book.release_year
+    paperbookform.rating.data = paper_book.rating
+    paperbookform.pic.data = paper_book.pic
+    paperbookform.category.data = paper_book.category
+    paperbookform.language.data = paper_book.language
+    paperbookform.annotation.data = paper_book.annotation
+    paperbookform.publisher.data = paper_book.publisher
+    paperbookform.reader_first_name.data = paper_book.reader_first_name
+    paperbookform.reader_last_name.data = paper_book.reader_last_name
+    paperbookform.reader_middle_name.data = paper_book.reader_middle_name
+    paperbookform.duration_hours.data = paper_book.duration_hours
+    paperbookform.duration_minutes.data = paper_book.duration_minutes
+    paperbookform.duration_seconds.data = paper_book.duration_seconds
+    return render_template('general/changepaperbook.html', form=paperbookform, book=paper_book)
+
+
+@bp_general_app.route('/books/changeebook/<int:book_id>', methods=['POST', 'GET'])
+def change_ebook_post(book_id):
+    controller = ControllerEBook(db.session)
+    ebook = controller.get_ebook_by_id(book_id)
+    form = EbookForm()
+    if form.validate_on_submit():
+        newebook = controller.change_ebook(book_id, form.title.data, form.size.data, form.author_first_name.data,
+                                form.author_middle_name.data, form.author_last_name.data,
+                                form.release_year.data, form.category.data, form.language.data,
+                                form.annotation.data, form.publisher.data, form.rating.data, form.pic.data)
+    flash('Book was changed in data base', 'OK')
+    return render_template('general/viewbook.html', book=ebook)
+
+
+# audiobook
+
+@bp_general_app.route('/books/changeaudiobook/<int:book_id>', methods=['POST', 'GET'])
+def change_audiobook_post(book_id):
+    controller = ControllerAudioBook(db.session)
+    form = AudiobookForm()
+    if form.validate_on_submit():
+        audiobook = controller.change_audiobook(book_id, form.title.data, form.reader_first_name.data,
+                                                form.reader_last_name.data,
+                                                form.reader_middle_name.data, form.duration_hours.data,
+                                                form.duration_minutes.data,
+                                                form.duration_seconds.data, form.author_first_name.data,
+                                                form.author_middle_name.data, form.author_last_name.data,
+                                                form.release_year.data, form.category.data, form.language.data,
+                                                form.annotation.data, form.publisher.data, form.rating.data,
+                                                form.pic.data)
+
+        return render_template('general/viewbook.html', book=audiobook)
+    else:
+        abort(500)
+
+
+@bp_general_app.route('/books/changepaperbook/<int:book_id>', methods=['POST', 'GET'])
+def change_paperbook_post(book_id):
+    form = PaperbookForm()
+    controller = ControllerPaperBook(db.session)
+    if form.validate_on_submit():
+        paperbook = controller.change_paper_book(book_id, form.title.data, form.cover.data, form.length.data,
+                                                 form.width.data,
+                                                 form.weight.data, form.pages.data, form.isbn.data,
+                                                 form.author_first_name.data,
+                                                 form.author_middle_name.data, form.author_last_name.data,
+                                                 form.release_year.data, form.category.data, form.language.data,
+                                                 form.annotation.data, form.publisher.data, form.rating.data,
+                                                 form.pic.data)
+
+        return render_template('general/viewbook.html', book=paperbook)
+    else:
+        abort(500)
+
+
+# end edit
 @bp_general_app.route('/books/addebook', methods=['POST'])
 def add_ebook_post():
     form = EbookForm()
