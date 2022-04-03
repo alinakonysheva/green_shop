@@ -75,4 +75,4 @@ class PaperbookForm(FlaskForm):
 class SearchForm(FlaskForm):
     title = StringField('Paper book title', id='paperbook_title')
     author_last_name = StringField('Author last name', id='paperbook_author_last_name')
-    submit = SubmitField('Save', id='paperbook_submit')
+    submit = SubmitField('Find!', id='paperbook_submit')
