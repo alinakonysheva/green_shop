@@ -318,6 +318,19 @@ class ControllerAudioBook:
         ab_list = self.session.query(AudioBook).filter(AudioBook._release_year == year).all()
         return ab_list
 
+    def get_by_filter(self, filter_):
+        session = self.session.query(AudioBook)
+        if filter_.title.data:
+            session = session.filter(AudioBook._title.like('%' + filter_.title.data + '%'))
+        if filter_.author_last_name.data:
+            session = session.filter(AudioBook._author_last_name.like('%' + filter_.author_last_name.data + '%'))
+        if filter_.author_first_name.data:
+            session = session.filter(AudioBook._author_first_name.like('%' + filter_.author_first_name.data + '%'))
+        if filter_.publisher.data:
+            session = session.filter(AudioBook._publisher.like('%' + filter_.publisher.data + '%'))
+
+        return session.all()
+
 
 class ControllerEBook:
 
@@ -556,6 +569,19 @@ class ControllerEBook:
         eb_list = self.session.query(EBook).filter(EBook._rating <= max_rating, EBook._rating >= min_rating).all()
         return eb_list
 
+    def get_by_filter(self, filter_):
+        session = self.session.query(EBook)
+        if filter_.title.data:
+            session = session.filter(EBook._title.like('%'+filter_.title.data+'%'))
+        if filter_.author_last_name.data:
+            session = session.filter(EBook._author_last_name.like('%'+filter_.author_last_name.data+'%'))
+        if filter_.author_first_name.data:
+            session = session.filter(EBook._author_first_name.like('%'+filter_.author_first_name.data+'%'))
+        if filter_.publisher.data:
+            session = session.filter(EBook._publisher.like('%'+filter_.publisher.data+'%'))
+
+        return session.all()
+
 
 class ControllerPaperBook:
 
@@ -677,17 +703,17 @@ class ControllerPaperBook:
                 else:
                     raise ValueError(f'Cover should be an integer and in {covers.keys()}')
 
-                if type(length) == float and 0 <= length <= 300:
+                if type(length) == int and 0 <= length <= 300:
                     paper_book.length = length
                 else:
                     raise ValueError('length of a paper book should be a float and between 0 and 300')
 
-                if type(width) == float and 0 <= width <= 300:
+                if type(width) == int and 0 <= width <= 300:
                     paper_book.width = width
                 else:
                     raise ValueError('width of a paper book should be a float and between 0 and 300')
 
-                if type(weight) == float and 0 <= weight <= 10000:
+                if type(weight) == int and 0 <= weight <= 10000:
                     paper_book.weight = weight
                 else:
                     raise ValueError('weight of a paper book should be a float and between 0 and 10000')
@@ -761,6 +787,7 @@ class ControllerPaperBook:
                 self.session.add(paper_book)
                 self.session.commit()
                 return paper_book
+
             else:
                 raise ValueError('Book with this ID does not exist in data base')
         except Exception as e:
@@ -855,7 +882,12 @@ class ControllerPaperBook:
         if filter_.title.data:
             session = session.filter(PaperBook._title.like('%'+filter_.title.data+'%'))
         if filter_.author_last_name.data:
-            session = session.filter(PaperBook._author_last_name.like(filter_.author_last_name.data))
+            session = session.filter(PaperBook._author_last_name.like('%'+filter_.author_last_name.data+'%'))
+        if filter_.author_first_name.data:
+            session = session.filter(PaperBook._author_first_name.like('%'+filter_.author_first_name.data+'%'))
+        if filter_.publisher.data:
+            session = session.filter(PaperBook._publisher.like('%'+filter_.publisher.data+'%'))
+
         return session.all()
 
 

@@ -4,7 +4,6 @@ from wtforms.validators import DataRequired
 
 
 class EbookForm(FlaskForm):
-    id = IntegerField('ID', id='id')
     title = StringField('EBook title', id='ebook_title', validators=[DataRequired()])
     author_first_name = StringField('Author first name', id='ebook_author_first_name')
     author_last_name = StringField('Author last name', id='ebook_author_last_name', validators=[DataRequired()])
@@ -66,15 +65,17 @@ class PaperbookForm(FlaskForm):
     publisher = StringField('Publisher', id='paperbook_publisher')
 
     cover = RadioField('Cover', choices=[(1, 'Soft'), (2, 'Hard')], id='paperbook_cover')
-    length = IntegerField('Length in cm', id='paperbook_length')
-    width = IntegerField('Width in cm', id='paperbook_width')
-    weight = IntegerField('Weight in gr', id='paperbook_weight')
+    length = IntegerField('Length in cm, int', id='paperbook_length')
+    width = IntegerField('Width in cm, int', id='paperbook_width')
+    weight = IntegerField('Weight in gr, int', id='paperbook_weight')
     pages = IntegerField('Number of pages', id='paperbook_pages', validators=[DataRequired()])
     isbn = StringField('ISBN, 13 digits', id='paperbook_isbn', validators=[DataRequired()])
     submit = SubmitField('Save', id='paperbook_submit')
 
 
 class SearchForm(FlaskForm):
-    title = StringField('Paper book title', id='paperbook_title')
-    author_last_name = StringField('Author last name', id='paperbook_author_last_name')
-    submit = SubmitField('Find!', id='paperbook_submit')
+    title = StringField('by title:', id='title')
+    author_last_name = StringField('by author, last name', id='author_last_name')
+    author_first_name = StringField('by author, first name', id='author_first_name')
+    publisher = StringField('by publisher', id='publisher')
+    submit = SubmitField('Find!', id='find')

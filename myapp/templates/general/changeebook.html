@@ -10,9 +10,6 @@
 <form action="{{ url_for('bp_general.change_ebook_post', book_id=book.id)}}" method="post">
     {{ form.hidden_tag() }}
     <div class="form-group">
-        {{ form.id.label(class_="form-label") }} {{ form.id(class_="form-control") }}
-    </div>
-    <div class="form-group">
         {{ form.title.label(class_="form-label") }} {{ form.title(class_="form-control") }}
     </div>
     <div class="form-group">
