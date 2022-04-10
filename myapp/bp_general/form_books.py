@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, IntegerField, FloatField, RadioField, TextAreaField
 from wtforms.validators import DataRequired
+from flask_wtf.file import FileField, FileAllowed
 
 
 class EbookForm(FlaskForm):
@@ -11,8 +12,7 @@ class EbookForm(FlaskForm):
     author_middle_name = StringField('Author middle name', id='ebook_author_middle_name')
     release_year = IntegerField('Release year', id='ebook_release_year', validators=[DataRequired()])
     rating = FloatField('Rating', id='ebook_rating')
-    # TODO:
-    pic = StringField('Link to the picture', id='ebook_pic')
+    pic = FileField('Picture', id='ebook_pic', validators=[FileAllowed(['jpg', 'png', 'svg', 'jpeg'], 'Images only!')])
     category = IntegerField('Category', id='ebook_category', validators=[DataRequired()])
     language = RadioField('Language', choices=[('ru', 'Russian'), ('nl', 'Nederlands'), ('en', 'English')],
                           id='ebook_language', validators=[DataRequired()])
@@ -31,8 +31,7 @@ class AudiobookForm(FlaskForm):
     author_middle_name = StringField('Author middle name', id='audiobook_author_middle_name')
     release_year = IntegerField('Release year', id='audiobook_release_year', validators=[DataRequired()])
     rating = FloatField('Rating', id='audiobook_rating')
-    # TODO:
-    pic = StringField('Link to the picture', id='audiobook_pic')
+    pic = FileField('Picture', id='ebook_pic', validators=[FileAllowed(['jpg', 'png', 'svg', 'jpeg'], 'Images only!')])
     category = IntegerField('Category, number', id='audiobook_category', validators=[DataRequired()])
     language = RadioField('Language', choices=[('ru', 'Russian'), ('nl', 'Nederlands'), ('en', 'English')],
                           id='audiobook_language', validators=[DataRequired()])
@@ -56,8 +55,7 @@ class PaperbookForm(FlaskForm):
     author_middle_name = StringField('Author middle name', id='paperbook_author_middle_name')
     release_year = IntegerField('Release year', id='paperbook_release_year', validators=[DataRequired()])
     rating = FloatField('Rating', id='paperbook_rating')
-    # TODO:
-    pic = StringField('Link to the picture', id='paperbook_pic')
+    pic = FileField('Picture', id='ebook_pic', validators=[FileAllowed(['jpg', 'png', 'svg', 'jpeg'], 'Images only!')])
     category = IntegerField('Category, number', id='paperbook_category', validators=[DataRequired()])
     language = RadioField('Language', choices=[('ru', 'Russian'), ('nl', 'Nederlands'), ('en', 'English')],
                           id='paperbook_language', validators=[DataRequired()])

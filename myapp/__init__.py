@@ -5,6 +5,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from flask_compress import Compress
 
 
+
 db = SQLAlchemy()
 
 htmlmin = HTMLMIN()

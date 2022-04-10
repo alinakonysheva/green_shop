@@ -1,11 +1,17 @@
-from flask import render_template, abort, redirect, flash, url_for, current_app, Blueprint
+import os
+import uuid
+
+from flask import render_template, abort, redirect, flash, url_for, Blueprint, request, send_from_directory
 
 from bp_general.form_books import EbookForm, AudiobookForm, PaperbookForm, SearchForm
 from myapp import db
 from bp_general.controller_general import ControllerBook, ControllerEBook, ControllerAudioBook, ControllerPaperBook, \
     ControllerWishlist, ControllerUsers
+from werkzeug.utils import secure_filename
 
 bp_general_app = Blueprint('bp_general', __name__, cli_group="db")
+
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 
 @bp_general_app.route('/')
@@ -29,6 +35,7 @@ def show_book(book_id):
     book = ControllerPaperBook(db.session).get_paper_book_by_id(book_id) or ControllerAudioBook(
         db.session).get_audiobook_by_id(book_id) or ControllerEBook(db.session).get_ebook_by_id(book_id)
     if book:
+
         return render_template('general/viewbook.html', book=book)
     else:
         return redirect(url_for('bp_general.do_books'))
@@ -221,7 +228,6 @@ def add_ebook_post():
     form = EbookForm()
     if form.validate_on_submit():
         controller = ControllerEBook(db.session)
-
         ebook = controller.add_ebook(form.title.data, form.size.data, form.author_first_name.data,
                                      form.author_middle_name.data, form.author_last_name.data,
                                      form.release_year.data, form.category.data, form.language.data,
@@ -273,7 +279,7 @@ def add_paperbook_post():
 
 
 @bp_general_app.route('/searchpaperbook', methods=['POST'])
-def find_paperbook():
+def find_book():
     form = SearchForm()
     if form.validate_on_submit():
         controller_p = ControllerPaperBook(db.session)

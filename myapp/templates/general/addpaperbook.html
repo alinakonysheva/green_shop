@@ -7,7 +7,7 @@
 <h1>Add paper book</h1>
 
 <p>
-<form action="{{ url_for('bp_general.add_paperbook_post')}}" method="post">
+<form action="{{ url_for('bp_general.add_paperbook_post')}}" method="post" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
     <div class="form-group">
         {{ form.title.label(class_="form-label") }} {{ form.title(class_="form-control") }}

@@ -6,7 +6,7 @@
 
 <h1> How would you like to find a book? </h1>
 
-<form action="{{ url_for('bp_general.find_paperbook')}}" method="post">
+<form action="{{ url_for('bp_general.find_book')}}" method="post">
     {{ form.hidden_tag() }}
     <div class="form-group">
         {{ form.title.label(class_="form-label") }} {{ form.title(class_="form-control") }}

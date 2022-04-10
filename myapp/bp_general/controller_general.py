@@ -71,10 +71,7 @@ class ControllerAudioBook:
         else:
             raise ValueError('duration seconds of audio book should be an integer and between 0 and 59')
 
-        if type(pic) == str and 0 < len(title) < 400:
-            audiobook.pic = pic
-        else:
-            raise ValueError('Picture link should be a string and length between 1 and 400 symbols')
+        audiobook.pic = pic
 
         if type(rating) == float and 0 <= rating <= 10:
             audiobook.rating = rating
@@ -171,10 +168,7 @@ class ControllerAudioBook:
                 else:
                     raise ValueError('duration seconds of audio book should be an integer and between 0 and 59')
 
-                if type(pic) == str and 0 < len(title) < 400:
-                    audiobook.pic = pic
-                else:
-                    raise ValueError('Picture link should be a string and length between 1 and 400 symbols')
+                audiobook.pic = pic
 
                 if type(rating) == float and 0 <= rating <= 10:
                     audiobook.rating = rating
@@ -351,11 +345,6 @@ class ControllerEBook:
         else:
             raise ValueError('size of a ebook should be a float')
 
-        if type(pic) == str and 0 < len(title) < 400:
-            ebook.pic = pic
-        else:
-            raise ValueError('Picture link should be a string and length between 1 and 400 symbols')
-
         if type(rating) == float and 0 <= rating <= 10:
             ebook.rating = rating
         else:
@@ -406,6 +395,8 @@ class ControllerEBook:
         else:
             raise ValueError('Last name of author should be a string and length between 1 and 100 symbols')
 
+        ebook.pic = pic.read()
+
         self.session.add(ebook)
         self.session.commit()
         return ebook.id
@@ -424,11 +415,6 @@ class ControllerEBook:
                 ebook.size = size
             else:
                 raise ValueError('size of a ebook should be a float')
-
-            if type(pic) == str and 0 < len(title) < 400:
-                ebook.pic = pic
-            else:
-                raise ValueError('Picture link should be a string and length between 1 and 400 symbols')
 
             if type(rating) == float and 0 <= rating <= 10:
                 ebook.rating = rating
@@ -480,6 +466,7 @@ class ControllerEBook:
             else:
                 raise ValueError('Last name of author should be a string and length between 1 and 100 symbols')
 
+            ebook.pic = pic
             self.session.add(ebook)
             self.session.commit()
             return ebook
@@ -572,15 +559,16 @@ class ControllerEBook:
     def get_by_filter(self, filter_):
         session = self.session.query(EBook)
         if filter_.title.data:
-            session = session.filter(EBook._title.like('%'+filter_.title.data+'%'))
+            session = session.filter(EBook._title.like('%' + filter_.title.data + '%'))
         if filter_.author_last_name.data:
-            session = session.filter(EBook._author_last_name.like('%'+filter_.author_last_name.data+'%'))
+            session = session.filter(EBook._author_last_name.like('%' + filter_.author_last_name.data + '%'))
         if filter_.author_first_name.data:
-            session = session.filter(EBook._author_first_name.like('%'+filter_.author_first_name.data+'%'))
+            session = session.filter(EBook._author_first_name.like('%' + filter_.author_first_name.data + '%'))
         if filter_.publisher.data:
-            session = session.filter(EBook._publisher.like('%'+filter_.publisher.data+'%'))
+            session = session.filter(EBook._publisher.like('%' + filter_.publisher.data + '%'))
 
         return session.all()
+
 
 
 class ControllerPaperBook:
@@ -628,10 +616,7 @@ class ControllerPaperBook:
         else:
             raise ValueError('isbn of a paper book should be the number of digits with the length == 13')
 
-        if type(pic) == str and 0 < len(title) < 400:
-            paper_book.pic = pic
-        else:
-            raise ValueError('Picture link should be a string and length between 1 and 400 symbols')
+        paper_book.pic = pic
 
         if type(rating) == float and 0 <= rating <= 10:
             paper_book.rating = rating
@@ -728,10 +713,7 @@ class ControllerPaperBook:
                 else:
                     raise ValueError('isbn of a paper book should be with 13 symbols long')
 
-                if type(pic) == str and 0 < len(title) < 400:
-                    paper_book.pic = pic
-                else:
-                    raise ValueError('Picture link should be a string and length between 1 and 400 symbols')
+                paper_book.pic = pic
 
                 if type(rating) == float and 0 <= rating <= 10:
                     paper_book.rating = rating
@@ -880,13 +862,13 @@ class ControllerPaperBook:
     def get_by_filter(self, filter_):
         session = self.session.query(PaperBook)
         if filter_.title.data:
-            session = session.filter(PaperBook._title.like('%'+filter_.title.data+'%'))
+            session = session.filter(PaperBook._title.like('%' + filter_.title.data + '%'))
         if filter_.author_last_name.data:
-            session = session.filter(PaperBook._author_last_name.like('%'+filter_.author_last_name.data+'%'))
+            session = session.filter(PaperBook._author_last_name.like('%' + filter_.author_last_name.data + '%'))
         if filter_.author_first_name.data:
-            session = session.filter(PaperBook._author_first_name.like('%'+filter_.author_first_name.data+'%'))
+            session = session.filter(PaperBook._author_first_name.like('%' + filter_.author_first_name.data + '%'))
         if filter_.publisher.data:
-            session = session.filter(PaperBook._publisher.like('%'+filter_.publisher.data+'%'))
+            session = session.filter(PaperBook._publisher.like('%' + filter_.publisher.data + '%'))
 
         return session.all()
 
@@ -1025,7 +1007,4 @@ class ControllerUsers:
         return u
 
 
-class BookFilter:
-    title = None
-    first_name = None
-    last_name = None
+

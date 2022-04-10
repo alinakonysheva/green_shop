@@ -3,10 +3,11 @@ from datetime import datetime
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declared_attr
+from sqlalchemy.util import b64encode
 
 from bp_general.constants import categories, languages, covers
 from myapp import db
-from sqlalchemy import Column, String, Integer, Float, Text, ForeignKey
+from sqlalchemy import Column, String, Integer, Float, Text, ForeignKey, LargeBinary
 
 from bp_users.model_users import User
 
@@ -20,8 +21,7 @@ class Book(db.Model):
     _author_middle_name = Column('F_AUTHOR_MIDDLE_NAME', String(100))
     _release_year = Column('F_RELEASE_YEAR', Integer)
     _rating = Column('F_RATING', Float)
-    # link
-    _pic = Column('F_PIC', String(400))
+    pic = Column('F_PIC', LargeBinary(4294967295))
     _category = Column('F_CATEGORY', Integer)
     _language = Column('F_LANGUAGE', String(2))
     _annotation = Column('F_ANNOTATION', Text)
@@ -31,7 +31,6 @@ class Book(db.Model):
     @declared_attr
     def wishlists(cls):
         return relationship('WishlistBook', back_populates='book')
-
 
     # wishlists = relationship('WishlistBook', back_populates='book')
 
@@ -84,18 +83,6 @@ class Book(db.Model):
         if len(v) > 100:
             raise ValueError('Middle name should be less than 100 symbols')
         self._author_middle_name = v
-
-    @hybrid_property
-    def pic(self) -> str:
-        return f'{self._pic}'
-
-    @pic.setter
-    def pic(self, value) -> None:
-        if len(value) > 400:
-            raise ValueError('Link should be less than 400 symbols')
-        if value == '':
-            raise ValueError('Link can not be empty')
-        self._pic = value
 
     @property
     def author_full_name(self) -> str:
@@ -174,6 +161,12 @@ class Book(db.Model):
         if len(v) > 200:
             raise ValueError('the name of the publisher should be less than 200 symbols')
         self._publisher = v
+
+    def pic_encoded(self):
+        if self.pic:
+            return b64encode(self.pic)
+        else:
+            return None
 
     @property
     def __str__(self) -> str:

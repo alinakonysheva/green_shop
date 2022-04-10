@@ -7,7 +7,7 @@
 <h1>Add ebook</h1>
 
 <p>
-<form action="{{ url_for('bp_general.add_ebook_post')}}" method="post">
+<form action="{{ url_for('bp_general.add_ebook_post')}}" method="post" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
     <div class="form-group">
         {{ form.title.label(class_="form-label") }} {{ form.title(class_="form-control") }}
@@ -28,9 +28,12 @@
     <div class="form-group">
         {{ form.rating.label(class_="form-label") }} {{ form.rating(class_="form-control") }}
     </div>
+     <div class="tinyspace"></div>
     <div class="form-group">
-        {{ form.pic.label(class_="form-label") }} {{ form.pic(class_="form-control") }}
+        {{ form.pic.label(class_="form-label") }}
+        <input type="file" name="pic" class="form-control-file">
     </div>
+
     <div class="form-group">
         {{ form.category.label(class_="form-label") }} {{ form.category(class_="form-control") }}
     </div>
