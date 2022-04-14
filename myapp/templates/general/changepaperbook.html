@@ -28,8 +28,10 @@
     <div class="form-group">
         {{ form.rating.label(class_="form-label") }} {{ form.rating(class_="form-control") }}
     </div>
+   <div class="tinyspace"></div>
     <div class="form-group">
-        {{ form.pic.label(class_="form-label") }} {{ form.pic(class_="form-control") }}
+        {{ form.pic.label(class_="form-label") }}
+        <input type="file" name="pic" class="form-control-file">
     </div>
     <div class="form-group">
         {{ form.category.label(class_="form-label") }} {{ form.category(class_="form-control") }}

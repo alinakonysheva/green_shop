@@ -11,6 +11,10 @@
     </thead>
     <tbody>
     <tr>
+        <td> picture</td>
+        <td> <img src="data:;base64,{{book.pic_encoded()}}" width="400"/> </td>
+    </tr>
+    <tr>
         <td> Author first name</td>
         <td> {{book.author_first_name}}</td>
     </tr>
@@ -34,10 +38,7 @@
         <td> {{ book.rating }}</td>
     </tr>
 
-    <tr>
-        <td> picture</td>
-        <td> <img src="data:;base64,{{book.pic_encoded()}}" width="400"/> </td>
-    </tr>
+
 
     <tr>
         <td> Category</td>
