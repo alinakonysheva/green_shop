@@ -71,7 +71,7 @@ class ControllerAudioBook:
         else:
             raise ValueError('duration seconds of audio book should be an integer and between 0 and 59')
 
-        audiobook.pic = pic
+        audiobook.pic = pic.read()
 
         if type(rating) == float and 0 <= rating <= 10:
             audiobook.rating = rating
@@ -168,7 +168,7 @@ class ControllerAudioBook:
                 else:
                     raise ValueError('duration seconds of audio book should be an integer and between 0 and 59')
 
-                audiobook.pic = pic
+                audiobook.pic = pic.read()
 
                 if type(rating) == float and 0 <= rating <= 10:
                     audiobook.rating = rating
@@ -466,7 +466,7 @@ class ControllerEBook:
             else:
                 raise ValueError('Last name of author should be a string and length between 1 and 100 symbols')
 
-            ebook.pic = pic
+            ebook.pic = pic.read()
             self.session.add(ebook)
             self.session.commit()
             return ebook
@@ -616,7 +616,7 @@ class ControllerPaperBook:
         else:
             raise ValueError('isbn of a paper book should be the number of digits with the length == 13')
 
-        paper_book.pic = pic
+        paper_book.pic = pic.read()
 
         if type(rating) == float and 0 <= rating <= 10:
             paper_book.rating = rating
@@ -713,7 +713,7 @@ class ControllerPaperBook:
                 else:
                     raise ValueError('isbn of a paper book should be with 13 symbols long')
 
-                paper_book.pic = pic
+                paper_book.pic = pic.read()
 
                 if type(rating) == float and 0 <= rating <= 10:
                     paper_book.rating = rating
