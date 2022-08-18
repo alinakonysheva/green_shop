@@ -3,9 +3,9 @@ import uuid
 
 from flask import render_template, abort, redirect, flash, url_for, Blueprint, request, send_from_directory
 
-from bp_general.form_books import EbookForm, AudiobookForm, PaperbookForm, SearchForm
+from myapp.bp_general.form_books import EbookForm, AudiobookForm, PaperbookForm, SearchForm
 from myapp import db
-from bp_general.controller_general import ControllerBook, ControllerEBook, ControllerAudioBook, ControllerPaperBook, \
+from myapp.bp_general.controller_general import ControllerBook, ControllerEBook, ControllerAudioBook, ControllerPaperBook, \
     ControllerWishlist, ControllerUsers
 from werkzeug.utils import secure_filename
 
@@ -14,7 +14,7 @@ bp_general_app = Blueprint('bp_general', __name__, cli_group="db")
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 
-@bp_general_app.route('/')
+@bp_general_app.route('/home')
 def do_home():
     controller = ControllerBook(db.session)
     return render_template('general/home.html', name='some name', ids=controller.get_all_ids(), form=SearchForm())

@@ -1,3 +1,4 @@
+
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import relationship
 from database import BaseObj

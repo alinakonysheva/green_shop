@@ -34,6 +34,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
+                 {% if current_user.is_anonymous %}
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('bp_login.login')}}">Login</a>
+                </li>
+                {% else %}
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{{ url_for('bp_general.do_home')}}">Home</a>
                 </li>
@@ -46,6 +51,10 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{{ url_for('bp_general.do_home')}}">Users</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('bp_login.logout')}}">logout</a>
+                </li>
+                {% endif %}
             </ul>
         </div>
     </div>

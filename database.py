@@ -1,4 +1,4 @@
-from config import DB_HOST, DB_PASSWORD, DB_USER_NAME, DB_PORT, DB_NAME
+from venv.config import DB_HOST, DB_PASSWORD, DB_USER_NAME, DB_PORT, DB_NAME
 from sqlalchemy import Column, Integer,Table,MetaData,String
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base

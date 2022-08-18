@@ -1,12 +1,12 @@
 from datetime import datetime
-from bp_general.constants import languages, categories, covers
-from bp_general.modal_general import Book
-from bp_general.modal_general import AudioBook
-from bp_general.modal_general import EBook
-from bp_general.modal_general import PaperBook
-from bp_general.modal_general import Wishlist
-from bp_general.modal_general import WishlistBook
-from bp_users.model_users import User
+from myapp.bp_general.constants import languages, categories, covers
+from myapp.bp_general.modal_general import Book
+from myapp.bp_general.modal_general import AudioBook
+from myapp.bp_general.modal_general import EBook
+from myapp.bp_general.modal_general import PaperBook
+from myapp.bp_general.modal_general import Wishlist
+from myapp.bp_general.modal_general import WishlistBook
+from myapp.bp_users.model_users import User
 
 
 # TODO change all numbers to constants

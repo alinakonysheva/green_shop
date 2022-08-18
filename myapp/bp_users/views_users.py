@@ -1,9 +1,9 @@
 import logging
 from flask import render_template, abort, flash, redirect, url_for
 from myapp import db
-from bp_users import bp_users
-from bp_users.model_users import User
-from bp_users.form_users import ProfileForm
+from myapp.bp_users import bp_users
+from myapp.bp_users.model_users import User
+from myapp.bp_users.form_users import ProfileForm
 
 
 @bp_users.route('/myprofile', methods=['GET', 'POST'])
@@ -13,7 +13,8 @@ def do_my_profile():
     user = User.query.get(1)
     if user:
         if form.validate_on_submit():
-            user.username = form.username.data
+            user.firstname = form.firstname.data
+            user.lastname = form.lastname.data
             user.email = form.email.data
             db.session.add(user)
             db.session.commit()
@@ -40,14 +41,16 @@ def do_user(user_id):
 
     if user:
         if form.validate_on_submit():
-            user.username = form.username.data
+            user.firstname = form.firstname.data
+            user.lastname = form.lastname.data
             user.email = form.email.data
             db.session.add(user)
             db.session.commit()
 
             return redirect(url_for('bp_users.do_user', user_id=user.id))
 
-        form.username.data = user.username
+        form.firstname.data = user.firstname
+        form.lastname.data = user.lastname
         form.email.data = user.email
 
         return render_template('users/myprofile.html', form=form, user=user)

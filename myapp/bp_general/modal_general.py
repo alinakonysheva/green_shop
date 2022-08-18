@@ -5,11 +5,11 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.util import b64encode
 
-from bp_general.constants import categories, languages, covers
+from myapp.bp_general.constants import categories, languages, covers
 from myapp import db
 from sqlalchemy import Column, String, Integer, Float, Text, ForeignKey, LargeBinary
 
-from bp_users.model_users import User
+from myapp.bp_users.model_users import User
 
 
 class Book(db.Model):

@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_htmlmin import HTMLMIN
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_compress import Compress
+from flask_login import LoginManager
 
 
 
@@ -15,6 +16,11 @@ compress = Compress()
 
 def create_app(config=None):
     app = Flask(__name__)
+
+
+    login = LoginManager(app)
+    login.login_view = 'login'
+
 
     app.config.from_object('configuration.BaseConfiguration')
 
@@ -35,8 +41,8 @@ def create_app(config=None):
 
 
 def do_register_blueprint(flaskapp):
-    from bp_general.views_general import bp_general_app
-    from bp_users import bp_users
+    from myapp.bp_general.views_general import bp_general_app
+    from myapp.bp_users import bp_users
 
     flaskapp.register_blueprint(bp_general_app)
     flaskapp.register_blueprint(bp_users)
